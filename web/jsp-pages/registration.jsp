@@ -1,46 +1,53 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Login page</title>
+    <title>Registration page</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/registration.css">
 </head>
 <body>
 
 <div class="container" style="margin-top: 80px;">
 
-    <h1 class="title">Вхід</h1>
+    <h1 class="title">Реєстрація</h1>
 
-    <form class="form" method="post" action="../index.jsp">
+    <form class="form" method="post" action="login.jsp">
 
-        <label>
+        <label class="form__label">
             <b>Логін</b>
-            <input class="form__input" type="text" placeholder="Введіть логін" name="name" required>
+            <input type="text" required>
         </label>
 
-        <label>
+        <label class="form__label">
             <b>Пароль</b>
-            <input class="form__input" type="password" placeholder="Введіть пароль" name="pass" required>
+            <input type="password" required>
         </label>
+
+        <label class="form__label">
+            <b>Підтвердження</b>
+            <input type="password" required>
+        </label>
+
+        <label class="form__label">
+            <b>Дата<br>народження</b>
+            <input class="long birth" type="date">
+        </label>
+
+        <label class="form__label">
+            <b>Електронна<br>пошта</b>
+            <input class="long" type="text">
+        </label>
+
+        <button class="button" type="submit">Зареєструватись</button>
 
         <div class="form__under">
-            <label>
-                <input type="checkbox" checked="checked" name="remember">
-                Запам'ятати мене
-            </label>
-
-            <a class="form_link form_link_forget" href="#">Забули пароль?</a>
-
+            Вже зареєстровані?
+            <a href="${pageContext.request.contextPath}/login">Увійти</a>
         </div>
 
-        <button class="button" type="submit">Увійти</button>
-
-        <a class="form_link form_link_reg" href="${pageContext.request.contextPath}/registration">Зареєструватися</a>
-
     </form>
-
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

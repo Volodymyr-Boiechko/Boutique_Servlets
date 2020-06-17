@@ -1,7 +1,5 @@
 package com.boiechko.entity;
 
-import java.util.UUID;
-
 public class Order {
 
     private int idOrder;
