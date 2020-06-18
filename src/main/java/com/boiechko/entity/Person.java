@@ -9,13 +9,10 @@ public class Person {
     private String password;
     private String firstName;
     private String lastName;
-    private String country;
-    private String city;
-    private String street;
-    private String postCode;
     private String birthDate;
     private String email;
     private String phoneNumber;
+    private int idAddress;
     private PersonType personType;
 
     public Person(){
@@ -23,46 +20,7 @@ public class Person {
 
     public Person
             (int idPerson, String username, String password, String firstName, String lastName,
-             String country, String city, String street, String postCode, String birthDate, String email,
-             String phoneNumber, PersonType personType)
-    {
-        this.idPerson = idPerson;
-        this.username = username;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.country = country;
-        this.city = city;
-        this.street = street;
-        this.postCode = postCode;
-        this.birthDate = birthDate;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.personType = personType;
-    }
-
-    public Person
-            (String username, String password, String firstName, String lastName,
-             String country, String city, String street, String postCode, String birthDate, String email,
-             String phoneNumber, PersonType personType)
-    {
-        this.username = username;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.country = country;
-        this.city = city;
-        this.street = street;
-        this.postCode = postCode;
-        this.birthDate = birthDate;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.personType = personType;
-    }
-
-    public Person
-            (int idPerson, String username, String password, String firstName, String lastName,
-             String birthDate, String email, String phoneNumber, PersonType personType)
+             String birthDate, String email, String phoneNumber, int idAddress)
     {
         this.idPerson = idPerson;
         this.username = username;
@@ -72,21 +30,14 @@ public class Person {
         this.birthDate = birthDate;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.personType = personType;
+        this.idAddress = idAddress;
     }
 
-    public Person
-            (String username, String password, String firstName, String lastName,
-             String birthDate, String email, String phoneNumber, PersonType personType)
-    {
+    public Person(String username, String password, String birthDate, String email) {
         this.username = username;
         this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
         this.birthDate = birthDate;
         this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.personType = personType;
     }
 
     public int getIdPerson() { return idPerson; }
@@ -109,22 +60,6 @@ public class Person {
 
     public void setLastName(String lastName) { this.lastName = lastName; }
 
-    public String getCountry() { return country; }
-
-    public void setCountry(String country) { this.country = country; }
-
-    public String getCity() { return city; }
-
-    public void setCity(String city) { this.city = city; }
-
-    public String getStreet() { return street; }
-
-    public void setStreet(String street) { this.street = street; }
-
-    public String getPostCode() { return postCode; }
-
-    public void setPostCode(String postCode) { this.postCode = postCode; }
-
     public String getBirthDate() { return birthDate; }
 
     public void setBirthDate(String birthDate) { this.birthDate = birthDate; }
@@ -136,6 +71,10 @@ public class Person {
     public String getPhoneNumber() { return phoneNumber; }
 
     public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
+
+    public int getIdAddress() { return idAddress; }
+
+    public void setIdAddress(int idAddress) { this.idAddress = idAddress; }
 
     public PersonType getPersonType() { return personType; }
 
