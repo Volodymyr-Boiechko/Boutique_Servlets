@@ -1,5 +1,7 @@
 package com.boiechko.entity;
 
+import java.util.Objects;
+
 public class Address {
 
     private int idAddress;
@@ -42,4 +44,32 @@ public class Address {
     public String getPostCode() { return postCode; }
 
     public void setPostCode(String postCode) { this.postCode = postCode; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Address address = (Address) o;
+        return idAddress == address.idAddress &&
+                country.equals(address.country) &&
+                city.equals(address.city) &&
+                street.equals(address.street) &&
+                postCode.equals(address.postCode);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idAddress, country, city, street, postCode);
+    }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "idAddress=" + idAddress +
+                ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", street='" + street + '\'' +
+                ", postCode='" + postCode + '\'' +
+                '}';
+    }
 }

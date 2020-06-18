@@ -1,5 +1,7 @@
 package com.boiechko.entity;
 
+import java.util.Objects;
+
 public class Product {
 
     private int idProduct;
@@ -59,4 +61,36 @@ public class Product {
     public double getPrice() { return price; }
 
     public void setPrice(double price) { this.price = price; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return idProduct == product.idProduct &&
+                Double.compare(product.price, price) == 0 &&
+                name.equals(product.name) &&
+                brand.equals(product.brand) &&
+                size.equals(product.size) &&
+                Objects.equals(color, product.color) &&
+                image.equals(product.image);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idProduct, name, brand, size, color, image, price);
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "idProduct=" + idProduct +
+                ", name='" + name + '\'' +
+                ", brand='" + brand + '\'' +
+                ", size='" + size + '\'' +
+                ", color='" + color + '\'' +
+                ", image='" + image + '\'' +
+                ", price=" + price +
+                '}';
+    }
 }

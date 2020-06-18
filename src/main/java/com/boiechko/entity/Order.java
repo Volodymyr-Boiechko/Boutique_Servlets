@@ -1,5 +1,7 @@
 package com.boiechko.entity;
 
+import java.util.Objects;
+
 public class Order {
 
     private int idOrder;
@@ -7,7 +9,6 @@ public class Order {
     private int idProduct;
     private int quantity;
     private String time;
-    private String activationCode;
 
     public Order(){
     }
@@ -47,7 +48,31 @@ public class Order {
 
     public void setTime(String time) { this.time = time; }
 
-    public String getActivationCode() { return activationCode; }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return idOrder == order.idOrder &&
+                idPerson == order.idPerson &&
+                idProduct == order.idProduct &&
+                quantity == order.quantity &&
+                time.equals(order.time);
+    }
 
-    public void setActivationCode(String activationCode) { this.activationCode = activationCode; }
+    @Override
+    public int hashCode() {
+        return Objects.hash(idOrder, idPerson, idProduct, quantity, time);
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "idOrder=" + idOrder +
+                ", idPerson=" + idPerson +
+                ", idProduct=" + idProduct +
+                ", quantity=" + quantity +
+                ", time='" + time + '\'' +
+                '}';
+    }
 }

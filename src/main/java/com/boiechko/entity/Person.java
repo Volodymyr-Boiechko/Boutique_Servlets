@@ -2,6 +2,8 @@ package com.boiechko.entity;
 
 import com.boiechko.enums.PersonType;
 
+import java.util.Objects;
+
 public class Person {
 
     private int idPerson;
@@ -79,4 +81,42 @@ public class Person {
     public PersonType getPersonType() { return personType; }
 
     public void setPersonType(PersonType personType) { this.personType = personType; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return idPerson == person.idPerson &&
+                idAddress == person.idAddress &&
+                username.equals(person.username) &&
+                password.equals(person.password) &&
+                Objects.equals(firstName, person.firstName) &&
+                Objects.equals(lastName, person.lastName) &&
+                birthDate.equals(person.birthDate) &&
+                email.equals(person.email) &&
+                Objects.equals(phoneNumber, person.phoneNumber) &&
+                personType == person.personType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idPerson, username, password, firstName, lastName, birthDate, email, phoneNumber, idAddress, personType);
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "idPerson=" + idPerson +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", birthDate='" + birthDate + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", idAddress=" + idAddress +
+                ", personType=" + personType +
+                '}';
+    }
 }
