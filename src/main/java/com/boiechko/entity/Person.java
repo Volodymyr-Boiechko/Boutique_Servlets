@@ -2,6 +2,7 @@ package com.boiechko.entity;
 
 import com.boiechko.enums.PersonType;
 
+import java.sql.Date;
 import java.util.Objects;
 
 public class Person {
@@ -11,7 +12,7 @@ public class Person {
     private String password;
     private String firstName;
     private String lastName;
-    private String birthDate;
+    private Date birthDate;
     private String email;
     private String phoneNumber;
     private int idAddress;
@@ -22,7 +23,7 @@ public class Person {
 
     public Person
             (int idPerson, String username, String password, String firstName, String lastName,
-             String birthDate, String email, String phoneNumber, int idAddress)
+             Date birthDate, String email, String phoneNumber, int idAddress)
     {
         this.idPerson = idPerson;
         this.username = username;
@@ -35,7 +36,7 @@ public class Person {
         this.idAddress = idAddress;
     }
 
-    public Person(String username, String password, String birthDate, String email) {
+    public Person(String username, String password, Date birthDate, String email) {
         this.username = username;
         this.password = password;
         this.birthDate = birthDate;
@@ -62,9 +63,9 @@ public class Person {
 
     public void setLastName(String lastName) { this.lastName = lastName; }
 
-    public String getBirthDate() { return birthDate; }
+    public Date getBirthDate() { return birthDate; }
 
-    public void setBirthDate(String birthDate) { this.birthDate = birthDate; }
+    public void setBirthDate(Date birthDate) { this.birthDate = birthDate; }
 
     public String getEmail() { return email; }
 
