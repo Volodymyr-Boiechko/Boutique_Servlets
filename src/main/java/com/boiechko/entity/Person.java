@@ -81,7 +81,7 @@ public class Person {
 
     public PersonType getPersonType() { return personType; }
 
-    public void setPersonType(PersonType personType) { this.personType = personType; }
+    public void setPersonType(String personType) { this.personType = PersonType.valueOf(personType); }
 
     @Override
     public boolean equals(Object o) {
