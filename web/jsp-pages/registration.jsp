@@ -50,6 +50,16 @@
     </form>
 </div>
 
+<div class="overlay">
+    <div class="modalw modalw_mini" id="thanks">
+        <div class="modalw__close">&times;</div>
+        <div class="modalw__subtitle">Завершення реєстрації</div>
+        <p class="modalw__descr">Для завершення реєстрації та активації Вашого</p>
+        <p class="modalw__descr">акаунту перевірте електронну пошту та</p>
+        <p class="modalw__descr">перейдіть за посилання, яке міститься в листі</p>
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
@@ -62,6 +72,13 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 
 <script>
+
+    $(document).ready(function () {
+
+        $('.modalw__close').on('click', function(){
+            window.location.href = "${pageContext.request.contextPath}/login";
+        });
+    });
 
     function validate() {
 
@@ -96,10 +113,15 @@
         }).done(function () {
 
             success = true;
+            $('.overlay, #thanks').fadeIn('slow');
 
-        }).fail(function () {
+        }).fail(function (response) {
 
             success = false;
+
+            if (response.status === 403) {
+                alert("Такий користувач вже існує");
+            }
 
         });
 

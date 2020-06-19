@@ -1,6 +1,3 @@
-@import "components/titles";
-@import "components/buttons";
-
 .form {
 
   width: 50%;
@@ -55,9 +52,9 @@
         text-decoration: underline;
         color: #f44336;
       }
-
     }
-
   }
-
 }
+@import "components/titles";
+@import "components/buttons";
+@import "components/modal";
