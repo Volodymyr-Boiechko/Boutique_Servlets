@@ -3,7 +3,8 @@ package com.boiechko.controller;
 import com.boiechko.entity.Person;
 import com.boiechko.service.implementations.PersonServiceImpl;
 import com.boiechko.service.interfaces.PersonService;
-import com.boiechko.utils.ConvertDate;
+import com.boiechko.utils.ConvertDateUtil;
+import com.boiechko.utils.HashingPassword.HashPasswordUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,20 +32,23 @@ public class RegistrationsServlet extends HttpServlet {
         String email = request.getParameter("email");
 
         PersonService personService = new PersonServiceImpl();
-
         Person person = personService.getPersonByCredentials(username);
+
+        String hashedPassword = HashPasswordUtil.hashPassword(password);
 
         if (person.getUsername() == null) {
 
-            person = new Person(username, password, ConvertDate.convertDate(date), email);
+            person = new Person(username, hashedPassword, ConvertDateUtil.convertDate(date), email);
 
-            personService.add(person);
+            if (!personService.add(person)) {
+
+                throw new RuntimeException("The user has not been added to the database");
+            }
+
+            throw new ServletException();
 
         } else {
-
             response.sendError(403);
-
         }
-
     }
 }

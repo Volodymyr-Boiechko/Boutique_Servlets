@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-public class ConvertDate {
+public class ConvertDateUtil {
 
     public static Date convertDate(String dateString) {
 
