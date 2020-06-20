@@ -34,18 +34,16 @@ public class RegistrationsServlet extends HttpServlet {
         PersonService personService = new PersonServiceImpl();
         Person person = personService.getPersonByCredentials(username);
 
-        String hashedPassword = HashPasswordUtil.hashPassword(password);
-
         if (person.getUsername() == null) {
+
+            String hashedPassword = HashPasswordUtil.hashPassword(password);
 
             person = new Person(username, hashedPassword, ConvertDateUtil.convertDate(date), email);
 
             if (!personService.add(person)) {
 
-                throw new RuntimeException("The user has not been added to the database");
+                response.sendError(500);
             }
-
-            throw new ServletException();
 
         } else {
             response.sendError(403);

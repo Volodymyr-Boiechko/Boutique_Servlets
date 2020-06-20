@@ -90,7 +90,7 @@
 
         if (password !== confirmPassword) {
 
-            alert('sosaty bloa');
+            alert("Паролі відрізняються!");
 
             return false;
         }
@@ -121,6 +121,8 @@
 
             if (response.status === 403) {
                 alert("Такий користувач вже існує");
+            } else if (response.status === 500) {
+                alert("Не вдалось зареєструватись!");
             }
 
         });
