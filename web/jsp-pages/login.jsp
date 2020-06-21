@@ -1,7 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
     <title>Login page</title>
+    <link rel="shortcut icon" href="">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/style.css">
@@ -13,16 +15,16 @@
 
     <h1 class="title">Вхід</h1>
 
-    <form class="form" method="post" action="../index.jsp">
+    <form class="form" method="post" action="${pageContext.request.contextPath}/" onsubmit="validate()">
 
         <label>
             <b>Логін</b>
-            <input class="form__input" type="text" placeholder="Введіть логін" name="name" required>
+            <input class="form__input" id="username" type="text" placeholder="Введіть логін" name="name" required>
         </label>
 
         <label>
             <b>Пароль</b>
-            <input class="form__input" type="password" placeholder="Введіть пароль" name="pass" required>
+            <input class="form__input" id="password" type="password" placeholder="Введіть пароль" name="pass" required>
         </label>
 
         <div class="form__under">
@@ -52,6 +54,45 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 
+<script>
+
+    function validate() {
+
+        let username = document.getElementById('username').value;
+        let password = document.getElementById('password').value;
+
+        let success = false;
+
+        $.ajax({
+
+            url: "/login",
+            async: true,
+            type: "POST",
+            data: {
+
+                username: username,
+                password: password
+
+            }
+        }).done(function () {
+
+            success = true;
+
+        }).fail(function (response) {
+
+            success = false;
+
+            if (response.status === 401) {
+                alert("Неправильно введений пароль!");
+            } else if (response.status === 403) {
+                alert("Користувача з таким логіном не знайдено!");
+            }
+        });
+
+        return success;
+    }
+</script>
 </body>
 </html>

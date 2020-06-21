@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/registration")
@@ -40,8 +41,12 @@ public class RegistrationsServlet extends HttpServlet {
 
             person = new Person(username, hashedPassword, ConvertDateUtil.convertDate(date), email);
 
-            if (!personService.add(person)) {
+            if (personService.add(person)) {
 
+                HttpSession session = request.getSession();
+                session.setAttribute("username", username);
+
+            } else {
                 response.sendError(500);
             }
 
