@@ -33,7 +33,7 @@
                 Запам'ятати мене
             </label>
 
-            <a class="form_link form_link_forget" href="#">Забули пароль?</a>
+            <a class="form_link form_link_forget" href="${pageContext.request.contextPath}/forget">Забули пароль?</a>
 
         </div>
 

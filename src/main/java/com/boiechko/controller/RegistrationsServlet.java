@@ -33,7 +33,7 @@ public class RegistrationsServlet extends HttpServlet {
         String email = request.getParameter("email");
 
         PersonService personService = new PersonServiceImpl();
-        Person person = personService.getPersonByCredentials(username);
+        Person person = personService.getPersonByCredentials("username", username);
 
         if (person.getUsername() == null) {
 

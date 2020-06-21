@@ -13,9 +13,9 @@ public class PersonDaoImpl implements PersonDao {
 
     // Check if there is already a user with such username
     @Override
-    public Person getPersonByCredentials(String username) {
+    public Person getPersonByCredentials(String column, String credentials) {
 
-        String query = "SELECT * FROM person WHERE username = ?";
+        String query = "SELECT * FROM person WHERE " + column + " = ?";
 
         PreparedStatement preparedStatement = null;
         Person person = new Person();
@@ -23,7 +23,7 @@ public class PersonDaoImpl implements PersonDao {
         try {
             preparedStatement = DBConnection.getConnection().prepareStatement(query);
 
-            preparedStatement.setString(1, username);
+            preparedStatement.setString(1, credentials);
 
             ResultSet rs = preparedStatement.executeQuery();
 

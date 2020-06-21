@@ -12,9 +12,7 @@ public class PersonServiceImpl implements PersonService {
     private final PersonDao personDao = new PersonDaoImpl();
 
     @Override
-    public Person getPersonByCredentials(String username) {
-        return personDao.getPersonByCredentials(username);
-    }
+    public Person getPersonByCredentials(String column, String credentials) { return personDao.getPersonByCredentials(column, credentials); }
 
     @Override
     public boolean add(Person person) {

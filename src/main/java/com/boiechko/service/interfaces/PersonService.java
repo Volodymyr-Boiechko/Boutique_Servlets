@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface PersonService {
 
-    Person getPersonByCredentials(String username);
+    Person getPersonByCredentials(String column, String credentials);
 
     boolean add(Person person);
 
