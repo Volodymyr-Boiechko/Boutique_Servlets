@@ -3,6 +3,7 @@ package com.boiechko.controller;
 import com.boiechko.entity.Person;
 import com.boiechko.service.implementations.PersonServiceImpl;
 import com.boiechko.service.interfaces.PersonService;
+import com.boiechko.utils.JavaMailUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,13 +33,17 @@ public class ForgetPasswordServlet extends HttpServlet {
 
         if (person.getUsername() != null) {
 
-            System.out.println("found");
+            JavaMailUtil javaMailUtil = new JavaMailUtil();
+
+            javaMailUtil.sendMail(email);
+
+            String code = javaMailUtil.getCode();
+
 
         } else {
 
             response.sendError(403);
 
         }
-
     }
 }
