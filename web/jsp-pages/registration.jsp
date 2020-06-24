@@ -13,7 +13,7 @@
 
     <h1 class="title">Реєстрація</h1>
 
-    <form class="form" method="post" onsubmit="return validate()">
+    <form class="form" id="form" method="post">
 
         <label class="form__label">
             <b>Логін</b>
@@ -79,6 +79,10 @@
             window.location.href = "${pageContext.request.contextPath}/login";
         });
     });
+
+    document.getElementById("form").onsubmit = function () {
+        return validate();
+    }
 
     function validate() {
 

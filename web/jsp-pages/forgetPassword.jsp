@@ -8,12 +8,11 @@
     <link rel="stylesheet" href="../css/registration.css">
 </head>
 <body>
-
 <div class="container">
 
     <h1 class="title">Відновлення паролю</h1>
 
-    <form class="form" method="post" action="${pageContext.request.contextPath}/login" onsubmit="validate()">
+    <form id="form" class="form" method="post">
 
         <label class="form__label">
             <b>Логін</b>
@@ -24,6 +23,8 @@
         <button class="button" type="submit">Пошук</button>
 
     </form>
+
+    <div id="user_code"></div>
 
 </div>
 
@@ -41,7 +42,12 @@
 
 <script>
 
-    function validate() {
+    document.getElementById("form").onsubmit = function () {
+        return findUser() === true;
+
+    }
+
+    function findUser() {
 
         let email = document.getElementById("email").value;
 
@@ -61,7 +67,8 @@
         }).done(function () {
 
             success = true;
-            alert("Знайдено емайл")
+
+            alert('Знайдено користувача!');
 
         }).fail(function (response) {
 

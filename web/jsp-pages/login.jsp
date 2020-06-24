@@ -15,7 +15,7 @@
 
     <h1 class="title">Вхід</h1>
 
-    <form class="form" method="post" action="${pageContext.request.contextPath}/" onsubmit="validate()">
+    <form class="form" id="form" method="post">
 
         <label>
             <b>Логін</b>
@@ -58,6 +58,17 @@
 
 <script>
 
+    document.getElementById("form").onsubmit = function () {
+
+        if (validate() === true) {
+
+
+            return true;
+        }
+        return false;
+
+    }
+
     function validate() {
 
         let username = document.getElementById('username').value;
@@ -79,6 +90,7 @@
         }).done(function () {
 
             success = true;
+            window.location.href = "${pageContext.request.contextPath}/";
 
         }).fail(function (response) {
 
