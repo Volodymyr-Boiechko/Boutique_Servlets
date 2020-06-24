@@ -75,7 +75,7 @@
 
     $(document).ready(function () {
 
-        $('.modalw__close').on('click', function(){
+        $('.modalw__close').on('click', function () {
             window.location.href = "${pageContext.request.contextPath}/login";
         });
     });

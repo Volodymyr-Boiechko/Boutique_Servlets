@@ -60,13 +60,7 @@
 
     document.getElementById("form").onsubmit = function () {
 
-        if (validate() === true) {
-
-
-            return true;
-        }
-        return false;
-
+        return validate() === true;
     }
 
     function validate() {

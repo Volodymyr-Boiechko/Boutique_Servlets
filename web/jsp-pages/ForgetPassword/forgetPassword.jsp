@@ -15,26 +15,37 @@
     <form id="form" class="form" method="post">
 
         <label id="emailLabel">
-            <input id="email" type="text" placeholder="Введіть назву вашого акаунту">
+            Введіть адресу вашої електронної пошти
+            <input id="email" type="text">
         </label>
 
-        <button class="button" type="submit">Пошук</button>
+        <button class="button button_forget" type="submit">Пошук</button>
 
     </form>
 
     <div id="validate" style="display: none;">
 
         <label class="text">
-            Код підтвердження надіслано на <div id="email_text"></div>>
             Введіть отриманий код підтвердження облікового запису
             <input id="code" type="text">
         </label>
 
-        <button class="button" onclick="validate()">Продовжити</button>
+        <button class="button button_forget" onclick="validate()">Продовжити</button>
 
     </div>
 
 
+</div>
+
+<div class="overlay">
+    <div class="modalw modalw_mini" id="info">
+        <div class="modalw__close">&times;</div>
+        <div class="modalw__subtitle">Перевірте пошту</div>
+        <div class="modalw__descr">
+            Код підтвердження надіслано на
+            <div id="email_text"></div>
+        </div>
+    </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -50,12 +61,18 @@
 
 <script>
 
+    $(document).ready(function () {
+
+        $('.modalw__close').on('click', function () {
+            $('.overlay, #thanks').fadeOut('slow');
+        });
+    });
+
     let verificationCode;
 
     document.getElementById("form").onsubmit = function () {
 
         return findUser();
-
     }
 
     function findUser() {
@@ -80,10 +97,11 @@
 
             verificationCode = code;
 
-            document.getElementById("email_text").innerText = document.getElementById("email").value;
-            document.getElementById("form").style.display="none";
-            document.getElementById("validate").style.display="block";
+            $('.overlay, #info').fadeIn('slow');
 
+            document.getElementById("email_text").innerText = document.getElementById("email").value;
+            document.getElementById("form").style.display = "none";
+            document.getElementById("validate").style.display = "flex";
 
         }).fail(function (response) {
 
@@ -100,7 +118,7 @@
     }
 
     function validate() {
-        let enteredCode =  document.getElementById("code").value;
+        let enteredCode = document.getElementById("code").value;
 
         if (verificationCode !== enteredCode) {
 
@@ -111,8 +129,6 @@
         }
     }
 
-
 </script>
-
 </body>
 </html>
