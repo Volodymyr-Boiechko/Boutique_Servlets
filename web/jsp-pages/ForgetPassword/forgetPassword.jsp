@@ -4,30 +4,38 @@
     <title>Recover password</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/registration.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/forgetPassword.css">
 </head>
 <body>
-<div class="container">
+<div class="container" style="margin-top: 80px;">
 
     <h1 class="title">Відновлення паролю</h1>
 
     <form id="form" class="form" method="post">
 
-        <label class="form__label">
-            <b>Логін</b>
-            <input id="email" type="text" required>
+        <label id="emailLabel">
+            <input id="email" type="text" placeholder="Введіть назву вашого акаунту">
         </label>
-
 
         <button class="button" type="submit">Пошук</button>
 
     </form>
 
-    <div id="user_code"></div>
+    <div id="validate" style="display: none;">
+
+        <label class="text">
+            Код підтвердження надіслано на <div id="email_text"></div>>
+            Введіть отриманий код підтвердження облікового запису
+            <input id="code" type="text">
+        </label>
+
+        <button class="button" onclick="validate()">Продовжити</button>
+
+    </div>
+
 
 </div>
-
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -42,15 +50,17 @@
 
 <script>
 
+    let verificationCode;
+
     document.getElementById("form").onsubmit = function () {
-        return findUser() === true;
+
+        return findUser();
 
     }
 
     function findUser() {
 
         let email = document.getElementById("email").value;
-
         let success = false;
 
         $.ajax({
@@ -64,11 +74,16 @@
 
             }
 
-        }).done(function () {
+        }).done(function (code) {
 
             success = true;
 
-            alert('Знайдено користувача!');
+            verificationCode = code;
+
+            document.getElementById("email_text").innerText = document.getElementById("email").value;
+            document.getElementById("form").style.display="none";
+            document.getElementById("validate").style.display="block";
+
 
         }).fail(function (response) {
 
@@ -83,6 +98,19 @@
 
         return success;
     }
+
+    function validate() {
+        let enteredCode =  document.getElementById("code").value;
+
+        if (verificationCode !== enteredCode) {
+
+            alert("WRONG");
+
+        } else {
+            window.location.href = "${pageContext.request.contextPath}/updatePassword";
+        }
+    }
+
 
 </script>
 

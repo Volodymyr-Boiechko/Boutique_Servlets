@@ -1,4 +1,4 @@
-package com.boiechko.controller;
+package com.boiechko.controller.ForgetPassword;
 
 import com.boiechko.entity.Person;
 import com.boiechko.service.implementations.PersonServiceImpl;
@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/forget")
@@ -18,7 +19,7 @@ public class ForgetPasswordServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        request.getRequestDispatcher("jsp-pages/forgetPassword.jsp").forward(request,response);
+        request.getRequestDispatcher("jsp-pages/ForgetPassword/forgetPassword.jsp").forward(request,response);
 
     }
 
@@ -37,8 +38,11 @@ public class ForgetPasswordServlet extends HttpServlet {
 
             javaMailUtil.sendMail(email);
 
-            String code = javaMailUtil.getCode();
+            response.getWriter().write(javaMailUtil.getCode());
 
+            HttpSession session = request.getSession();
+
+            session.setAttribute("email", email);
 
         } else {
 
