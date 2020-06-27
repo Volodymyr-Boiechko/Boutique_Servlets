@@ -24,27 +24,26 @@ public class JavaMailUtil {
 
     public void sendMail(String recipient) {
 
-        Properties properties = new Properties();
-
-        properties.put("mail.smtp.auth", "true");
-        properties.put("mail.smtp.starttls.enable", "true");
-        properties.put("mail.smtp.host", "smtp.gmail.com");
-        properties.put("mail.smtp.port", "587");
-
-        Session session = Session.getInstance(properties, new Authenticator() {
-
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(myAccountEmail, password);
-            }
-        });
-
-        Message message = prepareMessage(session, recipient);
 
         try {
+
+            Properties properties = new Properties();
+            properties.load(JavaMailUtil.class.getClassLoader().getResourceAsStream("mail.properties"));
+
+            Session session = Session.getInstance(properties, new Authenticator() {
+
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(myAccountEmail, password);
+                }
+            });
+
+            Message message = prepareMessage(session, recipient);
+
             assert message != null;
             Transport.send(message);
-        } catch (MessagingException e) {
+
+        } catch (IOException | MessagingException e) {
             e.printStackTrace();
         }
 

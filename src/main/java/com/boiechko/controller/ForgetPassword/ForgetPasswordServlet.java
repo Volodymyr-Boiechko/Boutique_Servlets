@@ -42,7 +42,7 @@ public class ForgetPasswordServlet extends HttpServlet {
 
             HttpSession session = request.getSession();
 
-            session.setAttribute("email", email);
+                session.setAttribute("email", email);
 
         } else {
 

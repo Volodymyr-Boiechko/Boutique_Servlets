@@ -27,10 +27,10 @@ public class RegistrationsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String date = request.getParameter("date");
-        String email = request.getParameter("email");
+        final String username = request.getParameter("username");
+        final String password = request.getParameter("password");
+        final String date = request.getParameter("date");
+        final String email = request.getParameter("email");
 
         PersonService personService = new PersonServiceImpl();
         Person person = personService.getPersonByCredentials("username", username);

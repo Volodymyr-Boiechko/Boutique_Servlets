@@ -27,8 +27,8 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 
-        String username = request.getParameter("username");
-        String hashedPassword = request.getParameter("password");
+        final String username = request.getParameter("username");
+        final String hashedPassword = request.getParameter("password");
 
         PersonService personService = new PersonServiceImpl();
         Person person = personService.getPersonByCredentials("username", username);
