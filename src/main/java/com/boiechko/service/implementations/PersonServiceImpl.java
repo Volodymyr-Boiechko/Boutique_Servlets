@@ -30,9 +30,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public boolean update(Person t) {
-        return false;
-    }
+    public boolean update(Person person) { return personDao.update(person); }
 
     @Override
     public boolean delete(int id) {

@@ -65,8 +65,8 @@ public class PersonDaoImpl implements PersonDao {
     @Override
     public boolean add(Person person) {
 
-        String query = "INSERT INTO person(username,password, birthDate, email, typeName)" +
-                        "VALUE (?,?,?,?,?)";
+        String query = "INSERT INTO person(username,password, birthDate, email, idAddress, typeName)" +
+                "VALUE (?,?,?,?,?,?)";
 
         PreparedStatement preparedStatement = null;
 
@@ -77,7 +77,8 @@ public class PersonDaoImpl implements PersonDao {
             preparedStatement.setString(2, person.getPassword());
             preparedStatement.setDate(3, person.getBirthDate());
             preparedStatement.setString(4, person.getEmail());
-            preparedStatement.setString(5,"USER");
+            preparedStatement.setInt(5, 1);
+            preparedStatement.setString(6, "USER");
 
             return preparedStatement.executeUpdate() > 0;
 
@@ -114,7 +115,40 @@ public class PersonDaoImpl implements PersonDao {
 
     @Override
     public boolean update(Person person) {
-        return false;
+
+        String query = "UPDATE person SET username=?, password=?, firstName=?, lastName=?," +
+                "birthDate=?,email=?,phoneNumber=?,idAddress=? WHERE idPerson=?";
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = DBConnection.getConnection().prepareStatement(query);
+
+            preparedStatement.setString(1, person.getUsername());
+            preparedStatement.setString(2, person.getPassword());
+            preparedStatement.setString(3, person.getFirstName());
+            preparedStatement.setString(4, person.getLastName());
+            preparedStatement.setDate(5, person.getBirthDate());
+            preparedStatement.setString(6, person.getEmail());
+            preparedStatement.setString(7, person.getPhoneNumber());
+            preparedStatement.setInt(8, person.getIdAddress());
+            preparedStatement.setInt(9, person.getIdPerson());
+
+            return preparedStatement.executeUpdate() > 0;
+
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+            return false;
+        } finally {
+
+            try {
+                assert preparedStatement != null;
+                preparedStatement.close();
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
+
+        }
     }
 
     @Override
