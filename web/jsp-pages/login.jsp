@@ -6,6 +6,8 @@
     <link rel="shortcut icon" href="">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/bootstrap-reboot.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/login.css">
 </head>
@@ -28,8 +30,8 @@
         </label>
 
         <div class="form__under">
-            <label>
-                <input type="checkbox" checked="checked" name="remember">
+            <label id="remember">
+                <input id="checked" type="checkbox" checked="checked" name="remember">
                 Запам'ятати мене
             </label>
 
