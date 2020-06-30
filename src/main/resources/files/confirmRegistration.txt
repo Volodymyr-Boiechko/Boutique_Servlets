@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ua">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .body {
+            background-color:#116466;
+            border:1px solid;
+            width: 700px;
+            margin: 0 auto;
+            padding: 20px 20px 20px 20px;
+            text-align: center;
+            font-family: Arial,Helvetica,sans-serif;
+            min-height: 285px;
+        }
+        h1 {
+            font-size: 24px;
+            color: #F8E9A1;
+            font-weight: bold;
+        }
+        h1 a {
+            color: #beb378;
+            text-decoration: none;
+        }
+        h1 a:hover{
+            color: #F8E9A1;
+        }
+        .title {
+            color: #f8fcf1;
+            font-size: 18px;
+            padding-top: 12px;
+        }
+        .descr {
+            font-size: 14px;
+            line-height: 17px;
+            color: #f8fcf1;
+            width: 500px;
+            margin: 0 auto;
+        }
+        .form {
+            margin: 0 auto;
+            margin-top: 50px;
+        }
+        .button {
+            width: 200px;
+            height: 40px;
+            font-size: 20px;
+            border: none;
+            border-radius: 10px;
+            background-color:#beb378;
+        }
+        .button:hover {
+            background-color: #F8E9A1;
+        }
+    </style>
+</head>
+<body>
+    <div class="body">
+        <h1>Привіт, <a>user</a></h1>
+        <p class="title">Вітаємо в Boutique</p>
+        <div class="descr">
+            Для завершення реєстрації активуйте ваш акаунт
+        </div>
+
+        <form class="form" action="href">
+            <input class="button" type="submit" value="Активувати" />
+        </form>
+
+    </div>
+</body>
+</html>

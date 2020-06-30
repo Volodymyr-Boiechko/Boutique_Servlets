@@ -5,6 +5,7 @@ import com.boiechko.service.implementations.PersonServiceImpl;
 import com.boiechko.service.interfaces.PersonService;
 import com.boiechko.utils.ConvertDateUtil;
 import com.boiechko.utils.HashingPassword.HashPasswordUtil;
+import com.boiechko.utils.JavaMailUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,14 +15,36 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet("/registration")
+@WebServlet("/registration/*")
 public class RegistrationsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        request.getRequestDispatcher("jsp-pages/registration.jsp").forward(request,response);
+        String pathInfo = request.getRequestURI();
+        String[] pathParts = pathInfo.split("/");
 
+        if (pathParts.length != 2 && pathParts[2].length() != 36) {
+
+            String activationCode = pathParts[2];
+
+            PersonService personService = new PersonServiceImpl();
+            Person person = personService.getPersonByCredentials("activationCode", activationCode);;
+
+            if (person.getUsername() != null) {
+
+                person.setActivationCode(null);
+
+                if (personService.update(person))
+                    response.sendRedirect("/login");
+
+            } else {
+                response.sendError(503);
+            }
+
+        } else {
+            request.getRequestDispatcher("/jsp-pages/registration.jsp").forward(request,response);
+        }
     }
 
     @Override
@@ -42,6 +65,9 @@ public class RegistrationsServlet extends HttpServlet {
             person = new Person(username, hashedPassword, ConvertDateUtil.convertDate(date), email);
 
             if (personService.add(person)) {
+
+                JavaMailUtil javaMailUtil = new JavaMailUtil("confirmRegistration");
+                javaMailUtil.sendMail(email);
 
                 HttpSession session = request.getSession();
                 session.setAttribute("username", username);

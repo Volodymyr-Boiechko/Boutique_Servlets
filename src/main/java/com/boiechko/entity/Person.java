@@ -17,13 +17,14 @@ public class Person {
     private String phoneNumber;
     private int idAddress;
     private PersonType personType;
+    private String activationCode;
 
     public Person(){
     }
 
     public Person
             (int idPerson, String username, String password, String firstName, String lastName,
-             Date birthDate, String email, String phoneNumber, int idAddress)
+             Date birthDate, String email, String phoneNumber, int idAddress, String activationCode)
     {
         this.idPerson = idPerson;
         this.username = username;
@@ -34,6 +35,7 @@ public class Person {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.idAddress = idAddress;
+        this.activationCode = activationCode;
     }
 
     public Person(String username, String password, Date birthDate, String email) {
@@ -82,6 +84,10 @@ public class Person {
     public PersonType getPersonType() { return personType; }
 
     public void setPersonType(String personType) { this.personType = PersonType.valueOf(personType); }
+
+    public String getActivationCode() { return activationCode; }
+
+    public void setActivationCode(String activationCode) { this.activationCode = activationCode; }
 
     @Override
     public boolean equals(Object o) {

@@ -1,5 +1,9 @@
 package com.boiechko.utils;
 
+import com.boiechko.entity.Person;
+import com.boiechko.service.implementations.PersonServiceImpl;
+import com.boiechko.service.interfaces.PersonService;
+
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -14,16 +18,23 @@ public class JavaMailUtil {
     private final static String password = "28171821";
 
     private final String code;
+    private final String type;
+
+    private Person person;
 
     public String getCode() { return code; }
 
-    public JavaMailUtil() {
+    public JavaMailUtil(String type) {
 
         code = generateCode();
+        this.type = type;
+
     }
 
     public void sendMail(String recipient) {
 
+        PersonService personService = new PersonServiceImpl();
+        person = personService.getPersonByCredentials("email", recipient);
 
         try {
 
@@ -71,15 +82,16 @@ public class JavaMailUtil {
 
     }
 
-    private String formHtmlCode(String recipient){
+    private String formHtmlCode(String recipient) {
 
         String result = "";
 
+        String pathToFile = "C:\\Users\\volod\\IdeaProjects\\Boutique_Servlets\\src" +
+                "\\main\\resources\\files\\";
+
         try (BufferedReader br = new BufferedReader(
                 new InputStreamReader(
-                        new FileInputStream("C:\\Users\\volod\\IdeaProjects\\Boutique_Servlets" +
-                                "\\src\\main\\resources\\files\\htmlText.txt"), StandardCharsets.UTF_8)))
-        {
+                        new FileInputStream(pathToFile + type + ".txt"), StandardCharsets.UTF_8))) {
             String buf;
             while ((buf = br.readLine()) != null) {
                 result = String.format("%s%s\n", result, changeRow(buf, recipient));
@@ -97,6 +109,8 @@ public class JavaMailUtil {
             buffer = buffer.replace("user", email);
         else if (buffer.contains("number"))
             buffer = buffer.replace("number", code);
+        else if (buffer.contains("href"))
+            buffer = buffer.replace("href", "http://localhost:8080/registration/" + person.getActivationCode());
 
         return buffer;
     }

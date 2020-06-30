@@ -19,7 +19,7 @@ public class UpdatePassword extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        request.getRequestDispatcher("jsp-pages/ForgetPassword/updatePassword.jsp").forward(request,response);
+        request.getRequestDispatcher("/jsp-pages/ForgetPassword/updatePassword.jsp").forward(request,response);
 
     }
 

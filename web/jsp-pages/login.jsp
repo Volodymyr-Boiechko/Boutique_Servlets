@@ -94,6 +94,8 @@
 
             if (response.status === 401) {
                 alert("Неправильно введений пароль!");
+            } else if (response.status === 402) {
+                alert("Активуйте акаунт!")
             } else if (response.status === 403) {
                 alert("Користувача з таким логіном не знайдено!");
             }

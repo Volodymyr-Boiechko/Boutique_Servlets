@@ -19,7 +19,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        request.getRequestDispatcher("jsp-pages/login.jsp").forward(request,response);
+        request.getRequestDispatcher("/jsp-pages/login.jsp").forward(request, response);
 
     }
 
@@ -33,24 +33,30 @@ public class LoginServlet extends HttpServlet {
         PersonService personService = new PersonServiceImpl();
         Person person = personService.getPersonByCredentials("username", username);
 
-        if (person.getUsername() != null) {
+        if (person.getActivationCode() == null) {
 
-            boolean isEqual = HashPasswordUtil.checkPassword(hashedPassword, person.getPassword());
+            if (person.getUsername() != null) {
 
-            if (isEqual) {
+                boolean isEqual = HashPasswordUtil.checkPassword(hashedPassword, person.getPassword());
 
-                HttpSession session = request.getSession();
+                if (isEqual) {
 
-                session.setAttribute("username", username);
 
+                    HttpSession session = request.getSession();
+
+                    session.setAttribute("username", username);
+
+                } else {
+
+                    response.sendError(401);
+
+                }
             } else {
 
-                response.sendError(401);
-
+                response.sendError(403);
             }
         } else {
-
-            response.sendError(403);
+            response.sendError(402);
         }
     }
 }

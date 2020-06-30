@@ -19,7 +19,7 @@ public class ForgetPasswordServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        request.getRequestDispatcher("jsp-pages/ForgetPassword/forgetPassword.jsp").forward(request,response);
+        request.getRequestDispatcher("/jsp-pages/ForgetPassword/forgetPassword.jsp").forward(request,response);
 
     }
 
@@ -34,7 +34,7 @@ public class ForgetPasswordServlet extends HttpServlet {
 
         if (person.getUsername() != null) {
 
-            JavaMailUtil javaMailUtil = new JavaMailUtil();
+            JavaMailUtil javaMailUtil = new JavaMailUtil("recoverPassword");
 
             javaMailUtil.sendMail(email);
 

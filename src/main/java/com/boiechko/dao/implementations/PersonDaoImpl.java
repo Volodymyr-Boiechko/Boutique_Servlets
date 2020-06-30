@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.UUID;
 
 public class PersonDaoImpl implements PersonDao {
 
@@ -39,6 +40,7 @@ public class PersonDaoImpl implements PersonDao {
                 person.setPhoneNumber(rs.getString("phoneNumber"));
                 person.setIdAddress(rs.getInt("idAddress"));
                 person.setPersonType(rs.getString("typeName"));
+                person.setActivationCode(rs.getString("activationCode"));
 
             }
 
@@ -65,8 +67,8 @@ public class PersonDaoImpl implements PersonDao {
     @Override
     public boolean add(Person person) {
 
-        String query = "INSERT INTO person(username,password, birthDate, email, idAddress, typeName)" +
-                "VALUE (?,?,?,?,?,?)";
+        String query = "INSERT INTO person(username,password, birthDate, email, idAddress, typeName, activationCode)" +
+                "VALUE (?,?,?,?,?,?,?)";
 
         PreparedStatement preparedStatement = null;
 
@@ -79,6 +81,7 @@ public class PersonDaoImpl implements PersonDao {
             preparedStatement.setString(4, person.getEmail());
             preparedStatement.setInt(5, 1);
             preparedStatement.setString(6, "USER");
+            preparedStatement.setString(7, UUID.randomUUID().toString());
 
             return preparedStatement.executeUpdate() > 0;
 
@@ -117,7 +120,7 @@ public class PersonDaoImpl implements PersonDao {
     public boolean update(Person person) {
 
         String query = "UPDATE person SET username=?, password=?, firstName=?, lastName=?," +
-                "birthDate=?,email=?,phoneNumber=?,idAddress=? WHERE idPerson=?";
+                "birthDate=?,email=?,phoneNumber=?,idAddress=?,activationCode=? WHERE idPerson=?";
 
         PreparedStatement preparedStatement = null;
 
@@ -132,7 +135,8 @@ public class PersonDaoImpl implements PersonDao {
             preparedStatement.setString(6, person.getEmail());
             preparedStatement.setString(7, person.getPhoneNumber());
             preparedStatement.setInt(8, person.getIdAddress());
-            preparedStatement.setInt(9, person.getIdPerson());
+            preparedStatement.setString(9, person.getActivationCode());
+            preparedStatement.setInt(10, person.getIdPerson());
 
             return preparedStatement.executeUpdate() > 0;
 
