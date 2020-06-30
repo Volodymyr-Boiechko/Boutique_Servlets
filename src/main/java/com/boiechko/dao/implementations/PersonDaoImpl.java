@@ -7,12 +7,13 @@ import com.boiechko.entity.Person;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class PersonDaoImpl implements PersonDao {
 
-    // Check if there is already a user with such username
+    // We receive the user on special data
     @Override
     public Person getPersonByCredentials(String column, String credentials) {
 
@@ -101,21 +102,106 @@ public class PersonDaoImpl implements PersonDao {
         }
     }
 
-    @Override
-    public boolean addFull(Person person) {
-        return false;
-    }
-
+    // Get user from data base with special ID
     @Override
     public Person getById(int id) {
-        return null;
+
+        String query = "SELECT * FROM person WHERE idPerson=?";
+
+        PreparedStatement preparedStatement = null;
+        Person person = new Person();
+
+        try {
+
+            preparedStatement = DBConnection.getConnection().prepareStatement(query);
+
+            preparedStatement.setInt(1, id);
+
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+
+                person.setIdPerson(rs.getInt("idPerson"));
+                person.setUsername(rs.getString("username"));
+                person.setPassword(rs.getString("password"));
+                person.setFirstName(rs.getString("firstName"));
+                person.setLastName(rs.getString("lastName"));
+                person.setBirthDate(rs.getDate("birthDate"));
+                person.setEmail(rs.getString("email"));
+                person.setPhoneNumber(rs.getString("phoneNumber"));
+                person.setIdAddress(rs.getInt("idAddress"));
+                person.setPersonType(rs.getString("typeName"));
+                person.setActivationCode(rs.getString("activationCode"));
+
+            }
+
+            return person;
+
+        } catch (SQLException sqlException) {
+
+            sqlException.printStackTrace();
+
+            return null;
+        }  finally {
+
+            try {
+                assert preparedStatement != null;
+                preparedStatement.close();
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
+        }
     }
 
+    // Get ALL users from data base
     @Override
     public List<Person> getAll() {
-        return null;
+
+        String query = "SELECT * FROM person";
+        List<Person> personList = new ArrayList<>();
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+
+            preparedStatement = DBConnection.getConnection().prepareStatement(query);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+
+                Person person = new Person();
+                person.setIdPerson(rs.getInt("idPerson"));
+                person.setUsername(rs.getString("username"));
+                person.setPassword(rs.getString("password"));
+                person.setFirstName(rs.getString("firstName"));
+                person.setLastName(rs.getString("lastName"));
+                person.setBirthDate(rs.getDate("birthDate"));
+                person.setEmail(rs.getString("email"));
+                person.setPhoneNumber(rs.getString("phoneNumber"));
+                person.setIdAddress(rs.getInt("idAddress"));
+                person.setPersonType(rs.getString("typeName"));
+                person.setActivationCode(rs.getString("activationCode"));
+
+                personList.add(person);
+
+            }
+            return personList;
+        } catch (SQLException sqlException) {
+
+            sqlException.printStackTrace();
+            return null;
+
+        } finally {
+            try {
+                assert preparedStatement != null;
+                preparedStatement.close();
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
+        }
     }
 
+    // Update user's info in data base
     @Override
     public boolean update(Person person) {
 
@@ -155,8 +241,30 @@ public class PersonDaoImpl implements PersonDao {
         }
     }
 
+    // Delete user from data base
     @Override
     public boolean delete(int id) {
-        return false;
+
+        String query = "DELETE FROM person WHERE idPerson=?";
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = DBConnection.getConnection().prepareStatement(query);
+            preparedStatement.setInt(1,id);
+
+            return preparedStatement.executeUpdate() > 0;
+
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+            return false;
+        } finally {
+            try {
+                assert preparedStatement != null;
+                preparedStatement.close();
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
+        }
     }
 }

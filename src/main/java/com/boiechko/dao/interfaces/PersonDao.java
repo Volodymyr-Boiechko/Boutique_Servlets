@@ -6,6 +6,4 @@ public interface PersonDao extends Dao<Person> {
 
     Person getPersonByCredentials(String column, String credentials);
 
-    boolean addFull(Person person);
-
 }
