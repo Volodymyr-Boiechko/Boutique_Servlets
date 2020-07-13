@@ -5,6 +5,7 @@ out/
 .project
 .settings/
 target/
+img/
 
 # Compiled class file
 *.class

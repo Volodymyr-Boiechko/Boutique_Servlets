@@ -1,0 +1,166 @@
+.header {
+  background-color: #2d2d2d;
+  height: 75px;
+  width: 100%;
+
+  &__gender {
+
+    height: 40px;
+    margin-top: 15px;
+    padding: 12px;
+
+    &_element {
+
+      color: white;
+      text-transform: uppercase;
+
+      &:hover {
+        text-decoration: none;
+        color: #666;
+      }
+
+    }
+
+    &_left {
+      margin-left: 28px;
+    }
+
+    span {
+      color: #a5a5a5;
+      height: 30px;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+  }
+
+  &__logo {
+    height: 80px;
+  }
+
+  &__icons {
+
+    display: flex;
+    flex-wrap: wrap;
+    height: 75px;
+
+    &_icon {
+
+      padding: 0 15px 0 14px;
+      cursor: pointer;
+
+      &_img {
+        margin-top: 27px;
+        height: 25px;
+      }
+    }
+  }
+
+  &__profileBlock {
+    position: absolute;
+    max-height: 0;
+    overflow: hidden;
+    -webkit-transition: max-height 0.2s ease-in;
+    transition: max-height 0.35s ease-in;
+    width: 325px;
+    right: 14px;
+    top: 75px;
+    background-color: #ffffff;
+
+    &__user {
+
+      padding: 12px 10px 10px 15px;
+      height: 50px;
+      background-color: #eee;
+
+      &_text {
+
+        width: 200px;
+        display: inline-block;
+        font-weight: bold;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      a {
+        position: absolute;
+        right: 55px;
+        top: 14px;
+        margin-left: 20px;
+        color: #666;
+        font-size: 14px;
+        text-decoration: underline;
+        &:hover {
+          color: #00BFFF;
+        }
+      }
+    }
+
+    &__login {
+
+      padding: 12px 10px 10px 15px;
+      height: 50px;
+      background-color: #eee;
+
+      span {
+        color: #666;
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+
+      a {
+        color: #666;
+        font-size: 14px;
+        text-decoration: underline;
+        &:hover {
+          color: #00BFFF;
+        }
+      }
+    }
+
+    #close {
+      position: absolute;
+      top: 12px;
+      right: 10px;
+      font-size: 40px;
+      line-height: 21px;
+      color: black;
+
+      &:hover {
+        color: #00BFFF;
+      }
+    }
+
+    &__descr {
+      display: block;
+      height: 30px;
+      text-decoration: none;
+      margin-left: 35px;
+      margin-top: 25px;
+      &:hover {
+        text-decoration: none;
+      }
+
+      &_img {
+        display: inline-block;
+        height: 25px;
+        margin-top: -10px;
+      }
+
+      &_text {
+        display: inline-block;
+        margin-left: 15px;
+        color: #909090;
+        &:hover {
+          color: #00BFFF;
+        }
+      }
+    }
+  }
+}
+
+.active {
+  max-height: 300px;
+  border: 0.1px solid #b4b4b4;
+  padding-bottom: 10px;
+}

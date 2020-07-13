@@ -24,7 +24,7 @@ public class RegistrationsServlet extends HttpServlet {
         String pathInfo = request.getRequestURI();
         String[] pathParts = pathInfo.split("/");
 
-        if (pathParts.length != 2 && pathParts[2].length() != 36) {
+        if (pathParts.length != 2 && pathParts[2].length() == 36) {
 
             String activationCode = pathParts[2];
 
