@@ -53,7 +53,7 @@
 </div>
 
 <div class="overlay">
-    <div class="modalw modalw_mini" id="thanks">
+    <div class="modalw modalw_registration" id="thanks">
         <div class="modalw__close">&times;</div>
         <div class="modalw__subtitle">Завершення реєстрації</div>
         <p class="modalw__descr">Для завершення реєстрації та активації Вашого</p>
