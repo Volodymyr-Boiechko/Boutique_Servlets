@@ -30,7 +30,7 @@
 
                 <h2 class="footer__title">Потрібна допомога?</h2>
 
-                <button data-modal="call" class="footer__button">Залишити заяву</button>
+                <button id="application" class="footer__button">Залишити заяву</button>
 
                 <div class="footer__number">У разі необхідності зателефонуйте нам по телефону
                     <a href="tel:8800000800"> 8 800 000 800</a>
@@ -128,54 +128,61 @@
 <div class="overlay">
     <div class="modalw modalw_call" id="call">
         <div class="modalw__close modalw__close_call">&times;</div>
-        <form class="feed-form" action="#">
+        <form id="form" class="feed-form" method="post">
 
             <ul>
                 <div class="feed-form__title">Просто заповніть форму заявки</div>
                 <div class="feed-form__descr">Ви можете залишити своє повідомлення тут, і ми відповімо при першій же можливості</div>
                 <li>
                     <label>
-                        <input class="input" name="name" placeholder="Ім'я" type="text">
+                        <input class="input" id="firstName" name="name" placeholder="Ім'я" type="text">
                     </label>
                 </li>
 
                 <li>
                     <label>
-                        <input class="input" name="name" placeholder="Прізвище">
+                        <input class="input" id="surname" name="name" placeholder="Прізвище">
                     </label>
                 </li>
 
                 <li>
                     <label>
-                        <input class="input" name="name" placeholder="По-батькові">
+                        <input class="input" id="lastName" name="name" placeholder="По-батькові">
                     </label>
                 </li>
 
                 <li>
                     <label>
-                        <input class="input" name="email" placeholder="Електронна-пошта">
+                        <input class="input" id="email" name="email" placeholder="Електронна-пошта">
                     </label>
                 </li>
 
                 <li>
                     <label>
-                        <input class="input" name="phone" placeholder="Мобільний телефон">
+                        <input class="input" id="phoneNumber" name="phone" placeholder="Мобільний телефон">
                     </label>
                 </li>
 
                 <li style="height: 85px;">
                     <label>
-                        <textarea class="input input_com" name="comment" placeholder="Коментар"></textarea>
+                        <textarea class="input input_com" id="comment" name="comment" placeholder="Коментар"></textarea>
                     </label>
                 </li>
 
                 <li>
-                    <button type="submit" class="modalw__button">Відправити запит</button>
+                    <button type="submit" id="button" class="modalw__button">Відправити запит</button>
                 </li>
 
             </ul>
 
         </form>
+    </div>
+    <div class="modalw modalw_mini" id="thanks">
+        <div class="modalw__close">&times;</div>
+        <div class="modalw__subtitle">Повідомлення відправлено</div>
+        <div class="modalw__descr">
+            Відповідь буде відправлено на вказану пошту або номер телефону.
+        </div>
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -183,7 +190,7 @@
 
     $(document).ready(function () {
 
-        $('[data-modal=call]').on('click', function () {
+        $('#application').on('click', function () {
             $('.overlay, #call').fadeIn('slow');
         });
 
@@ -193,6 +200,51 @@
 
     });
 
+    document.getElementById("form").onsubmit = function () {
+        return validate();
+    }
+
+    function validate() {
+
+        let firstName = document.getElementById('firstName').value;
+        let surname = document.getElementById('surname').value;
+        let lastName = document.getElementById('lastName').value;
+        let email = document.getElementById('email').value;
+        let phoneNumber = document.getElementById('phoneNumber').value;
+        let comment = document.getElementById('comment').value;
+
+        let success = false;
+
+        $.ajax({
+
+            url: "/footerServlet",
+            async: true,
+            type: "POST",
+            data: {
+
+                firstName: firstName,
+                surname: surname,
+                lastName: lastName,
+                email: email,
+                phoneNumber: phoneNumber,
+                comment: comment
+
+            }
+        }).done(function () {
+
+            success = true;
+            $('#call').fadeOut('fast');
+            $('#thanks').fadeIn('slow');
+            $('#form').trigger('reset');
+
+        }).fail(function () {
+
+            success = false;
+
+        });
+
+        return success;
+    }
 
 </script>
 </body>

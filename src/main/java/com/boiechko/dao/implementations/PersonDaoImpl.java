@@ -35,6 +35,7 @@ public class PersonDaoImpl implements PersonDao {
                 person.setUsername(rs.getString("username"));
                 person.setPassword(rs.getString("password"));
                 person.setFirstName(rs.getString("firstName"));
+                person.setSurname(rs.getString("surname"));
                 person.setLastName(rs.getString("lastName"));
                 person.setBirthDate(rs.getDate("birthDate"));
                 person.setEmail(rs.getString("email"));
@@ -125,6 +126,7 @@ public class PersonDaoImpl implements PersonDao {
                 person.setUsername(rs.getString("username"));
                 person.setPassword(rs.getString("password"));
                 person.setFirstName(rs.getString("firstName"));
+                person.setSurname(rs.getString("surname"));
                 person.setLastName(rs.getString("lastName"));
                 person.setBirthDate(rs.getDate("birthDate"));
                 person.setEmail(rs.getString("email"));
@@ -174,6 +176,7 @@ public class PersonDaoImpl implements PersonDao {
                 person.setUsername(rs.getString("username"));
                 person.setPassword(rs.getString("password"));
                 person.setFirstName(rs.getString("firstName"));
+                person.setSurname(rs.getString("surname"));
                 person.setLastName(rs.getString("lastName"));
                 person.setBirthDate(rs.getDate("birthDate"));
                 person.setEmail(rs.getString("email"));
@@ -205,7 +208,7 @@ public class PersonDaoImpl implements PersonDao {
     @Override
     public boolean update(Person person) {
 
-        String query = "UPDATE person SET username=?, password=?, firstName=?, lastName=?," +
+        String query = "UPDATE person SET username=?, password=?, firstName=?, surname=?, lastName=?," +
                 "birthDate=?,email=?,phoneNumber=?,idAddress=?,activationCode=? WHERE idPerson=?";
 
         PreparedStatement preparedStatement = null;
@@ -216,13 +219,14 @@ public class PersonDaoImpl implements PersonDao {
             preparedStatement.setString(1, person.getUsername());
             preparedStatement.setString(2, person.getPassword());
             preparedStatement.setString(3, person.getFirstName());
-            preparedStatement.setString(4, person.getLastName());
-            preparedStatement.setDate(5, person.getBirthDate());
-            preparedStatement.setString(6, person.getEmail());
-            preparedStatement.setString(7, person.getPhoneNumber());
-            preparedStatement.setInt(8, person.getIdAddress());
-            preparedStatement.setString(9, person.getActivationCode());
-            preparedStatement.setInt(10, person.getIdPerson());
+            preparedStatement.setString(4, person.getSurname());
+            preparedStatement.setString(5, person.getLastName());
+            preparedStatement.setDate(6, person.getBirthDate());
+            preparedStatement.setString(7, person.getEmail());
+            preparedStatement.setString(8, person.getPhoneNumber());
+            preparedStatement.setInt(9, person.getIdAddress());
+            preparedStatement.setString(10, person.getActivationCode());
+            preparedStatement.setInt(11, person.getIdPerson());
 
             return preparedStatement.executeUpdate() > 0;
 

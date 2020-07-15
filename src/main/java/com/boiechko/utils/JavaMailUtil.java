@@ -1,8 +1,6 @@
 package com.boiechko.utils;
 
 import com.boiechko.entity.Person;
-import com.boiechko.service.implementations.PersonServiceImpl;
-import com.boiechko.service.interfaces.PersonService;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -19,8 +17,13 @@ public class JavaMailUtil {
 
     private final String code;
     private final String type;
-
     private Person person;
+    private String recipient;
+    private  String comment;
+
+    public void setPerson(Person person) { this.person = person; }
+
+    public void setComment(String comment) { this.comment = comment; }
 
     public String getCode() { return code; }
 
@@ -28,13 +31,11 @@ public class JavaMailUtil {
 
         code = generateCode();
         this.type = type;
-
     }
 
     public void sendMail(String recipient) {
 
-        PersonService personService = new PersonServiceImpl();
-        person = personService.getPersonByCredentials("email", recipient);
+        this.recipient = recipient;
 
         try {
 
@@ -49,7 +50,7 @@ public class JavaMailUtil {
                 }
             });
 
-            Message message = prepareMessage(session, recipient);
+            Message message = prepareMessage(session);
 
             assert message != null;
             Transport.send(message);
@@ -60,7 +61,7 @@ public class JavaMailUtil {
 
     }
 
-    private Message prepareMessage(Session session, String recipient) {
+    private Message prepareMessage(Session session) {
 
         try {
 
@@ -69,9 +70,9 @@ public class JavaMailUtil {
 
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
 
-            message.setSubject("Відновлення паролю");
+            message.setSubject(getSubject());
 
-            message.setContent(formHtmlCode(recipient), "text/html;charset=UTF-8");
+            message.setContent(formHtmlCode(), "text/html;charset=UTF-8");
 
             return message;
 
@@ -82,7 +83,17 @@ public class JavaMailUtil {
 
     }
 
-    private String formHtmlCode(String recipient) {
+    private String getSubject() {
+
+        switch (type) {
+            case "confirmRegistration": return "Активація акаунту";
+            case "recoverPassword": return "Відновлення паролю";
+            case "questionFromUser": return "Запитання від користувача";
+        }
+        return null;
+    }
+
+    private String formHtmlCode() {
 
         String result = "";
 
@@ -94,7 +105,7 @@ public class JavaMailUtil {
                         new FileInputStream(pathToFile + type + ".txt"), StandardCharsets.UTF_8))) {
             String buf;
             while ((buf = br.readLine()) != null) {
-                result = String.format("%s%s\n", result, changeRow(buf, recipient));
+                result = String.format("%s%s\n", result, changeRow(buf));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -103,14 +114,26 @@ public class JavaMailUtil {
         return result;
     }
 
-    private String changeRow(String buffer, String email) {
+    private String changeRow(String buffer) {
 
         if (buffer.contains("user"))
-            buffer = buffer.replace("user", email);
+            buffer = buffer.replace("user", recipient);
         else if (buffer.contains("number"))
             buffer = buffer.replace("number", code);
         else if (buffer.contains("href"))
             buffer = buffer.replace("href", "http://localhost:8080/registration/" + person.getActivationCode());
+        else if (buffer.contains("firstName"))
+            buffer = buffer.replace("firstName", person.getFirstName());
+        else if (buffer.contains("surname"))
+            buffer = buffer.replace("surname", person.getSurname());
+        else if (buffer.contains("lastName"))
+            buffer = buffer.replace("lastName", person.getLastName());
+        else if (buffer.contains("email"))
+            buffer = buffer.replace("email", person.getEmail());
+        else if (buffer.contains("phoneNumber"))
+            buffer = buffer.replace("phoneNumber", person.getPhoneNumber());
+        else if (buffer.contains("comment"))
+            buffer = buffer.replace("comment", comment);
 
         return buffer;
     }

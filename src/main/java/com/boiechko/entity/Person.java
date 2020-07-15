@@ -11,6 +11,7 @@ public class Person {
     private String username;
     private String password;
     private String firstName;
+    private String surname;
     private String lastName;
     private Date birthDate;
     private String email;
@@ -19,17 +20,17 @@ public class Person {
     private PersonType personType;
     private String activationCode;
 
-    public Person(){
+    public Person() {
     }
 
     public Person
-            (int idPerson, String username, String password, String firstName, String lastName,
-             Date birthDate, String email, String phoneNumber, int idAddress, String activationCode)
-    {
+            (int idPerson, String username, String password, String firstName, String surname, String lastName,
+             Date birthDate, String email, String phoneNumber, int idAddress, String activationCode) {
         this.idPerson = idPerson;
         this.username = username;
         this.password = password;
         this.firstName = firstName;
+        this.surname = surname;
         this.lastName = lastName;
         this.birthDate = birthDate;
         this.email = email;
@@ -43,6 +44,14 @@ public class Person {
         this.password = password;
         this.birthDate = birthDate;
         this.email = email;
+    }
+
+    public Person(String firstName, String surname, String lastName, String email, String phoneNumber) {
+        this.firstName = firstName;
+        this.surname = surname;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
     }
 
     public int getIdPerson() { return idPerson; }
@@ -60,6 +69,10 @@ public class Person {
     public String getFirstName() { return firstName; }
 
     public void setFirstName(String firstName) { this.firstName = firstName; }
+
+    public String getSurname() { return surname; }
+
+    public void setSurname(String surname) { this.surname = surname; }
 
     public String getLastName() { return lastName; }
 
@@ -99,6 +112,7 @@ public class Person {
                 username.equals(person.username) &&
                 password.equals(person.password) &&
                 Objects.equals(firstName, person.firstName) &&
+                Objects.equals(surname, person.surname) &&
                 Objects.equals(lastName, person.lastName) &&
                 birthDate.equals(person.birthDate) &&
                 email.equals(person.email) &&
@@ -108,7 +122,7 @@ public class Person {
 
     @Override
     public int hashCode() {
-        return Objects.hash(idPerson, username, password, firstName, lastName, birthDate, email, phoneNumber, idAddress, personType);
+        return Objects.hash(idPerson, username, password, firstName, surname, lastName, birthDate, email, phoneNumber, idAddress, personType);
     }
 
     @Override
@@ -118,6 +132,7 @@ public class Person {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
+                ", surname='" + surname + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", birthDate='" + birthDate + '\'' +
                 ", email='" + email + '\'' +

@@ -67,6 +67,7 @@ public class RegistrationsServlet extends HttpServlet {
             if (personService.add(person)) {
 
                 JavaMailUtil javaMailUtil = new JavaMailUtil("confirmRegistration");
+                javaMailUtil.setPerson(personService.getPersonByCredentials("username", username));
                 javaMailUtil.sendMail(email);
 
                 HttpSession session = request.getSession();
