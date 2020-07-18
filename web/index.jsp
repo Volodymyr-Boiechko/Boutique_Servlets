@@ -11,7 +11,7 @@
 <body>
 <jsp:include page="jsp-pages/components/header.jsp"/>
 
-<div style="height: 1000px; background-color: #c4c4c4;"></div>
+<div style="height: 1000px;"></div>
 
 <jsp:include page="jsp-pages/components/footer.jsp"/>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
