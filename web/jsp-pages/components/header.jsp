@@ -1,6 +1,7 @@
-<%@ page import="com.boiechko.service.interfaces.ProductService" %>
+<%@ page import="com.boiechko.entity.Product" %>
 <%@ page import="com.boiechko.service.implementations.ProductServiceImpl" %>
-<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.boiechko.service.interfaces.ProductService" %>
+<%@ page import="java.util.List" %>
 <%@ page import="java.util.stream.Collectors" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -20,10 +21,27 @@
 
     ProductService productService = new ProductServiceImpl();
 
-    request.setAttribute("newestProducts" , new ArrayList<>(productService.getNewest().stream().limit(3).distinct().collect(Collectors.toList())));
-    request.setAttribute("clothesTypes", new ArrayList<>(productService.getAllByCredentials("typeName", "Одяг")));
-    request.setAttribute("shoes", new ArrayList<>(productService.getAllByCredentials("typeName", "Взуття")).stream().distinct().collect(Collectors.toList()));
-    request.setAttribute("shoesBrands", new ArrayList<>(productService.getAllByCredentials("typeName", "Взуття").stream().limit(2).distinct().collect(Collectors.toList())));
+    request.setAttribute("newestProducts" , productService.getNewest().stream().limit(3).collect(Collectors.toList()));
+
+    request.setAttribute("clothesTypes", productService.getUniqueFields("productName", "typeName", "Одяг"));
+
+    List<Product> shoes = productService.getUniqueFields("productName", "typeName", "Взуття");
+    request.setAttribute("shoes", shoes);
+    request.setAttribute("shoesBrands", shoes.stream().limit(4).collect(Collectors.toList()));
+    request.setAttribute("shoesImages", productService.getAllByCredentials("typeName", "Взуття").stream().limit(2).collect(Collectors.toList()));
+
+    List<Product> accessories = productService.getUniqueFields("productName", "typeName", "Аксесуари");
+    request.setAttribute("accessories", accessories);
+    request.setAttribute("accessoriesBrands", accessories.stream().limit(4).collect(Collectors.toList()));
+    request.setAttribute("accessoriesImages", productService.getAllByCredentials("typeName", "Аксесуари").stream().limit(2).collect(Collectors.toList()));
+
+    List<Product> sport = productService.getUniqueFields("productName", "typeName", "Спортивний одяг");
+    request.setAttribute("sport", sport);
+    request.setAttribute("sportImages", productService.getAllByCredentials("typeName", "Спортивний одяг").stream().limit(3).collect(Collectors.toList()));
+
+    List<Product> brands = productService.groupBy("brand");
+    request.setAttribute("brands", brands);
+    request.setAttribute("brandsImages", brands.stream().limit(2).collect(Collectors.toList()));
 
     String user = (String) session.getAttribute("username");
     String userShow, loginShow;
@@ -201,6 +219,27 @@
 
                             </li>
 
+                            <li class="subheader__list__dropdown__list__elem">
+
+                                <ul class="subheader__list__dropdown__list__elem_images" style="margin-top: 40px;">
+
+                                    <a href="${pageContext.request.contextPath}/clothes">
+
+                                        <img src="../../img/header/man.jpg" alt="photo" style="opacity: 0.75;">
+
+                                    </a>
+
+                                    <a href="${pageContext.request.contextPath}/clothes">
+
+                                        <img src="../../img/header/man1.jpg" alt="photo" style="opacity: 0.75;">
+
+                                    </a>
+
+
+                                </ul>
+
+                            </li>
+
                         </ul>
 
                     </div>
@@ -266,7 +305,7 @@
 
                                 <ul class="subheader__list__dropdown__list__elem_images">
 
-                                    <c:forEach items="${shoesBrands}" var="product">
+                                    <c:forEach items="${shoesImages}" var="product">
 
                                         <a href="/brands/${product.brand}">
 
@@ -308,7 +347,7 @@
                                         <a href="#">Дивитись все</a>
                                     </li>
 
-                                    <c:forEach items="${shoes}" var="product">
+                                    <c:forEach items="${accessories}" var="product">
 
                                         <li>
                                             <a href="/shoes/${product.productName}">${product.productName}</a>
@@ -328,7 +367,7 @@
                                 <ol class="subheader__list__dropdown__list__elem_links">
 
 
-                                    <c:forEach items="${newestProducts}" var="product">
+                                    <c:forEach items="${accessoriesBrands}" var="product">
 
                                         <li>
                                             <a href="/shoes/${product.productName}">
@@ -348,7 +387,7 @@
 
                                 <ul class="subheader__list__dropdown__list__elem_images">
 
-                                    <c:forEach items="${newestProducts}" var="product">
+                                    <c:forEach items="${accessoriesImages}" var="product">
 
                                         <a href="/brands/${product.brand}">
 
@@ -389,7 +428,7 @@
                                         <a href="#">Дивитись все</a>
                                     </li>
 
-                                    <c:forEach items="${shoes}" var="product">
+                                    <c:forEach items="${sport}" var="product">
 
                                         <li>
                                             <a href="/shoes/${product.productName}">${product.productName}</a>
@@ -404,32 +443,9 @@
 
                             <li class="subheader__list__dropdown__list__elem">
 
-                                <h2 class="subheader__list__dropdown__list__elem_title">Сортувати за брендом</h2>
-
-                                <ol class="subheader__list__dropdown__list__elem_links">
-
-
-                                    <c:forEach items="${newestProducts}" var="product">
-
-                                        <li>
-                                            <a href="/shoes/${product.productName}">
-                                                <img src="${pageContext.request.contextPath}${product.image}" alt="${product.productName}">
-                                                <div>${product.brand}</div>
-                                            </a>
-                                        </li>
-
-                                    </c:forEach>
-
-
-                                </ol>
-
-                            </li>
-
-                            <li class="subheader__list__dropdown__list__elem">
-
                                 <ul class="subheader__list__dropdown__list__elem_images">
 
-                                    <c:forEach items="${newestProducts}" var="product">
+                                    <c:forEach items="${sportImages}" var="product">
 
                                         <a href="/brands/${product.brand}">
 
@@ -461,47 +477,19 @@
 
                         <ul class="subheader__list__dropdown__list">
 
-                            <li class="subheader__list__dropdown__list__elem">
+                            <li class="subheader__list__dropdown__list__elem subheader__list__dropdown__list__elem_brands">
 
-                                <h2 class="subheader__list__dropdown__list__elem_title">Сортувати за типом продукту</h2>
+                                <h2 class="subheader__list__dropdown__list__elem_title">Топ бренди</h2>
 
-                                <ol class="subheader__list__dropdown__list__elem_links">
+                                <ol class="subheader__list__dropdown__list__elem_links subheader__list__dropdown__list__elem_links_columns" style="column-count: 3;">
 
-                                    <li>
-                                        <a href="#">Дивитись все</a>
-                                    </li>
-
-                                    <c:forEach items="${shoes}" var="product">
+                                    <c:forEach items="${brands}" var="product">
 
                                         <li>
-                                            <a href="/shoes/${product.productName}">${product.productName}</a>
+                                            <a href="/brands/${product.brand}">${product.brand}</a>
                                         </li>
 
                                     </c:forEach>
-
-
-                                </ol>
-
-                            </li>
-
-                            <li class="subheader__list__dropdown__list__elem">
-
-                                <h2 class="subheader__list__dropdown__list__elem_title">Сортувати за брендом</h2>
-
-                                <ol class="subheader__list__dropdown__list__elem_links">
-
-
-                                    <c:forEach items="${newestProducts}" var="product">
-
-                                        <li>
-                                            <a href="/shoes/${product.productName}">
-                                                <img src="${pageContext.request.contextPath}${product.image}" alt="${product.productName}">
-                                                <div>${product.brand}</div>
-                                            </a>
-                                        </li>
-
-                                    </c:forEach>
-
 
                                 </ol>
 
@@ -511,7 +499,7 @@
 
                                 <ul class="subheader__list__dropdown__list__elem_images">
 
-                                    <c:forEach items="${newestProducts}" var="product">
+                                    <c:forEach items="${brandsImages}" var="product">
 
                                         <a href="/brands/${product.brand}">
 

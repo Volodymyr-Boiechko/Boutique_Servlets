@@ -20,27 +20,25 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getNewest() { return productDao.getNewest(); }
 
     @Override
-    public boolean add(Product product) {
-        return false;
+    public List<Product> getUniqueFields(String uniqueColumn, String condition, String statement) {
+        return productDao.getUniqueFields(uniqueColumn, condition, statement);
     }
 
     @Override
-    public Product getById(int id) {
-        return null;
-    }
+    public List<Product> groupBy(String column) { return productDao.groupBy(column); }
 
     @Override
-    public List<Product> getAll() {
-        return null;
-    }
+    public boolean add(Product product) { return productDao.add(product); }
 
     @Override
-    public boolean update(Product product) {
-        return false;
-    }
+    public Product getById(int id) { return productDao.getById(id); }
 
     @Override
-    public boolean delete(int id) {
-        return false;
-    }
+    public List<Product> getAll() { return productDao.getAll(); }
+
+    @Override
+    public boolean update(Product product) { return productDao.update(product); }
+
+    @Override
+    public boolean delete(int id) { return productDao.delete(id); }
 }

@@ -10,4 +10,8 @@ public interface ProductDao extends Dao<Product> {
 
     List<Product> getNewest();
 
+    List<Product> getUniqueFields(String uniqueColumn, String condition, String statement);
+
+    List<Product> groupBy(String column);
+
 }

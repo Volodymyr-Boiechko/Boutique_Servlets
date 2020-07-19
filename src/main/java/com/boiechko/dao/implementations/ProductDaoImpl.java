@@ -7,6 +7,7 @@ import com.boiechko.entity.Product;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class ProductDaoImpl implements ProductDao {
     public List<Product> getAllByCredentials(String column, String credentials) {
 
         PreparedStatement preparedStatement = null;
-        String query = "SELECT * FROM product WHERE " + column + " = ?";
+        String query = "SELECT * FROM product WHERE " + column + " = ? ORDER BY RAND()";
 
         List<Product> list = new ArrayList<>();
 
@@ -109,6 +110,102 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
+    public List<Product> getUniqueFields(String uniqueColumn, String condition, String statement) {
+
+        String query = "SELECT * FROM product WHERE " + condition + " = ? GROUP BY " + uniqueColumn;
+        PreparedStatement preparedStatement = null;
+
+        List<Product> list = new ArrayList<>();
+
+        try {
+            preparedStatement = DBConnection.getConnection().prepareStatement(query);
+            preparedStatement.setString(1, statement);
+
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+
+                Product product = new Product();
+
+                product.setIdProduct(rs.getInt("idProduct"));
+                product.setTypeName(rs.getString("typeName"));
+                product.setProductName(rs.getString("productName"));
+                product.setSex(rs.getString("sex"));
+                product.setBrand(rs.getString("brand"));
+                product.setModel(rs.getString("model"));
+                product.setSize(rs.getString("size"));
+                product.setColor(rs.getString("color"));
+                product.setImage(rs.getString("image"));
+                product.setPrice(rs.getInt("price"));
+
+
+                list.add(product);
+            }
+
+            return list;
+
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+            return null;
+        } finally {
+            try {
+                assert preparedStatement != null;
+                preparedStatement.close();
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
+        }
+
+    }
+
+    @Override
+    public List<Product> groupBy(String column) {
+
+        String query = "SELECT * FROM product GROUP BY " + column;
+        Statement statement = null;
+
+        List<Product> list = new ArrayList<>();
+
+        try {
+            statement = DBConnection.getConnection().createStatement();
+
+            ResultSet rs = statement.executeQuery(query);
+
+            while (rs.next()) {
+
+                Product product = new Product();
+
+                product.setIdProduct(rs.getInt("idProduct"));
+                product.setTypeName(rs.getString("typeName"));
+                product.setProductName(rs.getString("productName"));
+                product.setSex(rs.getString("sex"));
+                product.setBrand(rs.getString("brand"));
+                product.setModel(rs.getString("model"));
+                product.setSize(rs.getString("size"));
+                product.setColor(rs.getString("color"));
+                product.setImage(rs.getString("image"));
+                product.setPrice(rs.getInt("price"));
+
+                list.add(product);
+
+            }
+
+            return list;
+
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+            return null;
+        } finally {
+            try {
+                assert statement != null;
+                statement.close();
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
+        }
+    }
+
+    @Override
     public boolean add(Product product) {
 
         String query = "INSERT INTO product(typeName, productName, sex, brand, model, size, color, image, price)" +
@@ -147,7 +244,7 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public Product getById(int id) {
 
-        String query = "SELECT * FROM product WHERE idProduct=?";
+        String query = "SELECT * FROM product WHERE idProduct = ?";
         PreparedStatement preparedStatement = null;
 
         try {

@@ -103,7 +103,7 @@ public class Product {
                 sex.equals(product.sex) &&
                 brand.equals(product.brand) &&
                 Objects.equals(model, product.model) &&
-                size.equals(product.size) &&
+                Objects.equals(size, product.size) &&
                 Objects.equals(color, product.color) &&
                 image.equals(product.image);
     }
