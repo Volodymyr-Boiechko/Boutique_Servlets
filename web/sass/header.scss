@@ -240,15 +240,14 @@
           &_links {
             list-style: none;
             width: 190px;
-            margin: 0;
             padding: 0;
             display: inline-block;
             vertical-align: top;
-            margin-top: 15px;
+            margin: 15px 0 0;
 
             &_columns {
 
-              column-count: 2;
+              column-count: auto;
               height: 350px;
               width: 100%;
 
@@ -346,9 +345,8 @@
                 margin-bottom: 0;
                 font-size: 22px;
                 z-index: 100;
-
-                left: 50%;
-                transform: translateX(-50%);
+                width: 100%;
+                text-align: center;
 
                 &:hover {
                   text-decoration: none;

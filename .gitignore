@@ -6,6 +6,7 @@ out/
 .settings/
 target/
 img/
+web/dataBaseImages
 
 # Compiled class file
 *.class
