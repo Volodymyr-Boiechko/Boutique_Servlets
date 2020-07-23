@@ -110,13 +110,13 @@
                                 <a href="${pageContext.request.contextPath}/registration/">Зареєструватись</a>
                             </div>
 
-                            <a class="header__profileBlock__descr" href="${pageContext.request.contextPath}/profile">
+                            <a class="header__profileBlock__descr" href="${pageContext.request.contextPath}/userProfile/">
                                 <img class="header__profileBlock__descr_img" src="../../img/header/profileblack.png"
                                      alt="profile">
                                 <div class="header__profileBlock__descr_text">Особистий кабінет</div>
                             </a>
 
-                            <a class="header__profileBlock__descr" href="${pageContext.request.contextPath}/orders">
+                            <a class="header__profileBlock__descr" href="${pageContext.request.contextPath}/userProfile/userOrders">
                                 <img class="header__profileBlock__descr_img" src="../../img/header/box.png" alt="box">
                                 <div class="header__profileBlock__descr_text">Мої замовлення</div>
                             </a>
