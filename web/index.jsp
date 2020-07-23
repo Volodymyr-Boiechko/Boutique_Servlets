@@ -5,13 +5,150 @@
     <title>Boutique</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,500;0,700;1,300&display=swap"
+          rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/home.css">
 </head>
 <body>
 <jsp:include page="jsp-pages/components/header.jsp"/>
 
-<div style="height: 1000px;"></div>
+<div class="allTypes">
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-6">
+
+                <div class="allTypes__block">
+
+                    <a href="${pageContext.request.contextPath}/newest">
+                        <img class="allTypes__block_image" src="img/homePage/newest.jpg" alt="shoes">
+                    </a>
+
+                    <div class="allTypes__block__text">
+
+                        <div class="allTypes__block__text_title">Новинки</div>
+
+                        <div class="allTypes__block__text_descr">Залишайтесь постійно в трендах моди</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6">
+
+
+                <div class="allTypes__block">
+
+                    <a href="${pageContext.request.contextPath}/clothes">
+                        <img class="allTypes__block_image" src="img/homePage/clothes.png" alt="clothes">
+                    </a>
+
+
+                    <div class="allTypes__block__text">
+
+                        <div class="allTypes__block__text_title">Одяг</div>
+
+                        <div class="allTypes__block__text_descr">Найновіші колекції</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6 mt-5">
+
+                <div class="allTypes__block">
+
+                    <a href="${pageContext.request.contextPath}/shoes">
+                        <img class="allTypes__block_image" src="img/homePage/sneakers.jpg" alt="shoes">
+                    </a>
+
+                    <div class="allTypes__block__text">
+
+                        <div class="allTypes__block__text_title">Взуття</div>
+
+                        <div class="allTypes__block__text_descr">Nike, adidas та багато інших брендів</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6 mt-5">
+
+                <div class="allTypes__block">
+
+                    <a href="${pageContext.request.contextPath}/accessories">
+                        <img class="allTypes__block_image" src="img/homePage/accessories.jpg" alt="shoes">
+                    </a>
+
+                    <div class="allTypes__block__text">
+
+                        <div class="allTypes__block__text_title">Аксесуари</div>
+
+                        <div class="allTypes__block__text_descr">Доповніть ваш образ</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="brands">
+
+    <div class="container">
+
+        <div class="brands__title">Популярні бренди</div>
+
+        <ul class="brands__list">
+
+            <li class="brands__list__element">
+                <a href="/brands?name=north-face">
+                    <img class="brands__list__element_img" src="img/homePage/brands/north-face.png" alt="North-Face">
+                </a>
+            </li>
+
+            <li class="brands__list__element">
+                <a href="/brands?name=gucci">
+                    <img class="brands__list__element_img" src="img/homePage/brands/gucci.png" alt="Gucci">
+                </a>
+            </li>
+
+            <li class="brands__list__element" style="padding-top: 45px;">
+                <a href="/brands?name=nike">
+                    <img class="brands__list__element_img" src="img/homePage/brands/nike.png" alt="Nike">
+                </a>
+            </li>
+
+            <li class="brands__list__element">
+                <a href="/brands?name=tommy-hilfiger">
+                    <img class="brands__list__element_img" src="img/homePage/brands/tommy-hilfiger.png" alt="Tommy-Hilfiger">
+                </a>
+            </li>
+
+            <li class="brands__list__element" style="padding-top: 20px;">
+                <a href="/brands?name=louis-vuitton">
+                    <img class="brands__list__element_img" src="img/homePage/brands/louis-vuitton.png" alt="Louis-Vuitton">
+                </a>
+            </li>
+
+
+        </ul>
+
+    </div>
+
+</div>
+
 
 <jsp:include page="jsp-pages/components/footer.jsp"/>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>

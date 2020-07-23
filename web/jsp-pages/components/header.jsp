@@ -12,10 +12,12 @@
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,500;0,700;1,300&display=swap"
           rel="stylesheet">
-    <link rel="stylesheet" href="../../css/style.css">
-    <link rel="stylesheet" href="../../css/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
 </head>
 <body>
+
+<div class="over"></div>
 
 <%
 
@@ -558,18 +560,35 @@
         let element = elements[i];
         let text = element.querySelector('.subheader__list__element_text');
         let dropdown = element.querySelector('.subheader__list__dropdown');
+        let overlay = document.querySelector('.over');
 
         element.addEventListener('mouseover', () => {
             element.classList.add('active_subheader');
             element.style.cursor = 'pointer';
             text.classList.add('active_text');
             dropdown.classList.add('active_dropdown');
+            overlay.classList.add('overlayw');
+
+            setInterval(function () {
+
+                let pixels = 130;
+
+                if (window.scrollY < 130)
+                    pixels -= window.scrollY;
+                else
+                    pixels = 0;
+
+                overlay.style.top = pixels;
+
+            }, 1);
+
         });
 
         element.addEventListener('mouseout', () => {
             element.classList.remove('active_subheader');
             text.classList.remove('active_text');
             dropdown.classList.remove('active_dropdown');
+            overlay.classList.remove('overlayw');
         });
 
     }

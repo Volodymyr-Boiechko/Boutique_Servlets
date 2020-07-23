@@ -2,7 +2,7 @@
   background-color: #2d2d2d;
   height: 130px;
   width: 100%;
-  z-index: -1;
+  z-index: 100;
 
   &__gender {
 
@@ -57,7 +57,7 @@
   }
 
   &__profileBlock {
-    z-index: 1;
+    z-index: 1000;
     position: absolute;
     max-height: 0;
     overflow: hidden;
@@ -185,6 +185,7 @@
     list-style: none;
     display: flex;
     height: 100%;
+    z-index: 10;
 
     &__element {
 
@@ -210,6 +211,7 @@
       -webkit-transition: max-height 0.2s ease-in;
       transition: max-height 0.35s ease-in;
       padding: 28px 10px;
+      z-index: 100;
 
       &__list {
 
@@ -226,6 +228,7 @@
           &_clothes {
             width: 50%;
           }
+
           &_brands {
             width: 50%;
           }
@@ -282,7 +285,7 @@
                   padding-left: 7px;
                   width: 130px;
                   vertical-align: middle;
-                  border-bottom: 1px solid rgba(61,61,61,.1);
+                  border-bottom: 1px solid rgba(61, 61, 61, .1);
                   overflow: hidden;
                   white-space: nowrap;
                   text-overflow: ellipsis;
@@ -296,6 +299,7 @@
               }
             }
           }
+
           &_images {
 
             display: flex;
@@ -379,4 +383,12 @@
 .active_dropdown {
   min-height: 350px;
   display: block;
+}
+.overlayw {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 130px;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10;
 }
