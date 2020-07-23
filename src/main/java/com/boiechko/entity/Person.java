@@ -16,7 +16,6 @@ public class Person {
     private Date birthDate;
     private String email;
     private String phoneNumber;
-    private int idAddress;
     private PersonType personType;
     private String activationCode;
 
@@ -24,8 +23,8 @@ public class Person {
     }
 
     public Person
-            (int idPerson, String username, String password, String firstName, String surname, String lastName,
-             Date birthDate, String email, String phoneNumber, int idAddress, String activationCode) {
+            (int idPerson, String username, String password, String firstName, String surname,
+             String lastName, Date birthDate, String email, String phoneNumber, String activationCode) {
         this.idPerson = idPerson;
         this.username = username;
         this.password = password;
@@ -35,7 +34,6 @@ public class Person {
         this.birthDate = birthDate;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.idAddress = idAddress;
         this.activationCode = activationCode;
     }
 
@@ -90,9 +88,6 @@ public class Person {
 
     public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
 
-    public int getIdAddress() { return idAddress; }
-
-    public void setIdAddress(int idAddress) { this.idAddress = idAddress; }
 
     public PersonType getPersonType() { return personType; }
 
@@ -108,7 +103,6 @@ public class Person {
         if (o == null || getClass() != o.getClass()) return false;
         Person person = (Person) o;
         return idPerson == person.idPerson &&
-                idAddress == person.idAddress &&
                 username.equals(person.username) &&
                 password.equals(person.password) &&
                 Objects.equals(firstName, person.firstName) &&
@@ -122,7 +116,7 @@ public class Person {
 
     @Override
     public int hashCode() {
-        return Objects.hash(idPerson, username, password, firstName, surname, lastName, birthDate, email, phoneNumber, idAddress, personType);
+        return Objects.hash(idPerson, username, password, firstName, surname, lastName, birthDate, email, phoneNumber, personType);
     }
 
     @Override
@@ -137,7 +131,6 @@ public class Person {
                 ", birthDate='" + birthDate + '\'' +
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", idAddress=" + idAddress +
                 ", personType=" + personType +
                 '}';
     }

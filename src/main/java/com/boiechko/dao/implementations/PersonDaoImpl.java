@@ -40,7 +40,6 @@ public class PersonDaoImpl implements PersonDao {
                 person.setBirthDate(rs.getDate("birthDate"));
                 person.setEmail(rs.getString("email"));
                 person.setPhoneNumber(rs.getString("phoneNumber"));
-                person.setIdAddress(rs.getInt("idAddress"));
                 person.setPersonType(rs.getString("typeName"));
                 person.setActivationCode(rs.getString("activationCode"));
 
@@ -69,8 +68,8 @@ public class PersonDaoImpl implements PersonDao {
     @Override
     public boolean add(Person person) {
 
-        String query = "INSERT INTO person(username,password, birthDate, email, idAddress, typeName, activationCode)" +
-                "VALUE (?,?,?,?,?,?,?)";
+        String query = "INSERT INTO person(username,password, birthDate, email, typeName, activationCode)" +
+                "VALUE (?,?,?,?,?,?)";
 
         PreparedStatement preparedStatement = null;
 
@@ -81,9 +80,8 @@ public class PersonDaoImpl implements PersonDao {
             preparedStatement.setString(2, person.getPassword());
             preparedStatement.setDate(3, person.getBirthDate());
             preparedStatement.setString(4, person.getEmail());
-            preparedStatement.setInt(5, 1);
-            preparedStatement.setString(6, "USER");
-            preparedStatement.setString(7, UUID.randomUUID().toString());
+            preparedStatement.setString(5, "USER");
+            preparedStatement.setString(6, UUID.randomUUID().toString());
 
             return preparedStatement.executeUpdate() > 0;
 
@@ -131,7 +129,6 @@ public class PersonDaoImpl implements PersonDao {
                 person.setBirthDate(rs.getDate("birthDate"));
                 person.setEmail(rs.getString("email"));
                 person.setPhoneNumber(rs.getString("phoneNumber"));
-                person.setIdAddress(rs.getInt("idAddress"));
                 person.setPersonType(rs.getString("typeName"));
                 person.setActivationCode(rs.getString("activationCode"));
 
@@ -144,7 +141,7 @@ public class PersonDaoImpl implements PersonDao {
             sqlException.printStackTrace();
 
             return null;
-        }  finally {
+        } finally {
 
             try {
                 assert preparedStatement != null;
@@ -181,7 +178,6 @@ public class PersonDaoImpl implements PersonDao {
                 person.setBirthDate(rs.getDate("birthDate"));
                 person.setEmail(rs.getString("email"));
                 person.setPhoneNumber(rs.getString("phoneNumber"));
-                person.setIdAddress(rs.getInt("idAddress"));
                 person.setPersonType(rs.getString("typeName"));
                 person.setActivationCode(rs.getString("activationCode"));
 
@@ -209,7 +205,7 @@ public class PersonDaoImpl implements PersonDao {
     public boolean update(Person person) {
 
         String query = "UPDATE person SET username=?, password=?, firstName=?, surname=?, lastName=?," +
-                "birthDate=?,email=?,phoneNumber=?,idAddress=?,activationCode=? WHERE idPerson=?";
+                "birthDate=?,email=?,phoneNumber=?,activationCode=? WHERE idPerson=?";
 
         PreparedStatement preparedStatement = null;
 
@@ -224,9 +220,8 @@ public class PersonDaoImpl implements PersonDao {
             preparedStatement.setDate(6, person.getBirthDate());
             preparedStatement.setString(7, person.getEmail());
             preparedStatement.setString(8, person.getPhoneNumber());
-            preparedStatement.setInt(9, person.getIdAddress());
-            preparedStatement.setString(10, person.getActivationCode());
-            preparedStatement.setInt(11, person.getIdPerson());
+            preparedStatement.setString(9, person.getActivationCode());
+            preparedStatement.setInt(10, person.getIdPerson());
 
             return preparedStatement.executeUpdate() > 0;
 
@@ -255,7 +250,7 @@ public class PersonDaoImpl implements PersonDao {
 
         try {
             preparedStatement = DBConnection.getConnection().prepareStatement(query);
-            preparedStatement.setInt(1,id);
+            preparedStatement.setInt(1, id);
 
             return preparedStatement.executeUpdate() > 0;
 

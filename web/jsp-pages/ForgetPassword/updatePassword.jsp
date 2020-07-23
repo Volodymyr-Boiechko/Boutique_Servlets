@@ -85,7 +85,7 @@
 
         $.ajax({
 
-            url: "/updatePassword",
+            url: "/forget/updatePassword",
             async: true,
             type: "POST",
             data: {

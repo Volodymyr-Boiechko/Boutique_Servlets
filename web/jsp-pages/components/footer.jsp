@@ -218,7 +218,7 @@
 
         $.ajax({
 
-            url: "/footerServlet",
+            url: "/footer/sendQuestion",
             async: true,
             type: "POST",
             data: {

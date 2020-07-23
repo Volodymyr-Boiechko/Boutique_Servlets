@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet("/updatePassword")
+@WebServlet("/forget/updatePassword")
 public class UpdatePassword extends HttpServlet {
 
     @Override

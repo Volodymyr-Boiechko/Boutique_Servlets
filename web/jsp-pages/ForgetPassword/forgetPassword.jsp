@@ -127,7 +127,7 @@
             alert("WRONG");
 
         } else {
-            window.location.href = "${pageContext.request.contextPath}/updatePassword";
+            window.location.href = "${pageContext.request.contextPath}/forget/updatePassword";
         }
     }
 
