@@ -72,6 +72,7 @@ public class RegistrationsServlet extends HttpServlet {
 
                 HttpSession session = request.getSession();
                 session.setAttribute("username", username);
+                session.setAttribute("userId", personService.getPersonByCredentials("username", username).getIdPerson());
 
             } else {
                 response.sendError(500);

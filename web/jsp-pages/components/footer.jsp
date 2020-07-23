@@ -7,8 +7,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,500;0,700;1,300&display=swap"
           rel="stylesheet">
     <script src="https://kit.fontawesome.com/68f4b014b0.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../../css/style.css">
-    <link rel="stylesheet" href="../../css/footer.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap-reboot.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/footer.css">
 </head>
 <body>
 
