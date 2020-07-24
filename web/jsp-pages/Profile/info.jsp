@@ -13,13 +13,6 @@
 </head>
 <body>
 <jsp:include page="../components/header.jsp"/>
-<%
-
-    String username = (String) session.getAttribute("username");
-    Character letter = username.charAt(0);
-    Integer id = (Integer) session.getAttribute("idPerson");
-
-%>
 <div class="profile">
 
     <div class="container">
