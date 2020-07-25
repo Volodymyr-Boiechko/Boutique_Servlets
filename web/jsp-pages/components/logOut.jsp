@@ -13,7 +13,7 @@
 
 <div class="container">
 
-    <img src="../../img/header/logoGrey.png" alt="logo">
+    <img src="${pageContext.request.contextPath}/img/header/logoGrey.png" alt="logo">
 
     <div>Виконується процес виходу</div>
 

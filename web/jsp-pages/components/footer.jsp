@@ -21,9 +21,9 @@
 
             <h1 class="title">Безпечні онлайн платежі</h1>
 
-            <div class="col-md-2 offset-md-3"><img class="pay" src="../../img/footer/visa.png" alt="visa"></div>
-            <div class="col-md-2"><img class="pay" src="../../img/footer/masterCard.png" alt="masterCard"></div>
-            <div class="col-md-2"><img class="pay" src="../../img/footer/paypal.png" alt="paypal"></div>
+            <div class="col-md-2 offset-md-3"><img class="pay" src="${pageContext.request.contextPath}/img/footer/visa.png" alt="visa"></div>
+            <div class="col-md-2"><img class="pay" src="${pageContext.request.contextPath}/img/footer/masterCard.png" alt="masterCard"></div>
+            <div class="col-md-2"><img class="pay" src="${pageContext.request.contextPath}/img/footer/paypal.png" alt="paypal"></div>
 
             <div class="line"></div>
 

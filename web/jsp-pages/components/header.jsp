@@ -86,14 +86,14 @@
 
             <div class="col-md-4 offset-md-2">
                 <a href="${pageContext.request.contextPath}/">
-                    <img class="header__logo" src="../../img/header/logo.png" alt="logo">
+                    <img class="header__logo" src="${pageContext.request.contextPath}/img/header/logo.png" alt="logo">
                 </a>
             </div>
 
             <div class="col-md-2 offset-md-1">
                 <div class="header__icons">
                     <div id="profile" class="header__icons_icon">
-                        <img class="header__icons_icon_img" src="../../img/header/profile.png" alt="profile">
+                        <img class="header__icons_icon_img" src="${pageContext.request.contextPath}/img/header/profile.png" alt="profile">
                         <div id="dropDown" class="header__profileBlock">
 
                             <div id="close">&times;</div>
@@ -111,22 +111,22 @@
                             </div>
 
                             <a class="header__profileBlock__descr" href="${pageContext.request.contextPath}/userProfile/">
-                                <img class="header__profileBlock__descr_img" src="../../img/header/profileblack.png"
+                                <img class="header__profileBlock__descr_img" src="${pageContext.request.contextPath}/img/header/profileblack.png"
                                      alt="profile">
                                 <div class="header__profileBlock__descr_text">Особистий кабінет</div>
                             </a>
 
                             <a class="header__profileBlock__descr" href="${pageContext.request.contextPath}/userProfile/userOrders">
-                                <img class="header__profileBlock__descr_img" src="../../img/header/box.png" alt="box">
+                                <img class="header__profileBlock__descr_img" src="${pageContext.request.contextPath}/img/header/box.png" alt="box">
                                 <div class="header__profileBlock__descr_text">Мої замовлення</div>
                             </a>
                         </div>
                     </div>
                     <a class="header__icons_icon" href="${pageContext.request.contextPath}/favorite">
-                        <img class="header__icons_icon_img" src="../../img/header/favorite.png" alt="favorite">
+                        <img class="header__icons_icon_img" src="${pageContext.request.contextPath}/img/header/favorite.png" alt="favorite">
                     </a>
                     <a class="header__icons_icon" href="${pageContext.request.contextPath}/basket">
-                        <img class="header__icons_icon_img" src="../../img/header/basket.png" alt="basket">
+                        <img class="header__icons_icon_img" src="${pageContext.request.contextPath}/img/header/basket.png" alt="basket">
                     </a>
                 </div>
 
@@ -228,13 +228,13 @@
 
                                     <a href="${pageContext.request.contextPath}/clothes">
 
-                                        <img src="../../img/header/man.jpg" alt="photo" style="opacity: 0.75;">
+                                        <img src="${pageContext.request.contextPath}/img/header/man.jpg" alt="photo" style="opacity: 0.75;">
 
                                     </a>
 
                                     <a href="${pageContext.request.contextPath}/clothes">
 
-                                        <img src="../../img/header/man1.jpg" alt="photo" style="opacity: 0.75;">
+                                        <img src="${pageContext.request.contextPath}/img/header/man1.jpg" alt="photo" style="opacity: 0.75;">
 
                                     </a>
 

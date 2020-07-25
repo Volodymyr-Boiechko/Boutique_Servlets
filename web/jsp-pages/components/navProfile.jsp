@@ -45,7 +45,7 @@
             <a href="${pageContext.request.contextPath}/userProfile/"
                class="profile__nav__list__element__block">
 
-                <img class="profile__nav__list__element__block_icon" src="../../img/profile/profile.png"
+                <img class="profile__nav__list__element__block_icon" src="${pageContext.request.contextPath}/img/profile/profile.png"
                      alt="profile">
                 <p class="profile__nav__list__element__block_text">Перегляд особистого профілю</p>
 
@@ -58,7 +58,7 @@
             <a href="${pageContext.request.contextPath}/userProfile/userOrders"
                class="profile__nav__list__element__block">
 
-                <img class="profile__nav__list__element__block_icon" src="../../img/profile/box.png"
+                <img class="profile__nav__list__element__block_icon" src="${pageContext.request.contextPath}/img/profile/box.png"
                      alt="profile">
                 <p class="profile__nav__list__element__block_text">Мої замовлення</p>
 
@@ -71,7 +71,7 @@
             <a href="${pageContext.request.contextPath}/userProfile/userInfo"
                class="profile__nav__list__element__block">
 
-                <img class="profile__nav__list__element__block_icon" src="../../img/profile/info.png"
+                <img class="profile__nav__list__element__block_icon" src="${pageContext.request.contextPath}/img/profile/info.png"
                      alt="profile">
                 <p class="profile__nav__list__element__block_text">Моя інформація</p>
 
@@ -84,7 +84,7 @@
             <a href="${pageContext.request.contextPath}/userProfile/changePassword"
                class="profile__nav__list__element__block">
 
-                <img class="profile__nav__list__element__block_icon" src="../../img/profile/changePassword.png"
+                <img class="profile__nav__list__element__block_icon" src="${pageContext.request.contextPath}/img/profile/changePassword.png"
                      alt="profile">
                 <p class="profile__nav__list__element__block_text">Змінити пароль</p>
 
@@ -97,7 +97,7 @@
             <a href="${pageContext.request.contextPath}/userProfile/userAddresses"
                class="profile__nav__list__element__block">
 
-                <img class="profile__nav__list__element__block_icon" src="../../img/profile/address.png"
+                <img class="profile__nav__list__element__block_icon" src="${pageContext.request.contextPath}/img/profile/address.png"
                      alt="profile">
                 <p class="profile__nav__list__element__block_text">Мої адреси</p>
 
@@ -110,7 +110,7 @@
             <a href="${pageContext.request.contextPath}/logout/${username}"
                class="profile__nav__list__element__block">
 
-                <img class="profile__nav__list__element__block_icon" src="../../img/profile/logout.png"
+                <img class="profile__nav__list__element__block_icon" src="${pageContext.request.contextPath}/img/profile/logout.png"
                      alt="profile">
                 <p class="profile__nav__list__element__block_text">Вийти з профілю</p>
 
