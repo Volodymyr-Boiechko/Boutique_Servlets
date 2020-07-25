@@ -9,7 +9,7 @@
           rel="stylesheet">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap-reboot.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/profile.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/userProfile.css">
 </head>
 <body>
 <jsp:include page="../components/header.jsp"/>

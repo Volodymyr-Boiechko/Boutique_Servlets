@@ -70,6 +70,19 @@
     min-height: 200px;
     background-color: white;
 
+    &__title {
+      font-size: 26px;
+      text-align: left;
+      font-weight: bold;
+    }
+
+    &__descr {
+      font-size: 18px;
+      font-weight: 400;
+      text-align: left;
+      margin-top: 20px;
+    }
+
   }
 }
 
@@ -141,19 +154,6 @@
 
   min-height: 850px;
   padding: 40px 30px 25px 30px;
-
-  &__title {
-    font-size: 26px;
-    text-align: left;
-    font-weight: bold;
-  }
-
-  &__descr {
-    font-size: 18px;
-    font-weight: 400;
-    text-align: left;
-    margin-top: 20px;
-  }
 
   &__form {
     display: flex;
@@ -233,6 +233,7 @@
     text-align: center;
     font-weight: 700;
     color: #0d0d0d;
+  ;
   }
 
   &__descr {

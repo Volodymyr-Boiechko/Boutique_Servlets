@@ -24,8 +24,8 @@
 
             <div class="profile__block info">
 
-                <div class="info__title">Моя інформація</div>
-                <div class="info__descr">Ви можете переглядати і змінювати свої особисті дані</div>
+                <div class="profile__block__title">Моя інформація</div>
+                <div class="profile__block__descr">Ви можете переглядати і змінювати свої особисті дані</div>
 
                 <form id="form" method="post">
 

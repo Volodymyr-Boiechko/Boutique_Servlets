@@ -20,7 +20,7 @@ public class ProfileInfoServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         PersonService personService = new PersonServiceImpl();
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
 
         Person person = personService.getById((Integer) session.getAttribute("userId"));
         request.setAttribute("person", person);
@@ -53,15 +53,16 @@ public class ProfileInfoServlet extends HttpServlet {
             person.setEmail(email);
             person.setPhoneNumber(phoneNumber);
 
-            if (!personService.update(person)) {
+            if (personService.update(person)) {
 
+                HttpSession session = request.getSession();
+                session.removeAttribute("person");
+
+            } else {
                 response.sendError(500);
-
             }
-
         } else {
             response.sendError(500);
         }
-
     }
 }

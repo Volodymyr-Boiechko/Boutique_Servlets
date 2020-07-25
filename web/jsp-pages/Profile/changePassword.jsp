@@ -9,7 +9,7 @@
           rel="stylesheet">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap-reboot.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/profile.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/userProfile.css">
 </head>
 <body>
 <jsp:include page="../components/header.jsp"/>
@@ -23,7 +23,26 @@
 
             <div class="profile__block info">
 
+                <div class="profile__block__title">Змінити пароль</div>
+                <div class="profile__block__descr">
+                    Ви в будь-який момент можете змінити ваш пароль, щоб забезпечити безпеку вашого профілю
+                </div>
 
+                <form id="form" method="post">
+
+                    <label class="info__form__label" style="margin-top: 40px;">
+                        <div class="info__form__label_text">Поточний пароль:</div>
+                        <input id="currentPassword" type="password">
+                    </label>
+
+                    <label class="info__form__label">
+                        <div class="info__form__label_text">Новий пароль:</div>
+                        <input id="newPassword" type="password">
+                    </label>
+
+                    <button id="button" disabled class="info__form__button" type="submit">Зберегти пароль</button>
+
+                </form>
 
             </div>
 
@@ -32,6 +51,97 @@
     </div>
 
 </div>
+<div class="overlay" id="overlayUpdateUser">
+    <div class="modalUser" id="updateUser">
+        <div class="modalUser__close">&times;</div>
+        <div class="modalUser__subtitle">Оновлення паролю</div>
+        <p class="modalUser__descr">Ваш пароль успішно оновлено</p>
+    </div>
+</div>
 <jsp:include page="../components/footer.jsp"/>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>
+
+
+    $(document).ready(function () {
+
+        $('.modalUser__close').on('click', function () {
+            window.location.reload();
+        });
+    });
+
+    document.getElementById("form").onsubmit = function () {
+        return validate();
+    }
+
+    function validate() {
+
+        let success = false;
+        let user = ${person.idPerson};
+
+        $.ajax({
+
+            url: "/userProfile/changePassword",
+            async: true,
+            type: "POST",
+            data: {
+
+                currentPassword: document.getElementById('currentPassword').value,
+                newPassword: document.getElementById('newPassword').value,
+                id: user
+
+            }
+
+        }).done(function () {
+
+            success = true;
+            $('#overlayUpdateUser, #updateUser').fadeIn('slow');
+
+        }).fail(function (response) {
+
+            success = false;
+
+            if (response.status === 401)
+                alert("Неправильно введений теперішній пароль!")
+            else if (response.status === 500)
+                alert("Помилка на сервері!");
+
+        });
+
+        return success;
+
+    }
+
+    function checkEmpty() {
+
+        let currentPassword = document.getElementById('currentPassword').value;
+        let newPassword = document.getElementById('newPassword').value;
+
+        /*Додати валідацію*/
+        if (currentPassword === newPassword)
+            return true;
+
+        return currentPassword === "" || newPassword === "";
+
+    }
+
+    setInterval(function () {
+
+        let button = document.querySelector("#button");
+
+        if (checkEmpty() === true) {
+
+            $("button").attr("disabled", "disabled");
+            button.classList.remove("active_button");
+
+        } else {
+            $("button").removeAttr("disabled");
+            button.classList.add("active_button");
+        }
+
+    }, 1)
+
+
+</script>
 </body>
 </html>
