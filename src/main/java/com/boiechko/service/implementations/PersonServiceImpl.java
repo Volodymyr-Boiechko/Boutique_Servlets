@@ -20,20 +20,16 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public Person getById(int id) {
-        return null;
-    }
+    public Person getById(int id) { return personDao.getById(id); }
 
     @Override
     public List<Person> getAll() {
-        return null;
+        return personDao.getAll();
     }
 
     @Override
     public boolean update(Person person) { return personDao.update(person); }
 
     @Override
-    public boolean delete(int id) {
-        return false;
-    }
+    public boolean delete(int id) { return personDao.delete(id); }
 }
