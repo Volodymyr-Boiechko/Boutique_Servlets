@@ -71,7 +71,7 @@
     background-color: white;
 
     &__title {
-      font-size: 26px;
+      font-size: 34px;
       text-align: left;
       font-weight: bold;
     }
@@ -126,7 +126,6 @@
     }
   }
 }
-
 
 .main {
 
@@ -232,8 +231,7 @@
     font-size: 18px;
     text-align: center;
     font-weight: 700;
-    color: #0d0d0d;
-  ;
+    color: #0d0d0d;;
   }
 
   &__descr {
@@ -242,5 +240,89 @@
     font-weight: 500;
     color: #0d0d0d;
     margin-top: 10px;
+  }
+}
+
+.address {
+
+  width: 61%;
+  margin-left: 4%;
+  min-height: 700px;
+
+  &__block {
+    border: 0.5px grey solid;
+    min-height: 200px;
+    background-color: white;
+    margin-top: 30px;
+    padding: 30px;
+    position: relative;
+
+    &_top {
+      margin-top: 0;
+    }
+
+    &__info {
+      width: 65%;
+      div {
+        margin-top: 12px;
+        font-size: 16px;
+        color: #2d2d2d;
+        letter-spacing: 0.6;
+      }
+    }
+    &__icons {
+
+      position: absolute;
+      height: 100px;
+      width: 25%;
+      right: 5px;
+      top: 30px;
+      &__href {
+        display: flex;
+        height: 40px;
+        &_text{
+          text-align: right;
+          margin-top: 5px;
+          width: 90px;
+          color: #777777;
+          letter-spacing: 1.7;
+          text-transform: uppercase;
+          font-size: 12px;
+          &:hover {
+            text-decoration: underline #777777;
+          }
+        }
+        &_icon {
+          width: 15%;
+          height: 60%;
+          margin-left: 10px;
+        }
+      }
+    }
+
+  }
+
+  &__button {
+    background-color: white;
+    margin-top: 25px;
+    width: 350px;
+    text-transform: uppercase;
+    height: 55px;
+    border: 2px solid #b0b0b0;
+    font-weight: 700;
+
+    &:hover {
+      background-color: #e7e7e7;
+    }
+  }
+}
+.delete {
+  margin-top: 30px;
+  display: block;
+  text-align: center;
+  padding-top: 10px;
+  &:hover {
+    text-decoration: none;
+    color: white;
   }
 }

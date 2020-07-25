@@ -21,7 +21,7 @@
 
             <jsp:include page="../components/navProfile.jsp"/>
 
-            <div class="profile__block info">
+            <div class="profile__block info" style="min-height: 500px;">
 
                 <div class="profile__block__title">Змінити пароль</div>
                 <div class="profile__block__descr">

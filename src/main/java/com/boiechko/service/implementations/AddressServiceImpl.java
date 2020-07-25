@@ -12,6 +12,9 @@ public class AddressServiceImpl implements AddressService {
     AddressDao addressDao = new AddressDaoImpl();
 
     @Override
+    public List<Address> getAddressesOfUser(int userID) { return addressDao.getAddressesOfUser(userID); }
+
+    @Override
     public boolean add(Address address) { return addressDao.add(address); }
 
     @Override

@@ -179,6 +179,5 @@
     }, 1)
 
 </script>
->
 </body>
 </html>
