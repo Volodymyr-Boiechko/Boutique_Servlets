@@ -5,20 +5,26 @@ import java.util.Objects;
 public class Address {
 
     private int idAddress;
+    private int idPerson;
     private String country;
     private String city;
     private String street;
     private String postCode;
 
-    public Address(int idAddress, String country, String city, String street, String postCode) {
+    public Address(){
+    }
+
+    public Address(int idAddress, int idPerson, String country, String city, String street, String postCode) {
         this.idAddress = idAddress;
+        this.idPerson = idPerson;
         this.country = country;
         this.city = city;
         this.street = street;
         this.postCode = postCode;
     }
 
-    public Address(String country, String city, String street, String postCode) {
+    public Address(int idPerson, String country, String city, String street, String postCode) {
+        this.idPerson = idPerson;
         this.country = country;
         this.city = city;
         this.street = street;
@@ -28,6 +34,10 @@ public class Address {
     public int getIdAddress() { return idAddress; }
 
     public void setIdAddress(int idAddress) { this.idAddress = idAddress; }
+
+    public int getIdPerson() { return idPerson; }
+
+    public void setIdPerson(int idPerson) { this.idPerson = idPerson; }
 
     public String getCountry() { return country; }
 
@@ -51,6 +61,7 @@ public class Address {
         if (o == null || getClass() != o.getClass()) return false;
         Address address = (Address) o;
         return idAddress == address.idAddress &&
+                idPerson == address.idPerson &&
                 country.equals(address.country) &&
                 city.equals(address.city) &&
                 street.equals(address.street) &&
@@ -59,13 +70,14 @@ public class Address {
 
     @Override
     public int hashCode() {
-        return Objects.hash(idAddress, country, city, street, postCode);
+        return Objects.hash(idAddress, idPerson, country, city, street, postCode);
     }
 
     @Override
     public String toString() {
         return "Address{" +
                 "idAddress=" + idAddress +
+                ", idPerson=" + idPerson +
                 ", country='" + country + '\'' +
                 ", city='" + city + '\'' +
                 ", street='" + street + '\'' +
