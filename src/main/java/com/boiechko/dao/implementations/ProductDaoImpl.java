@@ -41,6 +41,7 @@ public class ProductDaoImpl implements ProductDao {
                 product.setColor(rs.getString("color"));
                 product.setImage(rs.getString("image"));
                 product.setPrice(rs.getInt("price"));
+                product.setDescription(rs.getString("description"));
 
                 list.add(product);
 
@@ -90,6 +91,7 @@ public class ProductDaoImpl implements ProductDao {
                 product.setColor(rs.getString("color"));
                 product.setImage(rs.getString("image"));
                 product.setPrice(rs.getInt("price"));
+                product.setDescription(rs.getString("description"));
 
                 products.add(product);
 
@@ -137,7 +139,7 @@ public class ProductDaoImpl implements ProductDao {
                 product.setColor(rs.getString("color"));
                 product.setImage(rs.getString("image"));
                 product.setPrice(rs.getInt("price"));
-
+                product.setDescription(rs.getString("description"));
 
                 list.add(product);
             }
@@ -185,6 +187,7 @@ public class ProductDaoImpl implements ProductDao {
                 product.setColor(rs.getString("color"));
                 product.setImage(rs.getString("image"));
                 product.setPrice(rs.getInt("price"));
+                product.setDescription(rs.getString("description"));
 
                 list.add(product);
 
@@ -208,8 +211,8 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public boolean add(Product product) {
 
-        String query = "INSERT INTO product(typeName, productName, sex, brand, model, size, color, image, price)" +
-                "VALUE (?,?,?,?,?,?,?,?,?);";
+        String query = "INSERT INTO product(typeName, productName, sex, brand, model, size, color, image, price, description)" +
+                "VALUE (?,?,?,?,?,?,?,?,?,?);";
         PreparedStatement preparedStatement = null;
 
         try {
@@ -224,6 +227,7 @@ public class ProductDaoImpl implements ProductDao {
             preparedStatement.setString(7, product.getColor());
             preparedStatement.setString(8, product.getImage());
             preparedStatement.setInt(9, product.getPrice());
+            preparedStatement.setString(10, product.getDescription());
 
             return preparedStatement.executeUpdate() > 0;
 
@@ -267,6 +271,7 @@ public class ProductDaoImpl implements ProductDao {
                 product.setColor(rs.getString("color"));
                 product.setImage(rs.getString("image"));
                 product.setPrice(rs.getInt("price"));
+                product.setDescription(rs.getString("description"));
 
             }
 
@@ -313,6 +318,7 @@ public class ProductDaoImpl implements ProductDao {
                 product.setColor(rs.getString("color"));
                 product.setImage(rs.getString("image"));
                 product.setPrice(rs.getInt("price"));
+                product.setDescription(rs.getString("description"));
 
                 list.add(product);
 
@@ -337,7 +343,7 @@ public class ProductDaoImpl implements ProductDao {
     public boolean update(Product product) {
 
         String query = "UPDATE product SET typeName = ?, productName = ?, sex = ?, brand = ?, model = ?," +
-                "size = ?, color = ?, image = ?, price = ? WHERE idProduct = ?";
+                "size = ?, color = ?, image = ?, price = ?, description = ? WHERE idProduct = ?";
 
         PreparedStatement preparedStatement = null;
 
@@ -353,6 +359,7 @@ public class ProductDaoImpl implements ProductDao {
             preparedStatement.setString(7, product.getColor());
             preparedStatement.setString(8, product.getImage());
             preparedStatement.setInt(9, product.getPrice());
+            preparedStatement.setString(10, product.getDescription());
 
             return preparedStatement.executeUpdate() > 0;
 

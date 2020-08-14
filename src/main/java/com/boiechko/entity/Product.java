@@ -14,14 +14,14 @@ public class Product {
     private String color;
     private String image;
     private int price;
+    private String description;
 
     public Product(){
     }
 
-
     public Product
             (int idProduct, String typeName, String productName, String sex, String brand, String model,
-             String size, String color, String image, int price)
+             String size, String color, String image, int price, String description)
     {
         this.idProduct = idProduct;
         this.typeName = typeName;
@@ -33,11 +33,12 @@ public class Product {
         this.color = color;
         this.image = image;
         this.price = price;
+        this.description = description;
     }
 
     public Product
             (String typeName, String productName, String sex, String brand, String model, String size,
-             String color, String image, int price)
+             String color, String image, int price, String description)
     {
         this.typeName = typeName;
         this.productName = productName;
@@ -48,6 +49,7 @@ public class Product {
         this.color = color;
         this.image = image;
         this.price = price;
+        this.description = description;
     }
 
     public int getIdProduct() { return idProduct; }
@@ -90,6 +92,9 @@ public class Product {
 
     public void setPrice(int price) { this.price = price; }
 
+    public String getDescription() { return description; }
+
+    public void setDescription(String description) { this.description = description; }
 
     @Override
     public boolean equals(Object o) {
@@ -105,12 +110,13 @@ public class Product {
                 Objects.equals(model, product.model) &&
                 Objects.equals(size, product.size) &&
                 Objects.equals(color, product.color) &&
-                image.equals(product.image);
+                image.equals(product.image) &&
+                description.equals(product.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idProduct, typeName, productName, sex, brand, model, size, color, image, price);
+        return Objects.hash(idProduct, typeName, productName, sex, brand, model, size, color, image, price, description);
     }
 
     @Override
@@ -126,6 +132,7 @@ public class Product {
                 ", color='" + color + '\'' +
                 ", image='" + image + '\'' +
                 ", price=" + price +
+                ", description='" + description + '\'' +
                 '}';
     }
 }

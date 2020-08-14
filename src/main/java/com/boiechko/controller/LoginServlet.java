@@ -1,6 +1,7 @@
 package com.boiechko.controller;
 
 import com.boiechko.entity.Person;
+import com.boiechko.entity.Product;
 import com.boiechko.service.implementations.PersonServiceImpl;
 import com.boiechko.service.interfaces.PersonService;
 import com.boiechko.utils.HashingPassword.HashPasswordUtil;
@@ -12,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
@@ -46,6 +49,9 @@ public class LoginServlet extends HttpServlet {
 
                     session.setAttribute("username", username);
                     session.setAttribute("userId", personService.getPersonByCredentials("username", username).getIdPerson());
+
+                    List<Integer> favorite = new ArrayList<>();
+                    session.setAttribute("favoriteId", favorite);
 
                 } else {
 
