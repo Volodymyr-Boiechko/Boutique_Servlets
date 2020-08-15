@@ -21,14 +21,9 @@ public class FavoriteProductsServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
 
-        if (session.getAttribute("username") == null)
-            response.sendError(404);
-        else {
+        request.setAttribute("favorite", session.getAttribute("favorite"));
 
-            request.setAttribute("favorite", session.getAttribute("favorite"));
-
-            request.getRequestDispatcher("/jsp-pages/favoriteProducts.jsp").forward(request, response);
-        }
+        request.getRequestDispatcher("/jsp-pages/favoriteProducts.jsp").forward(request, response);
 
     }
 

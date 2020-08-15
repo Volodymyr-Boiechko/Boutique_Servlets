@@ -19,24 +19,34 @@
 <body>
 <jsp:include page="components/header.jsp"/>
 <%
-    ProductService productService = new ProductServiceImpl();
-    List<Product> favorite = new ArrayList<>();
-    List<Integer> favoriteId = (List<Integer>) session.getAttribute("favoriteId");
 
-    for (Integer id : favoriteId)
-        favorite.add(productService.getById(id));
+    String username = (String) session.getAttribute("username");
+    String displayProducts = "none", header = "none", login;
 
-    String displayProducts, header;
+    if (username != null) {
 
-    if (favorite.size() == 0) {
-        displayProducts = "none";
-        header = "block";
+        ProductService productService = new ProductServiceImpl();
+        List<Product> favorite = new ArrayList<>();
+        List<Integer> favoriteId = (List<Integer>) session.getAttribute("favoriteId");
+
+        for (Integer id : favoriteId)
+            favorite.add(productService.getById(id));
+
+        if (favorite.size() == 0) {
+            displayProducts = "none";
+            header = "block";
+        } else {
+            displayProducts = "block";
+            header = "none";
+        }
+
+        request.setAttribute("favorite", favorite);
+        login = "none";
+
     } else {
-        displayProducts = "block";
-        header = "none";
+        login = "block";
     }
 
-    request.setAttribute("favorite", favorite);
 
 %>
 <div class="clothes" style="display: <%=displayProducts%>;">
@@ -107,6 +117,25 @@
             Зберігайте товари, які Вам сподобалися в улюблені простим натисканням на сердечко.
         </div>
         <a href="${pageContext.request.contextPath}/">Розпочати шопінг</a>
+
+    </div>
+
+</div>
+
+<div class="headerFavorite" style="display: <%=login%>;">
+
+    <div class="container">
+
+        <img src="${pageContext.request.contextPath}/img/other/sad_smile.png" alt="sad smile">
+        <div class="headerFavorite__descr">
+            Для перегляду улюблених товарів увійдіть у ваш профіль.
+        </div>
+        <div class="headerFavorite__links">
+
+            <a href="${pageContext.request.contextPath}/login">Увійти</a>
+            <a href="${pageContext.request.contextPath}/registration/">Зареєструватись</a>
+
+        </div>
 
     </div>
 
