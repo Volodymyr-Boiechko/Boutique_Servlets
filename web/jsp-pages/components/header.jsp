@@ -3,6 +3,8 @@
 <%@ page import="com.boiechko.service.interfaces.ProductService" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.stream.Collectors" %>
+<%@ page import="com.mysql.cj.xdevapi.Collection" %>
+<%@ page import="java.util.Collections" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -43,6 +45,7 @@
     request.setAttribute("sportWearImages", productService.getAllByCredentials("typeName", "Спортивний одяг").stream().limit(3).collect(Collectors.toList()));
 
     List<Product> brands = productService.groupBy("brand");
+    Collections.shuffle(brands);
     request.setAttribute("brands", brands);
     request.setAttribute("brandsImages", brands.stream().limit(2).collect(Collectors.toList()));
 
@@ -176,7 +179,7 @@
 
                                         <a href="/brands/${product.brand}">
 
-                                            <img src="${pageContext.request.contextPath}${product.image}" alt="${product.productName}">
+                                            <img src="${pageContext.request.contextPath}/${product.image}" alt="${product.productName}">
                                             <p>${product.brand}</p>
                                             <div class="hover"></div>
 
@@ -296,7 +299,7 @@
 
                                         <li>
                                             <a href="${pageContext.request.contextPath}/manClothes/shoes?brand=${product.brand}">
-                                                <img src="${pageContext.request.contextPath}${product.image}" alt="${product.productName}">
+                                                <img src="${pageContext.request.contextPath}/${product.image}" alt="${product.productName}">
                                                 <div>${product.brand}</div>
                                             </a>
                                         </li>
@@ -316,7 +319,7 @@
 
                                         <a href="${pageContext.request.contextPath}/manClothes/shoes?brand=${product.brand}">
 
-                                            <img src="${pageContext.request.contextPath}${product.image}" alt="${product.productName}">
+                                            <img src="${pageContext.request.contextPath}/${product.image}" alt="${product.productName}">
                                             <p>${product.brand}</p>
                                             <div class="hover"></div>
 
@@ -378,7 +381,7 @@
 
                                         <li>
                                             <a href="${pageContext.request.contextPath}/manClothes/accessories?brand=${product.brand}">
-                                                <img src="${pageContext.request.contextPath}${product.image}" alt="${product.productName}">
+                                                <img src="${pageContext.request.contextPath}/${product.image}" alt="${product.productName}">
                                                 <div>${product.brand}</div>
                                             </a>
                                         </li>
@@ -398,7 +401,7 @@
 
                                         <a href="${pageContext.request.contextPath}/manClothes/accessories?brand=${product.brand}">
 
-                                            <img src="${pageContext.request.contextPath}${product.image}" alt="${product.productName}">
+                                            <img src="${pageContext.request.contextPath}/${product.image}" alt="${product.productName}">
                                             <p>${product.brand}</p>
                                             <div class="hover"></div>
 
@@ -456,7 +459,7 @@
 
                                         <a href="${pageContext.request.contextPath}/manClothes/sportWear?brand=${product.brand}">
 
-                                            <img src="${pageContext.request.contextPath}${product.image}" alt="${product.productName}">
+                                            <img src="${pageContext.request.contextPath}/${product.image}" alt="${product.productName}">
                                             <p>${product.brand}</p>
                                             <div class="hover"></div>
 
@@ -510,7 +513,7 @@
 
                                         <a href="${pageContext.request.contextPath}/manClothes/brands?brand=${product.brand}">
 
-                                            <img src="${pageContext.request.contextPath}${product.image}" alt="${product.productName}">
+                                            <img src="${pageContext.request.contextPath}/${product.image}" alt="${product.productName}">
                                             <p>${product.brand}</p>
                                             <div class="hover"></div>
 

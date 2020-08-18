@@ -5,7 +5,7 @@
   height: 100%;
   top: 0;
   background-color: rgba(0, 0, 0, 0.56);
-  z-index: 1000000;
+  z-index: 1000;
 }
 
 .modalw {
@@ -76,9 +76,15 @@
     width: 400px;
     height: 450px;
   }
+  &_addProduct {
+    height: 600px;
+  }
+  &_addToDataBase {
+    height: 450px;
+  }
 }
 
-#call, #thanks {
+#call, #thanks, #add {
   display: none;
 }
 
@@ -131,13 +137,14 @@
       background-color: #f44336;
     }
 
+    .top {
+      margin-top: 35px;
+    }
+    
+
     li {
       height: 55px;
       margin: 10px 0;
-
-      &:first-child {
-        margin-top: 20px;
-      }
 
       label {
         display: block;

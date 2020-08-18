@@ -126,7 +126,7 @@
     </div>
 </footer>
 
-<div class="overlay">
+<div class="overlay" id="footerOverlay">
     <div class="modalw modalw_call" id="call">
         <div class="modalw__close modalw__close_call">&times;</div>
         <form id="form" class="feed-form" method="post">
@@ -192,11 +192,11 @@
     $(document).ready(function () {
 
         $('#application').on('click', function () {
-            $('.overlay, #call').fadeIn('slow');
+            $('#footerOverlay, #call').fadeIn('slow');
         });
 
         $('.modalw__close').on('click', function () {
-            $('.overlay, #call, #thanks').fadeOut('slow');
+            $('#footerOverlay, #call, #thanks').fadeOut('slow');
         });
 
     });
