@@ -20,126 +20,129 @@
 <jsp:include page="components/header.jsp"/>
 <%
 
-    String username = (String) session.getAttribute("username");
-    String displayProducts = "none", header = "none", login;
+    ProductService productService = new ProductServiceImpl();
+    List<Product> favorite = new ArrayList<>();
+    List<Integer> favoriteId = (List<Integer>) session.getAttribute("favoriteId");
 
-    if (username != null) {
+    for (Integer id : favoriteId)
+        favorite.add(productService.getById(id));
 
-        ProductService productService = new ProductServiceImpl();
-        List<Product> favorite = new ArrayList<>();
-        List<Integer> favoriteId = (List<Integer>) session.getAttribute("favoriteId");
-
-        for (Integer id : favoriteId)
-            favorite.add(productService.getById(id));
-
-        if (favorite.size() == 0) {
-            displayProducts = "none";
-            header = "block";
-        } else {
-            displayProducts = "block";
-            header = "none";
-        }
-
-        request.setAttribute("favorite", favorite);
-        login = "none";
-
-    } else {
-        login = "block";
-    }
-
+    request.setAttribute("favorite", favorite);
 
 %>
-<div class="clothes" style="display: <%=displayProducts%>;">
 
-    <div class="container">
+<c:choose>
 
-        <div class="row">
+    <c:when test="${not empty username}">
 
-            <c:forEach items="${favorite}" var="product">
+        <c:if test="${favorite.size() != 0}">
 
-                <div class="col-md-4">
+            <div class="clothes">
 
-                    <a href="${pageContext.request.contextPath}/new/${product.idProduct}">
+                <div class="container">
 
-                        <div class="clothes__block">
+                    <div class="row">
 
-                            <div class="clothes__block__img">
+                        <c:forEach items="${favorite}" var="product">
 
-                                <img class="clothes__block__img_main"
-                                     src="${pageContext.request.contextPath}${product.image}"
-                                     alt="${product.productName}">
+                            <div class="col-md-4">
 
-                                <div class="hover"></div>
+                                <a href="${pageContext.request.contextPath}/new/${product.idProduct}">
+
+                                    <div class="clothes__block">
+
+                                        <div class="clothes__block__img">
+
+                                            <img class="clothes__block__img_main"
+                                                 src="${pageContext.request.contextPath}${product.image}"
+                                                 alt="${product.productName}">
+
+                                            <div class="hover"></div>
+
+                                        </div>
+
+                                        <div class="clothes__block__text">
+
+                                            <div class="clothes__block__text_title">
+                                                    ${product.description}
+                                            </div>
+
+                                            <div class="clothes__block__text_price">
+                                                    ${product.price} грн.
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </a>
+
+                                <button onclick="deleteFavorite(${product.idProduct})"
+                                        class="clothes__block__img__favorite clothes__block__img__favorite_favorite">
+
+                                    <img src="${pageContext.request.contextPath}/img/other/delete.png"
+                                         alt="favorite">
+
+                                </button>
+
+                                <button class="buttonFavorite">Добавити в корзину</button>
 
                             </div>
 
-                            <div class="clothes__block__text">
+                        </c:forEach>
 
-                                <div class="clothes__block__text_title">
-                                        ${product.description}
-                                </div>
-
-                                <div class="clothes__block__text_price">
-                                        ${product.price} грн.
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </a>
-
-                    <button onclick="deleteFavorite(${product.idProduct})" class="clothes__block__img__favorite clothes__block__img__favorite_favorite">
-
-                        <img src="${pageContext.request.contextPath}/img/other/delete.png"
-                             alt="favorite">
-
-                    </button>
-
-                    <button class="buttonFavorite">Добавити в корзину</button>
+                    </div>
 
                 </div>
 
-            </c:forEach>
+            </div>
+
+        </c:if>
+
+        <c:if test="${favorite.size() == 0}">
+
+            <div class="headerFavorite">
+
+                <div class="container">
+
+                    <img src="${pageContext.request.contextPath}/img/other/favorite.png" alt="favorite">
+                    <div class="headerFavorite__title">Немає збережених товарів</div>
+                    <div class="headerFavorite__descr">
+                        Зберігайте товари, які Вам сподобалися в улюблені простим натисканням на сердечко.
+                    </div>
+                    <a href="${pageContext.request.contextPath}/">Розпочати шопінг</a>
+
+                </div>
+
+            </div>
+
+        </c:if>
+
+    </c:when>
+    <c:otherwise>
+
+        <div class="headerFavorite">
+
+            <div class="container">
+
+                <img src="${pageContext.request.contextPath}/img/other/sad_smile.png" alt="sad smile">
+                <div class="headerFavorite__descr">
+                    Для перегляду улюблених товарів увійдіть у ваш профіль.
+                </div>
+                <div class="headerFavorite__links">
+
+                    <a href="${pageContext.request.contextPath}/login">Увійти</a>
+                    <a href="${pageContext.request.contextPath}/registration/">Зареєструватись</a>
+
+                </div>
+
+            </div>
 
         </div>
 
-    </div>
+    </c:otherwise>
 
-</div>
+</c:choose>
 
-<div class="headerFavorite" style="display: <%=header%>;">
-
-    <div class="container">
-
-        <img src="${pageContext.request.contextPath}/img/other/favorite.png" alt="favorite">
-        <div class="headerFavorite__title">Немає збережених товарів</div>
-        <div class="headerFavorite__descr">
-            Зберігайте товари, які Вам сподобалися в улюблені простим натисканням на сердечко.
-        </div>
-        <a href="${pageContext.request.contextPath}/">Розпочати шопінг</a>
-
-    </div>
-
-</div>
-
-<div class="headerFavorite" style="display: <%=login%>;">
-
-    <div class="container">
-
-        <img src="${pageContext.request.contextPath}/img/other/sad_smile.png" alt="sad smile">
-        <div class="headerFavorite__descr">
-            Для перегляду улюблених товарів увійдіть у ваш профіль.
-        </div>
-        <div class="headerFavorite__links">
-
-            <a href="${pageContext.request.contextPath}/login">Увійти</a>
-            <a href="${pageContext.request.contextPath}/registration/">Зареєструватись</a>
-
-        </div>
-
-    </div>
-
-</div>
 
 <jsp:include page="components/footer.jsp"/>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"

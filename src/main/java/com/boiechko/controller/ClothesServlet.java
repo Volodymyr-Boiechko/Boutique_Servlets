@@ -30,20 +30,6 @@ public class ClothesServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
 
-        String username = (String) session.getAttribute("username");
-
-        if (username != null) {
-
-            Person person = new PersonServiceImpl().getPersonByCredentials("username", username);
-
-            if (person.getPersonType().equals(PersonType.ADMIN))
-                request.setAttribute("display", "block");
-            else
-                request.setAttribute("display", "none");
-        } else {
-            request.setAttribute("display", "none");
-        }
-
         String page = request.getParameter("page");
 
         if (page.equals("1")) {

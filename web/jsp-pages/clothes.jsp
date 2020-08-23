@@ -1,8 +1,11 @@
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="com.boiechko.entity.Product" %>
-<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.boiechko.entity.Person" %>
+<%@ page import="com.boiechko.service.implementations.PersonServiceImpl" %>
+<%@ page import="com.boiechko.enums.PersonType" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="C" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Clothes</title>
@@ -20,13 +23,7 @@
     if (session.getAttribute("favoriteId") == null)
         session.setAttribute("favoriteId", new ArrayList<Product>());
 
-    List<Product> list = (List<Product>) session.getAttribute("clothes");
     int number = Integer.parseInt((String) session.getAttribute("count")) + 1;
-
-    String display;
-    if (list.size() == number) display = "none";
-    else display = "block";
-
 
 %>
 <div class="clothes">
@@ -41,7 +38,7 @@
 
                     <div class="block col-md-4" id="${product.idProduct}">
 
-                        <a href="${pageContext.request.contextPath}/new/${product.idProduct}">
+                        <a href="${pageContext.request.contextPath}/manClothes/productItem?idProduct=${product.idProduct}">
 
                             <div class="clothes__block">
 
@@ -81,19 +78,36 @@
 
                 </c:forEach>
 
-                <div class="col-md-4" style="display: ${display};">
+                <%
+                    if (session.getAttribute("username") != null) {
+                        request.setAttribute("person", new PersonServiceImpl().getPersonByCredentials("username", (String) session.getAttribute("username")));
+                        request.setAttribute("personType", PersonType.ADMIN);
+                    }
+                %>
 
-                    <div class="clothes__block" style="border: 0.5px grey solid;">
+                <c:if test="${not empty username}">
 
-                        <button class="clothes__block__addButton" id="addButton">
+                    <c:set var="show" scope="request" value="${person.personType.equals(personType)}"/>
 
-                            <img src="${pageContext.request.contextPath}/img/other/add.jpg" alt="add">
+                    <c:if test="${show}">
 
-                        </button>
+                        <div class="col-md-4">
 
-                    </div>
+                            <div class="clothes__block" style="border: 0.5px grey solid;">
 
-                </div>
+                                <button name="addButton" class="clothes__block__addButton" id="addButton">
+
+                                    <img src="${pageContext.request.contextPath}/img/other/add.jpg" alt="add">
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </c:if>
+
+                </c:if>
 
             </div>
 
@@ -103,7 +117,12 @@
 
             <div class="clothes__more_title">Ви переглянули <%=number%> із ${clothes.size()} товарів</div>
 
-            <button style="display: <%=display%>;" onclick="morePages()" class="clothes__more__downloadMore">Загрузити ще</button>
+            <c:set var="number" scope="request" value="<%=number%>"/>
+            <c:if test="${clothes.size() != number}">
+
+                <button onclick="morePages()" class="clothes__more__downloadMore">Загрузити ще</button>
+
+            </c:if>
 
         </div>
 

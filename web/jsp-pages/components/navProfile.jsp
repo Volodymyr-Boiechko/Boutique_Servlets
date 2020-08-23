@@ -7,8 +7,7 @@
 <%
     String username = (String) session.getAttribute("username");
     Character letter = username.charAt(0);
-    String pathInfo = request.getRequestURI();
-    String[] path = pathInfo.split("/");
+    String[] path = request.getRequestURI().split("/");
     int number = -1;
 
     for (String s : path) {

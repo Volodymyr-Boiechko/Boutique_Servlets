@@ -58,15 +58,6 @@
     request.setAttribute("brands", brands);
     request.setAttribute("brandsImages", brands.stream().limit(2).collect(Collectors.toList()));
 
-    String user = (String) session.getAttribute("username");
-    String userShow, loginShow;
-    if (user == null) {
-        userShow = "none";
-        loginShow = "block";
-    } else {
-        userShow = "block";
-        loginShow = "none";
-    }
 %>
 
 <header class="header">
@@ -111,17 +102,27 @@
 
                             <div id="close">&times;</div>
 
-                            <div class="header__profileBlock__user" style="display: <%=userShow%>;">
-                                <div class="header__profileBlock__user_text">Привіт <%=user%>
-                                </div>
-                                <a href="${pageContext.request.contextPath}/logout/<%=user%>">Вийти</a>
-                            </div>
+                            <c:choose>
+                                
+                                <c:when test="${not empty username}">
 
-                            <div class="header__profileBlock__login" style="display: <%=loginShow%>;">
-                                <a href="${pageContext.request.contextPath}/login">Увійти</a>
-                                <span>|</span>
-                                <a href="${pageContext.request.contextPath}/registration/">Зареєструватись</a>
-                            </div>
+                                    <div class="header__profileBlock__user">
+                                        <div class="header__profileBlock__user_text">Привіт ${username}</div>
+                                        <a href="${pageContext.request.contextPath}/logout/${username}">Вийти</a>
+                                    </div>
+
+                                </c:when>
+                                <c:otherwise>
+
+                                    <div class="header__profileBlock__login">
+                                        <a href="${pageContext.request.contextPath}/login">Увійти</a>
+                                        <span>|</span>
+                                        <a href="${pageContext.request.contextPath}/registration/">Зареєструватись</a>
+                                    </div>
+
+                                </c:otherwise>
+
+                            </c:choose>
 
                             <a class="header__profileBlock__descr"
                                href="${pageContext.request.contextPath}/userProfile/">
