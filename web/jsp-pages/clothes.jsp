@@ -1,5 +1,6 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.boiechko.entity.Product" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -18,70 +19,91 @@
 <%
     if (session.getAttribute("favoriteId") == null)
         session.setAttribute("favoriteId", new ArrayList<Product>());
+
+    List<Product> list = (List<Product>) session.getAttribute("clothes");
+    int number = Integer.parseInt((String) session.getAttribute("count")) + 1;
+
+    String display;
+    if (list.size() == number) display = "none";
+    else display = "block";
+
+
 %>
 <div class="clothes">
 
     <div class="container">
 
-        <div class="row">
+        <div>
 
-            <c:forEach items="${clothes}" var="product">
+            <div class="row">
 
-                <div class="block col-md-4" id="${product.idProduct}">
+                <c:forEach items="${clothes}" begin="0" end="${count}" var="product">
 
-                    <a href="${pageContext.request.contextPath}/new/${product.idProduct}">
+                    <div class="block col-md-4" id="${product.idProduct}">
 
-                        <div class="clothes__block">
+                        <a href="${pageContext.request.contextPath}/new/${product.idProduct}">
 
-                            <div class="clothes__block__img">
+                            <div class="clothes__block">
 
-                                <img class="clothes__block__img_main"
-                                     src="${pageContext.request.contextPath}/${product.image}"
-                                     alt="${product.productName}">
+                                <div class="clothes__block__img">
 
-                                <div class="hover"></div>
+                                    <img class="clothes__block__img_main"
+                                         src="${pageContext.request.contextPath}/${product.image}"
+                                         alt="${product.productName}">
 
-                            </div>
+                                    <div class="hover"></div>
 
-                            <div class="clothes__block__text">
-
-                                <div class="clothes__block__text_title">
-                                        ${product.description}
                                 </div>
 
-                                <div class="clothes__block__text_price">
-                                        ${product.price} грн.
+                                <div class="clothes__block__text">
+
+                                    <div class="clothes__block__text_title">
+                                            ${product.description}
+                                    </div>
+
+                                    <div class="clothes__block__text_price">
+                                            ${product.price} грн.
+                                    </div>
+
                                 </div>
 
                             </div>
+                        </a>
 
-                        </div>
-                    </a>
+                        <button onclick="addToFavorite(${product.idProduct})" class="clothes__block__img__favorite">
 
-                    <button onclick="addToFavorite(${product.idProduct})" class="clothes__block__img__favorite">
+                            <img id="favorite" src="${pageContext.request.contextPath}/img/other/favorite.png"
+                                 alt="favorite">
 
-                        <img id="favorite" src="${pageContext.request.contextPath}/img/other/favorite.png"
-                             alt="favorite">
+                        </button>
 
-                    </button>
+                    </div>
 
-                </div>
+                </c:forEach>
 
-            </c:forEach>
+                <div class="col-md-4" style="display: ${display};">
 
-            <div class="col-md-4" style="display: ${display};">
+                    <div class="clothes__block" style="border: 0.5px grey solid;">
 
-                <div class="clothes__block" style="border: 0.5px grey solid;">
+                        <button class="clothes__block__addButton" id="addButton">
 
-                    <button class="clothes__block__addButton" id="addButton">
+                            <img src="${pageContext.request.contextPath}/img/other/add.jpg" alt="add">
 
-                    <img src="${pageContext.request.contextPath}/img/other/add.jpg" alt="add">
+                        </button>
 
-                    </button>
+                    </div>
 
                 </div>
 
             </div>
+
+        </div>
+
+        <div class="clothes__more">
+
+            <div class="clothes__more_title">Ви переглянули <%=number%> із ${clothes.size()} товарів</div>
+
+            <button style="display: <%=display%>;" onclick="morePages()" class="clothes__more__downloadMore">Загрузити ще</button>
 
         </div>
 
@@ -242,7 +264,6 @@
 
     setInterval(function () {
 
-
         let blocks = document.querySelectorAll('.block');
 
         for (let i = 0; i < blocks.length; i++) {
@@ -336,6 +357,25 @@
         return formData;
 
     }
+
+    function morePages() {
+
+        let page = ${page} + 1;
+
+        let href = window.location.href.replace('page=${page}', 'page=' + page);
+
+        location.href = href;
+
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        let scrollpos = localStorage.getItem('scrollpos');
+        if (scrollpos) window.scrollTo(0, scrollpos);
+    });
+
+    window.onbeforeunload = function(e) {
+        localStorage.setItem('scrollpos', window.scrollY);
+    };
 
 </script>
 </body>

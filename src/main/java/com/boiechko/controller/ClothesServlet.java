@@ -15,22 +15,20 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @WebServlet("/manClothes/*")
 @MultipartConfig
 public class ClothesServlet extends HttpServlet {
 
     private final ProductService productService = new ProductServiceImpl();
-    private final String appPath = "C:\\Users\\volod\\IdeaProjects\\Boutique_Servlets\\web\\";
+    private final String appPath = "C:\\Users\\volod\\IdeaProjects\\Boutique_Servlets\\web\\dataBaseImages\\";
+
+    private final int amountProductsInPage = 12;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession();
-        request.removeAttribute("clothes");
-        request.removeAttribute("display");
-        request.removeAttribute("productName");
 
         String username = (String) session.getAttribute("username");
 
@@ -42,60 +40,74 @@ public class ClothesServlet extends HttpServlet {
                 request.setAttribute("display", "block");
             else
                 request.setAttribute("display", "none");
-
         } else {
-
             request.setAttribute("display", "none");
-
         }
 
-        String[] blocks = request.getRequestURI().split("/");
+        String page = request.getParameter("page");
 
-        switch (blocks[2]) {
-            case "clothes":
-            case "shoes":
-            case "accessories":
-            case "sportWear": {
+        if (page.equals("1")) {
 
-                String productName = request.getParameter("productName");
-                List<Product> clothes;
+            session.removeAttribute("clothes");
+            session.removeAttribute("count");
 
-                if (productName == null) {
+            String[] blocks = request.getRequestURI().split("/");
 
-                    clothes = productService.getAllByCredentials("typeName", getTypeName(blocks[2]));
-                } else {
-                    clothes = productService.getAllByCredentials("productName", productName);
+            switch (blocks[2]) {
+                case "clothes":
+                case "shoes":
+                case "accessories":
+                case "sportWear": {
+
+                    String productName = request.getParameter("productName");
+                    List<Product> clothes;
+
+                    if (productName == null) {
+
+                        clothes = productService.getAllByCredentials("typeName", getTypeName(blocks[2]));
+                    } else {
+                        clothes = productService.getAllByCredentials("productName", productName);
+                    }
+
+                    session.setAttribute("clothes", clothes);
+                    break;
                 }
+                case "newestClothes": {
 
+                    List<Product> clothes = productService.getNewest();
 
-                request.setAttribute("clothes", clothes);
+                    session.setAttribute("clothes", clothes);
 
-                break;
+                    break;
+                }
+                case "brands": {
+
+                    String brand = request.getParameter("brand");
+
+                    List<Product> clothes = productService.getAllByCredentials("brand", brand);
+
+                    session.setAttribute("clothes", clothes);
+
+                    break;
+                }
+                default: {
+
+                    session.setAttribute("clothes", new ArrayList<Product>());
+
+                }
             }
-            case "newestClothes": {
 
-                List<Product> clothes = productService.getNewest().stream().limit(15).collect(Collectors.toList());
-
-                request.setAttribute("clothes", clothes);
-
-                break;
-            }
-            case "brands": {
-
-                String brand = request.getParameter("brand");
-
-                List<Product> clothes = productService.getAllByCredentials("brand", brand);
-
-                request.setAttribute("clothes", clothes);
-
-                break;
-            }
-            default: {
-
-                request.setAttribute("clothes", new ArrayList<Product>());
-
-            }
         }
+
+        List<Product> products = (List<Product>) session.getAttribute("clothes");
+
+        int count = Integer.parseInt(page) * amountProductsInPage - 1;
+
+        if (count >= products.size())
+            count = products.size() - 1;
+
+        session.setAttribute("count", Integer.toString(count));
+        session.setAttribute("page", page);
 
         request.getRequestDispatcher("/jsp-pages/clothes.jsp").forward(request, response);
 
@@ -139,7 +151,7 @@ public class ClothesServlet extends HttpServlet {
 
             Product product = new Product
                     (typeName, productName, sex, brand, model, size, color,
-                            getDestination(image,destination), price, description
+                            "dataBaseImages/" + getDestination(image, destination), price, description
                     );
 
             if (saveImage(image, destination)) {
