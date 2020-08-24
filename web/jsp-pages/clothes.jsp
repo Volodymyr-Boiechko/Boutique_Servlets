@@ -1,8 +1,7 @@
 <%@ page import="com.boiechko.entity.Product" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="com.boiechko.entity.Person" %>
-<%@ page import="com.boiechko.service.implementations.PersonServiceImpl" %>
 <%@ page import="com.boiechko.enums.PersonType" %>
+<%@ page import="com.boiechko.service.implementations.PersonServiceImpl" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="C" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -26,86 +25,103 @@
     int number = Integer.parseInt((String) session.getAttribute("count")) + 1;
 
 %>
-<div class="clothes">
+<c:if test="${count + 1 != 0}">
 
-    <div class="container">
+    <div class="clothes">
 
-        <div>
+        <div class="container">
 
-            <div class="row">
+            <div>
 
-                <c:forEach items="${clothes}" begin="0" end="${count}" var="product">
+                <div class="row">
 
-                    <div class="block col-md-4" id="${product.idProduct}">
+                    <c:forEach items="${clothes}" begin="0" end="${count}" var="product">
 
-                        <a href="${pageContext.request.contextPath}/manClothes/productItem?idProduct=${product.idProduct}">
+                        <div class="block col-md-4" id="${product.idProduct}">
 
-                            <div class="clothes__block">
+                            <a href="${pageContext.request.contextPath}/manClothes/productItem?idProduct=${product.idProduct}">
 
-                                <div class="clothes__block__img">
+                                <div class="clothes__block">
 
-                                    <img class="clothes__block__img_main"
-                                         src="${pageContext.request.contextPath}/${product.image}"
-                                         alt="${product.productName}">
+                                    <div class="clothes__block__img">
 
-                                    <div class="hover"></div>
+                                        <img class="clothes__block__img_main"
+                                             src="${pageContext.request.contextPath}/${product.image}"
+                                             alt="${product.productName}">
 
-                                </div>
+                                        <div class="hover"></div>
 
-                                <div class="clothes__block__text">
-
-                                    <div class="clothes__block__text_title">
-                                            ${product.description}
                                     </div>
 
-                                    <div class="clothes__block__text_price">
-                                            ${product.price} грн.
+                                    <div class="clothes__block__text">
+
+                                        <div class="clothes__block__text_title">
+                                                ${product.description}
+                                        </div>
+
+                                        <div class="clothes__block__text_price">
+                                                ${product.price} грн.
+                                        </div>
+
                                     </div>
 
                                 </div>
+                            </a>
 
-                            </div>
-                        </a>
+                            <button onclick="addToFavorite(${product.idProduct})" class="clothes__block__img__favorite">
 
-                        <button onclick="addToFavorite(${product.idProduct})" class="clothes__block__img__favorite">
+                                <img class="clothes__block__img__favorite_img" id="favorite" src="${pageContext.request.contextPath}/img/other/favorite.png"
+                                     alt="favorite">
 
-                            <img id="favorite" src="${pageContext.request.contextPath}/img/other/favorite.png"
-                                 alt="favorite">
-
-                        </button>
-
-                    </div>
-
-                </c:forEach>
-
-                <%
-                    if (session.getAttribute("username") != null) {
-                        request.setAttribute("person", new PersonServiceImpl().getPersonByCredentials("username", (String) session.getAttribute("username")));
-                        request.setAttribute("personType", PersonType.ADMIN);
-                    }
-                %>
-
-                <c:if test="${not empty username}">
-
-                    <c:set var="show" scope="request" value="${person.personType.equals(personType)}"/>
-
-                    <c:if test="${show}">
-
-                        <div class="col-md-4">
-
-                            <div class="clothes__block" style="border: 0.5px grey solid;">
-
-                                <button name="addButton" class="clothes__block__addButton" id="addButton">
-
-                                    <img src="${pageContext.request.contextPath}/img/other/add.jpg" alt="add">
-
-                                </button>
-
-                            </div>
+                            </button>
 
                         </div>
 
+                    </c:forEach>
+
+                    <%
+                        if (session.getAttribute("username") != null) {
+                            request.setAttribute("person", new PersonServiceImpl().getPersonByCredentials("username", (String) session.getAttribute("username")));
+                            request.setAttribute("personType", PersonType.ADMIN);
+                        }
+                    %>
+
+                    <c:if test="${not empty username}">
+
+                        <c:set var="show" scope="request" value="${person.personType.equals(personType)}"/>
+
+                        <c:if test="${show}">
+
+                            <div class="col-md-4">
+
+                                <div class="clothes__block" style="border: 0.5px grey solid;">
+
+                                    <button name="addButton" class="clothes__block__addButton" id="addButton">
+
+                                        <img src="${pageContext.request.contextPath}/img/other/add.jpg" alt="add">
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </c:if>
+
                     </c:if>
+
+                </div>
+
+            </div>
+
+            <div class="clothes__more">
+
+                <div class="clothes__more_title">Ви переглянули <%=number%> із ${clothes.size()} товарів</div>
+
+                <c:set var="number" scope="request" value="<%=number%>"/>
+                <c:if test="${clothes.size() != number}">
+
+                    <button onclick="morePages()" class="clothes__more__downloadMore">Загрузити ще</button>
 
                 </c:if>
 
@@ -113,22 +129,10 @@
 
         </div>
 
-        <div class="clothes__more">
-
-            <div class="clothes__more_title">Ви переглянули <%=number%> із ${clothes.size()} товарів</div>
-
-            <c:set var="number" scope="request" value="<%=number%>"/>
-            <c:if test="${clothes.size() != number}">
-
-                <button onclick="morePages()" class="clothes__more__downloadMore">Загрузити ще</button>
-
-            </c:if>
-
-        </div>
-
     </div>
 
-</div>
+</c:if>
+
 
 <div class="overlay" id="addOverlay">
     <div class="modalw modalw_call modalw_addProduct" id="add">
@@ -225,61 +229,10 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
+<script src="${pageContext.request.contextPath}/js/addToFavorite.js"></script>
 <script>
 
     let array = <%=session.getAttribute("favoriteId")%>;
-
-    function addToFavorite(idProduct) {
-
-        let success = false;
-
-        $.ajax({
-
-            url: "/favorite",
-            async: true,
-            method: "POST",
-            data: {
-
-                idProduct: idProduct
-
-            }
-        }).done(function (status) {
-
-            success = true;
-            let item = document.getElementById(idProduct);
-
-            let img = item.querySelector('#favorite');
-
-            if (status === "add") {
-
-                alert("Продукт додано до улюблених");
-                img.src = "${pageContext.request.contextPath}/img/other/favoriteFull.png";
-            } else if (status === "remove") {
-
-                alert("Продукт видалено з улюблених");
-                img.src = "${pageContext.request.contextPath}/img/other/favorite.png";
-
-                let index = array.indexOf(idProduct);
-                if (index > -1) {
-                    array.splice(index, idProduct);
-                }
-
-            }
-
-        }).fail(function (response) {
-
-            success = false;
-
-            if (response.status === 401)
-                alert("Потрібно увійти");
-            else if (response.status === 500)
-                alert("Проблеми з сервером");
-
-        });
-
-        return success;
-
-    }
 
     setInterval(function () {
 
@@ -388,12 +341,12 @@
     }
 
     document.addEventListener("DOMContentLoaded", function() {
-        let scrollpos = localStorage.getItem('scrollpos');
-        if (scrollpos) window.scrollTo(0, scrollpos);
+        let scrollPos = localStorage.getItem('scrollPos');
+        if (scrollPos) window.scrollTo(0, scrollPos);
     });
 
     window.onbeforeunload = function(e) {
-        localStorage.setItem('scrollpos', window.scrollY);
+        localStorage.setItem('scrollPos', window.scrollY);
     };
 
 </script>

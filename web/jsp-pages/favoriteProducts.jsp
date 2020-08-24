@@ -47,7 +47,7 @@
 
                             <div class="col-md-4">
 
-                                <a href="${pageContext.request.contextPath}/new/${product.idProduct}">
+                                <a href="${pageContext.request.contextPath}/manClothes/productItem?idProduct=${product.idProduct}">
 
                                     <div class="clothes__block">
 
@@ -77,9 +77,10 @@
                                 </a>
 
                                 <button onclick="deleteFavorite(${product.idProduct})"
-                                        class="clothes__block__img__favorite clothes__block__img__favorite_favorite">
+                                        class="clothes__block__img__favorite clothes__block__img__favorite_delete">
 
-                                    <img src="${pageContext.request.contextPath}/img/other/delete.png"
+                                    <img class="clothes__block__img__favorite_deleteImg"
+                                         src="${pageContext.request.contextPath}/img/other/delete.png"
                                          alt="favorite">
 
                                 </button>

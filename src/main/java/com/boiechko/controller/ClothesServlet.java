@@ -1,9 +1,6 @@
 package com.boiechko.controller;
 
-import com.boiechko.entity.Person;
 import com.boiechko.entity.Product;
-import com.boiechko.enums.PersonType;
-import com.boiechko.service.implementations.PersonServiceImpl;
 import com.boiechko.service.implementations.ProductServiceImpl;
 import com.boiechko.service.interfaces.ProductService;
 
