@@ -2,21 +2,24 @@ package com.boiechko.entity;
 
 import java.util.Objects;
 
-public class Order_Product {
+public class OrderProduct {
 
     private int idOrderProduct;
     private int idOrder;
     private int idProduct;
     private int quantity;
 
-    public Order_Product(int idOrderProduct, int idOrder, int idProduct, int quantity) {
+    public OrderProduct(){
+    }
+
+    public OrderProduct(int idOrderProduct, int idOrder, int idProduct, int quantity) {
         this.idOrderProduct = idOrderProduct;
         this.idOrder = idOrder;
         this.idProduct = idProduct;
         this.quantity = quantity;
     }
 
-    public Order_Product(int idOrder, int idProduct, int quantity) {
+    public OrderProduct(int idOrder, int idProduct, int quantity) {
         this.idOrder = idOrder;
         this.idProduct = idProduct;
         this.quantity = quantity;
@@ -42,7 +45,7 @@ public class Order_Product {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Order_Product that = (Order_Product) o;
+        OrderProduct that = (OrderProduct) o;
         return idOrderProduct == that.idOrderProduct &&
                 idOrder == that.idOrder &&
                 idProduct == that.idProduct &&
@@ -56,7 +59,7 @@ public class Order_Product {
 
     @Override
     public String toString() {
-        return "Order_Product{" +
+        return "OrderProduct{" +
                 "idOrderProduct=" + idOrderProduct +
                 ", idOrder=" + idOrder +
                 ", idProduct=" + idProduct +

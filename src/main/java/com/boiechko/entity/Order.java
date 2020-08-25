@@ -1,5 +1,6 @@
 package com.boiechko.entity;
 
+import java.sql.Date;
 import java.util.Objects;
 
 public class Order {
@@ -7,12 +8,12 @@ public class Order {
     private int idOrder;
     private int idPerson;
     private int totalPrice;
-    private String timeOrder;
+    private Date timeOrder;
 
     public Order(){
     }
 
-    public Order(int idPerson, int totalPrice, String timeOrder) {
+    public Order(int idPerson, int totalPrice, Date timeOrder) {
         this.idPerson = idPerson;
         this.totalPrice = totalPrice;
         this.timeOrder = timeOrder;
@@ -30,9 +31,9 @@ public class Order {
 
     public void setTotalPrice(int totalPrice) { this.totalPrice = totalPrice; }
 
-    public String getTimeOrder() { return timeOrder; }
+    public Date getTimeOrder() { return timeOrder; }
 
-    public void setTimeOrder(String timeOrder) { this.timeOrder = timeOrder; }
+    public void setTimeOrder(Date timeOrder) { this.timeOrder = timeOrder; }
 
     @Override
     public boolean equals(Object o) {
