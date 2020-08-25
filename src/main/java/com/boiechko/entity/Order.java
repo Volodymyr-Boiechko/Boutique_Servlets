@@ -6,26 +6,16 @@ public class Order {
 
     private int idOrder;
     private int idPerson;
-    private int idProduct;
-    private int quantity;
-    private String time;
+    private int totalPrice;
+    private String timeOrder;
 
     public Order(){
     }
 
-    public Order(int idOrder, int idPerson, int idProduct, int quantity, String time) {
-        this.idOrder = idOrder;
+    public Order(int idPerson, int totalPrice, String timeOrder) {
         this.idPerson = idPerson;
-        this.idProduct = idProduct;
-        this.quantity = quantity;
-        this.time = time;
-    }
-
-    public Order(int idPerson, int idProduct, int quantity, String time) {
-        this.idPerson = idPerson;
-        this.idProduct = idProduct;
-        this.quantity = quantity;
-        this.time = time;
+        this.totalPrice = totalPrice;
+        this.timeOrder = timeOrder;
     }
 
     public int getIdOrder() { return idOrder; }
@@ -36,17 +26,13 @@ public class Order {
 
     public void setIdPerson(int idPerson) { this.idPerson = idPerson; }
 
-    public int getIdProduct() { return idProduct; }
+    public int getTotalPrice() { return totalPrice; }
 
-    public void setIdProduct(int idProduct) { this.idProduct = idProduct; }
+    public void setTotalPrice(int totalPrice) { this.totalPrice = totalPrice; }
 
-    public int getQuantity() { return quantity; }
+    public String getTimeOrder() { return timeOrder; }
 
-    public void setQuantity(int quantity) { this.quantity = quantity; }
-
-    public String getTime() { return time; }
-
-    public void setTime(String time) { this.time = time; }
+    public void setTimeOrder(String timeOrder) { this.timeOrder = timeOrder; }
 
     @Override
     public boolean equals(Object o) {
@@ -55,14 +41,13 @@ public class Order {
         Order order = (Order) o;
         return idOrder == order.idOrder &&
                 idPerson == order.idPerson &&
-                idProduct == order.idProduct &&
-                quantity == order.quantity &&
-                time.equals(order.time);
+                totalPrice == order.totalPrice &&
+                timeOrder.equals(order.timeOrder);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idOrder, idPerson, idProduct, quantity, time);
+        return Objects.hash(idOrder, idPerson, totalPrice, timeOrder);
     }
 
     @Override
@@ -70,9 +55,8 @@ public class Order {
         return "Order{" +
                 "idOrder=" + idOrder +
                 ", idPerson=" + idPerson +
-                ", idProduct=" + idProduct +
-                ", quantity=" + quantity +
-                ", time='" + time + '\'' +
+                ", totalPrice=" + totalPrice +
+                ", timeOrder='" + timeOrder + '\'' +
                 '}';
     }
 }
