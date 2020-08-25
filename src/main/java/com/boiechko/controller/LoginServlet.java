@@ -50,9 +50,6 @@ public class LoginServlet extends HttpServlet {
                     session.setAttribute("username", username);
                     session.setAttribute("userId", personService.getPersonByCredentials("username", username).getIdPerson());
 
-                    List<Integer> favorite = new ArrayList<>();
-                    session.setAttribute("favoriteId", favorite);
-
                 } else {
 
                     response.sendError(401);

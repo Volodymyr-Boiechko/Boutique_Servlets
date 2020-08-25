@@ -144,9 +144,9 @@
                         <img class="header__icons_icon_img"
                              src="${pageContext.request.contextPath}/img/header/favorite.png" alt="favorite">
                     </a>
-                    <a class="header__icons_icon" href="${pageContext.request.contextPath}/basket">
+                    <a class="header__icons_icon" href="${pageContext.request.contextPath}/shoppingBag">
                         <img class="header__icons_icon_img"
-                             src="${pageContext.request.contextPath}/img/header/basket.png" alt="basket">
+                             src="${pageContext.request.contextPath}/img/header/basket.png" alt="ShoppingBag">
                     </a>
                 </div>
 

@@ -11,17 +11,29 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/favorite")
 public class FavoriteProductsServlet extends HttpServlet {
+
+    private final ProductService productService = new ProductServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession();
 
-        request.setAttribute("favorite", session.getAttribute("favorite"));
+        if (session.getAttribute("favoriteId") == null)
+            session.setAttribute("favoriteId", new ArrayList<Integer>());
+
+        List<Product> favorite = new ArrayList<>();
+        List<Integer> favoriteId = (List<Integer>) session.getAttribute("favoriteId");
+
+        for (Integer id : favoriteId)
+            favorite.add(productService.getById(id));
+
+        request.setAttribute("favorite", favorite);
 
         request.getRequestDispatcher("/jsp-pages/favoriteProducts.jsp").forward(request, response);
 
@@ -34,8 +46,6 @@ public class FavoriteProductsServlet extends HttpServlet {
         String username = (String) session.getAttribute("username");
 
         if (username != null) {
-
-            ProductService productService = new ProductServiceImpl();
 
             final int idProduct = Integer.parseInt(request.getParameter("idProduct"));
             Product product = productService.getById(idProduct);
@@ -55,16 +65,21 @@ public class FavoriteProductsServlet extends HttpServlet {
                         }
 
                     if (!isInFavorite) {
+
                         favorite.add(product.getIdProduct());
                         session.setAttribute("favoriteId", favorite);
                         response.getWriter().write("add");
+
+                        List<Product> shoppingBag = (List<Product>) session.getAttribute("shoppingBag");
+                        shoppingBag.remove(product);
+                        session.setAttribute("shoppingBag", shoppingBag);
+
                     } else {
 
                         doDelete(request, response);
                         response.getWriter().write("remove");
 
                     }
-
 
                 } catch (Exception e) {
                     response.sendError(500);
@@ -83,7 +98,6 @@ public class FavoriteProductsServlet extends HttpServlet {
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession();
-        ProductService productService = new ProductServiceImpl();
 
         final int idProduct = Integer.parseInt(request.getParameter("idProduct"));
         Product product = productService.getById(idProduct);

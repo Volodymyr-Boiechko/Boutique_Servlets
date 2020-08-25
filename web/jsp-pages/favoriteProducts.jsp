@@ -1,8 +1,3 @@
-<%@ page import="com.boiechko.entity.Product" %>
-<%@ page import="com.boiechko.service.implementations.ProductServiceImpl" %>
-<%@ page import="com.boiechko.service.interfaces.ProductService" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -18,19 +13,6 @@
 </head>
 <body>
 <jsp:include page="components/header.jsp"/>
-<%
-
-    ProductService productService = new ProductServiceImpl();
-    List<Product> favorite = new ArrayList<>();
-    List<Integer> favoriteId = (List<Integer>) session.getAttribute("favoriteId");
-
-    for (Integer id : favoriteId)
-        favorite.add(productService.getById(id));
-
-    request.setAttribute("favorite", favorite);
-
-%>
-
 <c:choose>
 
     <c:when test="${not empty username}">
@@ -85,7 +67,7 @@
 
                                 </button>
 
-                                <button class="buttonFavorite">Добавити в корзину</button>
+                                <button onclick="addToShoppingBag(${product.idProduct})" class="buttonFavorite">Добавити в корзину</button>
 
                             </div>
 
@@ -152,6 +134,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
+<script src="${pageContext.request.contextPath}/js/addToShoppingBag.js"></script>
 <script>
 
     function deleteFavorite(idProduct) {
@@ -174,9 +157,7 @@
 
             success = false;
 
-            if (response.status === 401)
-                alert("Потрібно увійти");
-            else if (response.status === 500)
+            if (response.status === 500)
                 alert("Проблеми з сервером");
 
         });
@@ -186,6 +167,5 @@
     }
 
 </script>
-
 </body>
 </html>
