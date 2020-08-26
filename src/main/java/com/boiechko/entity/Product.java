@@ -15,6 +15,7 @@ public class Product {
     private String image;
     private int price;
     private String description;
+    private int quantity;
 
     public Product(){
     }
@@ -34,6 +35,24 @@ public class Product {
         this.image = image;
         this.price = price;
         this.description = description;
+    }
+
+    public Product
+            (int idProduct, String typeName, String productName, String sex, String brand, String model,
+             String size, String color, String image, int price, String description, int quantity)
+    {
+        this.idProduct = idProduct;
+        this.typeName = typeName;
+        this.productName = productName;
+        this.sex = sex;
+        this.brand = brand;
+        this.model = model;
+        this.size = size;
+        this.color = color;
+        this.image = image;
+        this.price = price;
+        this.description = description;
+        this.quantity = quantity;
     }
 
     public Product
@@ -96,6 +115,10 @@ public class Product {
 
     public void setDescription(String description) { this.description = description; }
 
+    public int getQuantity() { return quantity; }
+
+    public void setQuantity(int quantity) { this.quantity = quantity; }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -111,12 +134,13 @@ public class Product {
                 Objects.equals(size, product.size) &&
                 Objects.equals(color, product.color) &&
                 image.equals(product.image) &&
-                description.equals(product.description);
+                description.equals(product.description) &&
+                quantity == product.quantity;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idProduct, typeName, productName, sex, brand, model, size, color, image, price, description);
+        return Objects.hash(idProduct, typeName, productName, sex, brand, model, size, color, image, price, description, quantity);
     }
 
     @Override
@@ -133,6 +157,7 @@ public class Product {
                 ", image='" + image + '\'' +
                 ", price=" + price +
                 ", description='" + description + '\'' +
+                ", quantity=" + quantity +
                 '}';
     }
 }

@@ -19,6 +19,15 @@ public class Order {
         this.timeOrder = timeOrder;
     }
 
+    public Order(Order order) {
+
+        this.idOrder = order.idOrder;
+        this.idPerson = order.idPerson;
+        this.totalPrice = order.totalPrice;
+        this.timeOrder = order.timeOrder;
+
+    }
+
     public int getIdOrder() { return idOrder; }
 
     public void setIdOrder(int idOrder) { this.idOrder = idOrder; }

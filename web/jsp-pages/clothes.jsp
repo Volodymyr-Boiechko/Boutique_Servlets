@@ -21,6 +21,8 @@
 <%
     if (session.getAttribute("favoriteId") == null)
         session.setAttribute("favoriteId", new ArrayList<Product>());
+    else if (session.getAttribute("shoppingBag") == null)
+        session.setAttribute("shoppingBag", new ArrayList<Product>());
 
     int number = Integer.parseInt((String) session.getAttribute("count")) + 1;
 

@@ -164,7 +164,7 @@
 
                                     <div class="shoppingBag__bag__block_divider"></div>
 
-                                    <button class="shoppingBag__bag__block__button">Зробити замовлення</button>
+                                    <button onclick="makeOrder()" class="shoppingBag__bag__block__button">Зробити замовлення</button>
 
                                 </div>
 
@@ -226,30 +226,30 @@
 
         let prices = document.querySelectorAll('.totalPrice');
 
-        for(let i = 0; i < prices.length; i++) prices[i].innerText = formPrice();
-
-        function formPrice() {
-
-            let array = <%=request.getAttribute("prices")%>;
-            let price = 0;
-
-            let elements = document.querySelectorAll('.select');
-            let copyArray = [];
-
-            for(let i = 0; i < elements.length; i++) {
-
-                copyArray.push(elements[i].value);
-            }
-
-            selectElement = copyArray;
-
-            for (let i = 0; i < array.length; i++) price += array[i] * selectElement[i];
-
-            return price.toString() + " грн.";
-
-        }
+        for(let i = 0; i < prices.length; i++) prices[i].innerText = formPrice() + " грн.";
 
     }, 600);
+
+    function formPrice() {
+
+        let array = <%=request.getAttribute("prices")%>;
+        let price = 0;
+
+        let elements = document.querySelectorAll('.select');
+        let copyArray = [];
+
+        for(let i = 0; i < elements.length; i++) {
+
+            copyArray.push(elements[i].value);
+        }
+
+        selectElement = copyArray;
+
+        for (let i = 0; i < array.length; i++) price += array[i] * selectElement[i];
+
+        return price.toString();
+
+    }
 
     function deleteFromShoppingBag(idProduct) {
 
@@ -278,6 +278,41 @@
 
         return success;
 
+    }
+
+
+    function makeOrder() {
+
+        let success = false;
+
+        let dateObject = new Date();
+        let date = dateObject.toLocaleString("sv-SE");
+
+        $.ajax({
+
+            url: '/makeOrder',
+            type: 'POST',
+            data_type: 'json',
+            async: false,
+            data: {
+                json: selectElement,
+                totalPrice: formPrice(),
+                dateOrder: date
+            }
+
+        }).done(function () {
+
+            success = true
+            alert('Ваше замовлення прийнято. Лист з замовленням прийде Вам на пошту');
+            location.reload();
+
+        }).fail(function () {
+
+            success = false;
+
+        });
+
+        return success;
     }
 
 </script>

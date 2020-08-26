@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -21,9 +22,22 @@
 
             <jsp:include page="../components/navProfile.jsp"/>
 
-            <div class="profile__block info">
+            <div class="orders">
 
+                <c:forEach var="entry" items="${productsByOrder}">
 
+                    <div class="profile__block info">
+
+                        <div>Key: ${entry.key}</div>
+                        <c:forEach var="list" items="${entry.value}">
+                            <div>idProduct:${list.idProduct}</div>
+                        </c:forEach>
+
+                        <br>
+
+                    </div>
+
+                </c:forEach>
 
             </div>
 
