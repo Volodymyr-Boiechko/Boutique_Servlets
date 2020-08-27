@@ -33,7 +33,7 @@
             <input id="confirm" type="password" required>
         </label>
 
-        <button class="button button_update" type="submit">Підтвердити</button>
+        <button class="button button_updatePassword" type="submit">Підтвердити</button>
 
     </form>
 </div>

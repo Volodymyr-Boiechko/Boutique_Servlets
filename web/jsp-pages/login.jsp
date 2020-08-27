@@ -39,7 +39,7 @@
 
         </div>
 
-        <button class="button" type="submit">Увійти</button>
+        <button class="button button_login" type="submit">Увійти</button>
 
         <a class="form_link form_link_reg" href="${pageContext.request.contextPath}/registration">Зареєструватися</a>
 

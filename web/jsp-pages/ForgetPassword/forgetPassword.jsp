@@ -21,7 +21,7 @@
             <input id="email" type="text">
         </label>
 
-        <button class="button button_forget" type="submit">Пошук</button>
+        <button class="button button_forgetPassword" type="submit">Пошук</button>
 
     </form>
 

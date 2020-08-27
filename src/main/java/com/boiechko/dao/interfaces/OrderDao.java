@@ -14,6 +14,8 @@ public interface OrderDao {
 
     int getLastId();
 
-    Map<Order, List<Product>> getProductsOfOrderByUser(int idUser);
+    Map<Order, List<Product>> getAllOrdersAndTheirProducts(int idUser);
+
+    Map<Order, List<Product>> getOrderAndHisProducts(int idUser, int idOrder);
 
 }

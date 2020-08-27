@@ -66,7 +66,7 @@
                                     <div class="shoppingBag__bag__block" id="${product.idProduct}">
 
                                         <div href="${pageContext.request.contextPath}/manClothes/productItem?idProduct=${product.idProduct}"
-                                           class="shoppingBag__bag__block__img">
+                                             class="shoppingBag__bag__block__img">
 
                                             <img src="${pageContext.request.contextPath}/${product.image}"
                                                  alt="${product.typeName}">
@@ -112,11 +112,13 @@
 
                                             </div>
 
-                                            <button onclick="if (addToFavorite(${product.idProduct}) === true) location.reload();" class="shoppingBag__bag__block__text__button" >
+                                            <button onclick="if (addToFavorite(${product.idProduct}) === true) location.reload();"
+                                                    class="shoppingBag__bag__block__text__button">
 
                                                 <div class="shoppingBag__bag__block__text__button__img">
 
-                                                    <img id="favorite" src="${pageContext.request.contextPath}/img/other/favorite.png"
+                                                    <img id="favorite"
+                                                         src="${pageContext.request.contextPath}/img/other/favorite.png"
                                                          alt="favorite">
 
                                                 </div>
@@ -129,7 +131,9 @@
 
                                         </div>
 
-                                        <button onclick="deleteFromShoppingBag(${product.idProduct})" class="shoppingBag__bag__block__delete">&times;</button>
+                                        <button onclick="deleteFromShoppingBag(${product.idProduct})"
+                                                class="shoppingBag__bag__block__delete">&times;
+                                        </button>
 
                                     </div>
 
@@ -144,6 +148,52 @@
                         </div>
 
                         <div class="col-md-5">
+
+                            <div class="shoppingBag__bag">
+
+                                <div class="shoppingBag__bag__img">
+                                    <img src="${pageContext.request.contextPath}/img/profile/address.png" alt="address">
+                                </div>
+
+                                <div class="shoppingBag__bag_title">Виберіть адресу</div>
+
+                                <div class="shoppingBag__bag__block">
+
+                                    <c:choose>
+
+                                        <c:when test="${addresses.size() == 0}">
+
+                                            <div class="shoppingBag__bag__block_title">Для того щоб зробити замовлення
+                                                потрібно додати хоча б одну адресу. Це можна зробити у Вашому профілі в
+                                                розділі 'Мої адреси'.
+                                            </div>
+
+                                        </c:when>
+                                        <c:otherwise>
+
+                                            <select id="selectAddresses" class="shoppingBag__bag__block__address">
+
+                                                <c:forEach items="${addresses}" var="address">
+
+                                                    <option name="${address.idAddress}">
+
+                                                        <div>${address.country}, ${address.city}, ${address.street}</div>
+
+                                                    </option>
+
+                                                </c:forEach>
+
+                                            </select>
+
+                                        </c:otherwise>
+
+                                    </c:choose>
+
+
+                                </div>
+
+
+                            </div>
 
                             <div class="shoppingBag__bag">
 
@@ -164,7 +214,9 @@
 
                                     <div class="shoppingBag__bag__block_divider"></div>
 
-                                    <button onclick="makeOrder()" class="shoppingBag__bag__block__button">Зробити замовлення</button>
+                                    <button id="makeOrderButton" onclick="makeOrder()" class="button">Зробити
+                                        замовлення
+                                    </button>
 
                                 </div>
 
@@ -222,11 +274,28 @@
 
     let selectElement = [];
 
+    let addressSize = ${addresses.size() == 0};
+
+    if (addressSize === true) {
+
+        let button = document.getElementById('makeOrderButton');
+
+        if (button !== null) {
+
+            setInterval(function () {
+
+                button.setAttribute("disabled", "disabled");
+
+            }, 1)
+
+        }
+    }
+
     setInterval(function () {
 
         let prices = document.querySelectorAll('.totalPrice');
 
-        for(let i = 0; i < prices.length; i++) prices[i].innerText = formPrice() + " грн.";
+        for (let i = 0; i < prices.length; i++) prices[i].innerText = formPrice() + " грн.";
 
     }, 600);
 
@@ -238,7 +307,7 @@
         let elements = document.querySelectorAll('.select');
         let copyArray = [];
 
-        for(let i = 0; i < elements.length; i++) {
+        for (let i = 0; i < elements.length; i++) {
 
             copyArray.push(elements[i].value);
         }
@@ -288,6 +357,8 @@
         let dateObject = new Date();
         let date = dateObject.toLocaleString("sv-SE");
 
+        let addressSelect = document.getElementById('selectAddresses');
+
         $.ajax({
 
             url: '/makeOrder',
@@ -297,7 +368,8 @@
             data: {
                 json: selectElement,
                 totalPrice: formPrice(),
-                dateOrder: date
+                dateOrder: date,
+                idAddress: addressSelect.options[addressSelect.selectedIndex].getAttribute('name')
             }
 
         }).done(function () {

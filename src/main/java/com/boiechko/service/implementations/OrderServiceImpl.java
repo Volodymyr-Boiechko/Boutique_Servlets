@@ -24,9 +24,9 @@ public class OrderServiceImpl implements OrderService {
     public int getLastId() { return orderDao.getLastId(); }
 
     @Override
-    public Map<Order, List<Product>> getProductsOfOrderByUser(int idUser) {
+    public Map<Order, List<Product>> getAllOrdersAndTheirProducts(int idUser) {
 
-        Map<Order, List<Product>> map = orderDao.getProductsOfOrderByUser(idUser);
+        Map<Order, List<Product>> map = orderDao.getAllOrdersAndTheirProducts(idUser);
 
         Map<Order, List<Product>> treeMap = new TreeMap<>(
                 (o1, o2) -> Integer.compare(o2.getIdOrder(), o1.getIdOrder())
@@ -36,6 +36,11 @@ public class OrderServiceImpl implements OrderService {
 
         return treeMap;
 
+    }
+
+    @Override
+    public Map<Order, List<Product>> getOrderAndHisProducts(int idUser, int idOrder) {
+        return orderDao.getOrderAndHisProducts(idUser, idOrder);
     }
 
 }

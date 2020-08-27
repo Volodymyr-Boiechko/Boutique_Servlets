@@ -31,7 +31,7 @@
 
                 <h2 class="footer__title">Потрібна допомога?</h2>
 
-                <button id="application" class="footer__button">Залишити заяву</button>
+                <button id="application" class="button button_footer">Залишити заяву</button>
 
                 <div class="footer__number">У разі необхідності зателефонуйте нам по телефону
                     <a href="tel:8800000800"> 8 800 000 800</a>

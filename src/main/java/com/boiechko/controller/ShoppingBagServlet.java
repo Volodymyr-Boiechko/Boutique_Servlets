@@ -1,7 +1,9 @@
 package com.boiechko.controller;
 
 import com.boiechko.entity.Product;
+import com.boiechko.service.implementations.AddressServiceImpl;
 import com.boiechko.service.implementations.ProductServiceImpl;
+import com.boiechko.service.interfaces.AddressService;
 import com.boiechko.service.interfaces.ProductService;
 
 import javax.servlet.ServletException;
@@ -18,6 +20,7 @@ import java.util.List;
 public class ShoppingBagServlet extends HttpServlet {
 
     private final ProductService productService = new ProductServiceImpl();
+    private final AddressService addressService = new AddressServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -32,6 +35,10 @@ public class ShoppingBagServlet extends HttpServlet {
 
         for (Product product: products)
             prices.add(product.getPrice());
+
+        final int idUser = (int) session.getAttribute("userId");
+
+        request.setAttribute("addresses", addressService.getAddressesOfUser(idUser));
 
         request.setAttribute("prices", prices);
 

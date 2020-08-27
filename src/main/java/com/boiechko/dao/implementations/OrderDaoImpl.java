@@ -102,7 +102,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Map<Order, List<Product>> getProductsOfOrderByUser(int idUser) {
+    public Map<Order, List<Product>> getAllOrdersAndTheirProducts(int idUser) {
 
         String query = "SELECT " +
                 "`order`.idOrder, `order`.idPerson, `order`.totalPrice, `order`.timeOrder, " +
@@ -118,52 +118,7 @@ public class OrderDaoImpl implements OrderDao {
 
             preparedStatement.setInt(1, idUser);
 
-            ResultSet rs = preparedStatement.executeQuery();
-
-            Map<Order, List<Product>> orderListMap = new HashMap<>();
-            List<Product> products = new ArrayList<>();
-
-            Order order = new Order();
-            Order copy = new Order();
-
-            while (rs.next()) {
-
-                order.setIdOrder(rs.getInt("idOrder"));
-                order.setIdPerson(rs.getInt("idPerson"));
-                order.setTotalPrice(rs.getInt("totalPrice"));
-                order.setTimeOrder(rs.getDate("timeOrder"));
-
-                if (!order.equals(copy) && copy.getIdOrder() != 0) {
-
-                    orderListMap.put(copy, new ArrayList<>(products));
-                    products.clear();
-
-                }
-
-                Product product = new Product();
-
-                product.setIdProduct(rs.getInt("idProduct"));
-                product.setTypeName(rs.getString("typeName"));
-                product.setProductName(rs.getString("productName"));
-                product.setSex(rs.getString("sex"));
-                product.setBrand(rs.getString("brand"));
-                product.setModel(rs.getString("model"));
-                product.setSize(rs.getString("size"));
-                product.setColor(rs.getString("color"));
-                product.setImage(rs.getString("image"));
-                product.setPrice(rs.getInt("price"));
-                product.setDescription(rs.getString("description"));
-                product.setQuantity(rs.getInt("quantity"));
-
-                products.add(product);
-
-                copy = new Order(order);
-
-            }
-
-            orderListMap.put(order, products);
-
-            return orderListMap;
+            return getOrderListMap(preparedStatement);
 
         } catch (SQLException sqlException) {
 
@@ -173,5 +128,83 @@ public class OrderDaoImpl implements OrderDao {
         }
 
 
+    }
+
+    @Override
+    public Map<Order, List<Product>> getOrderAndHisProducts(int idUser, int idOrder) {
+
+        String query = "SELECT " +
+                "`order`.idOrder, `order`.idPerson, `order`.totalPrice, `order`.timeOrder, " +
+                "product.idProduct, product.typeName, product.productName, product.sex, product.brand, " +
+                "product.model, product.size, product.color, product.image, product.price, product.description, " +
+                "order_product.quantity " +
+                "FROM order_product " +
+                "INNER JOIN boutique_servlets.order ON order_product.idOrder = boutique_servlets.order.idOrder " +
+                "INNER JOIN product ON product.idProduct = order_product.idProduct " +
+                "WHERE idPerson = ? AND `order`.idOrder = ?";
+
+        try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
+
+            preparedStatement.setInt(1, idUser);
+            preparedStatement.setInt(2, idOrder);
+
+            return getOrderListMap(preparedStatement);
+
+        } catch (SQLException sqlException) {
+
+            sqlException.printStackTrace();
+            return null;
+
+        }
+    }
+
+    private Map<Order, List<Product>> getOrderListMap(PreparedStatement preparedStatement) throws SQLException {
+        ResultSet rs = preparedStatement.executeQuery();
+
+        Map<Order, List<Product>> orderListMap = new HashMap<>();
+        List<Product> products = new ArrayList<>();
+
+        Order order = new Order();
+        Order copy = new Order();
+
+        while (rs.next()) {
+
+            order.setIdOrder(rs.getInt("idOrder"));
+            order.setIdPerson(rs.getInt("idPerson"));
+            order.setTotalPrice(rs.getInt("totalPrice"));
+            order.setTimeOrder(rs.getDate("timeOrder"));
+
+            if (!order.equals(copy) && copy.getIdOrder() != 0) {
+
+                orderListMap.put(copy, new ArrayList<>(products));
+                products.clear();
+
+            }
+
+            Product product = new Product();
+
+            product.setIdProduct(rs.getInt("idProduct"));
+            product.setTypeName(rs.getString("typeName"));
+            product.setProductName(rs.getString("productName"));
+            product.setSex(rs.getString("sex"));
+            product.setBrand(rs.getString("brand"));
+            product.setModel(rs.getString("model"));
+            product.setSize(rs.getString("size"));
+            product.setColor(rs.getString("color"));
+            product.setImage(rs.getString("image"));
+            product.setPrice(rs.getInt("price"));
+            product.setDescription(rs.getString("description"));
+            product.setQuantity(rs.getInt("quantity"));
+
+            products.add(product);
+
+            copy = new Order(order);
+
+        }
+
+        if (products.size() != 0)
+            orderListMap.put(order, products);
+
+        return orderListMap;
     }
 }
