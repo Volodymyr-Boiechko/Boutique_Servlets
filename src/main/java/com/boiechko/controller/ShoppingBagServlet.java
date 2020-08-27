@@ -78,8 +78,10 @@ public class ShoppingBagServlet extends HttpServlet {
                         session.setAttribute("shoppingBag", shoppingBag);
 
                         List<Integer> favoriteId = (List<Integer>) session.getAttribute("favoriteId");
-                        favoriteId.remove(Integer.valueOf(product.getIdProduct()));
-                        session.setAttribute("favoriteId", favoriteId);
+                        if (favoriteId.contains(product.getIdProduct())) {
+                            favoriteId.remove(Integer.valueOf(product.getIdProduct()));
+                            session.setAttribute("favoriteId", favoriteId);
+                        }
 
                     } else {
                         response.sendError(403);

@@ -16,7 +16,7 @@ public class AddressDaoImpl implements AddressDao {
     @Override
     public List<Address> getAddressesOfUser(int userID) {
 
-        String query = "SELECT * FROM address WHERE idPerson = ?";
+        String query = "SELECT * FROM address WHERE idPerson = ? ORDER BY idAddress DESC";
         PreparedStatement preparedStatement = null;
 
         List<Address> list = new ArrayList<>();

@@ -40,12 +40,13 @@ public class OrderServlet extends HttpServlet {
 
             final String[] selectedItems = request.getParameterValues("json[]");
             final int totalPrice = Integer.parseInt(request.getParameter("totalPrice"));
+            final int idAddress = Integer.parseInt(request.getParameter("idAddress"));
             final String dateOrder = request.getParameter("dateOrder");
 
             List<Integer> selectedItemsIntegers = new ArrayList<>();
             for (String selectedItem : selectedItems) selectedItemsIntegers.add(Integer.parseInt(selectedItem));
 
-            Order order = new Order(idPerson, totalPrice, ConvertDateUtil.convertDate(dateOrder));
+            Order order = new Order(idPerson, idAddress, totalPrice, ConvertDateUtil.convertDate(dateOrder));
 
             if (orderService.add(order)) {
 

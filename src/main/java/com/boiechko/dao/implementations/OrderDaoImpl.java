@@ -16,15 +16,16 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public boolean add(Order order) {
 
-        String query = "INSERT INTO `order` (idPerson, totalPrice, timeOrder) VALUES (?,?,?)";
+        String query = "INSERT INTO `order` (idPerson, idAddress, totalPrice, timeOrder) VALUES (?,?,?,?)";
         PreparedStatement preparedStatement = null;
 
         try {
             preparedStatement = DBConnection.getConnection().prepareStatement(query);
 
             preparedStatement.setInt(1, order.getIdPerson());
-            preparedStatement.setInt(2, order.getTotalPrice());
-            preparedStatement.setDate(3, order.getTimeOrder());
+            preparedStatement.setInt(2, order.getIdAddress());
+            preparedStatement.setInt(3, order.getTotalPrice());
+            preparedStatement.setDate(4, order.getTimeOrder());
 
             return preparedStatement.executeUpdate() > 0;
 
@@ -61,6 +62,7 @@ public class OrderDaoImpl implements OrderDao {
 
                 order.setIdOrder(rs.getInt("idOrder"));
                 order.setIdPerson(rs.getInt("idPerson"));
+                order.setIdPerson(rs.getInt("idAddress"));
                 order.setIdPerson(rs.getInt("totalPrice"));
                 order.setTimeOrder(rs.getDate("timeOrder"));
 
@@ -105,7 +107,7 @@ public class OrderDaoImpl implements OrderDao {
     public Map<Order, List<Product>> getAllOrdersAndTheirProducts(int idUser) {
 
         String query = "SELECT " +
-                "`order`.idOrder, `order`.idPerson, `order`.totalPrice, `order`.timeOrder, " +
+                "`order`.idOrder, `order`.idPerson, `order`.idAddress, `order`.totalPrice, `order`.timeOrder, " +
                 "product.idProduct, product.typeName, product.productName, product.sex, product.brand, " +
                 "product.model, product.size, product.color, product.image, product.price, product.description, " +
                 "order_product.quantity " +
@@ -171,6 +173,7 @@ public class OrderDaoImpl implements OrderDao {
 
             order.setIdOrder(rs.getInt("idOrder"));
             order.setIdPerson(rs.getInt("idPerson"));
+            order.setIdPerson(rs.getInt("idAddress"));
             order.setTotalPrice(rs.getInt("totalPrice"));
             order.setTimeOrder(rs.getDate("timeOrder"));
 
