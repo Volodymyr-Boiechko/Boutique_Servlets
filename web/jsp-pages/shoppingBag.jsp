@@ -214,7 +214,7 @@
 
                                     <div class="shoppingBag__bag__block_divider"></div>
 
-                                    <button id="makeOrderButton" onclick="makeOrder()" class="button">Зробити
+                                    <button id="makeOrderButton" onclick="makeOrder()" class="button button_shoppingBag">Зробити
                                         замовлення
                                     </button>
 

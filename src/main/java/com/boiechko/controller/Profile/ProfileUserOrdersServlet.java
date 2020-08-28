@@ -1,9 +1,15 @@
 package com.boiechko.controller.Profile;
 
+import com.boiechko.entity.Address;
 import com.boiechko.entity.Order;
+import com.boiechko.entity.Person;
 import com.boiechko.entity.Product;
+import com.boiechko.service.implementations.AddressServiceImpl;
 import com.boiechko.service.implementations.OrderServiceImpl;
+import com.boiechko.service.implementations.PersonServiceImpl;
+import com.boiechko.service.interfaces.AddressService;
 import com.boiechko.service.interfaces.OrderService;
+import com.boiechko.service.interfaces.PersonService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,12 +24,14 @@ import java.util.Map;
 @WebServlet("/userProfile/userOrders")
 public class ProfileUserOrdersServlet extends HttpServlet {
 
-    private final OrderService orderService = new OrderServiceImpl();
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession();
+
+        final OrderService orderService = new OrderServiceImpl();
+        final AddressService addressService = new AddressServiceImpl();
+        final PersonService personService = new PersonServiceImpl();
 
         final int idUser = (int) session.getAttribute("userId");
 
@@ -31,7 +39,27 @@ public class ProfileUserOrdersServlet extends HttpServlet {
 
         if (idOrderString != null) {
 
-            request.setAttribute("orderAndProducts", orderService.getOrderAndHisProducts(idUser, Integer.parseInt(idOrderString)));
+            Map<Order, List<Product>> map = orderService.getOrderAndHisProducts(idUser, Integer.parseInt(idOrderString));
+
+            for (Map.Entry<Order, List<Product>> entry : map.entrySet()) {
+
+                Order order = entry.getKey();
+                List<Product> products = entry.getValue();
+
+                request.setAttribute("order", order);
+                request.setAttribute("products", products);
+
+                Address address = addressService.getById(order.getIdAddress());
+
+                request.setAttribute("address", address);
+
+                Person person = personService.getById(idUser);
+
+                request.setAttribute("person", person);
+
+            }
+
+            request.getRequestDispatcher("/jsp-pages/Profile/Orders/orderItem.jsp").forward(request, response);
 
         } else {
 
@@ -39,9 +67,9 @@ public class ProfileUserOrdersServlet extends HttpServlet {
 
             request.setAttribute("productsByOrder", map);
 
-        }
+            request.getRequestDispatcher("/jsp-pages/Profile/Orders/orders.jsp").forward(request, response);
 
-        request.getRequestDispatcher("/jsp-pages/Profile/Orders/orders.jsp").forward(request, response);
+        }
 
     }
 

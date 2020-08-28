@@ -40,7 +40,7 @@
                         <div class="orders__block__text">
 
                             <div class="orders__block__text_descr">
-                                <span>Заказ №:</span><br>
+                                <span>Замовлення №:</span><br>
                                     ${entry.key.idOrder}
                             </div>
 
@@ -60,8 +60,7 @@
                                     <a id="link"
                                        href="${pageContext.request.contextPath}/manClothes/productItem?idProduct=${listEl.idProduct}"
                                        class="orders__block__info__images_img">
-
-                                        <c:if test="${theCount.count == 3}">
+                                        <c:if test="${theCount.count == 3 && entry.value.size() > 3}">
 
                                             <div class="hover">
                                                 <div class="hover__plus">+${entry.value.size() - 3}</div>
@@ -108,10 +107,9 @@
     for (let i = 1; i < blocks.length; i++) {
 
         let images = blocks[i].querySelectorAll('#link');
+        let hover = blocks[i].querySelector('.hover');
 
-        if (images.length > 2) {
-
-            let hover = blocks[i].querySelector('.hover');
+        if (images.length === 3 && hover !== null) {
 
             hover.style.display = "block";
 

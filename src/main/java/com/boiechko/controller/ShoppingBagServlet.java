@@ -36,7 +36,9 @@ public class ShoppingBagServlet extends HttpServlet {
         for (Product product: products)
             prices.add(product.getPrice());
 
-        final int idUser = (int) session.getAttribute("userId");
+        int idUser = 0;
+        if (session.getAttribute("userId") != null)
+            idUser = (int) session.getAttribute("userId");
 
         request.setAttribute("addresses", addressService.getAddressesOfUser(idUser));
 

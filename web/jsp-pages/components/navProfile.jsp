@@ -15,7 +15,7 @@
         switch (s) {
 
             case "profile.jsp": number = 1; break;
-            case "orders.jsp": number = 2; break;
+            case "orders.jsp": case "orderItem.jsp" : number = 2; break;
             case "info.jsp": number = 3; break;
             case "changePassword.jsp": number = 4; break;
             case "addresses.jsp": case "editAddress.jsp": case "addAddress.jsp": number = 5; break;

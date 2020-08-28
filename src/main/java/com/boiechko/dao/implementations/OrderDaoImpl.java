@@ -136,7 +136,7 @@ public class OrderDaoImpl implements OrderDao {
     public Map<Order, List<Product>> getOrderAndHisProducts(int idUser, int idOrder) {
 
         String query = "SELECT " +
-                "`order`.idOrder, `order`.idPerson, `order`.totalPrice, `order`.timeOrder, " +
+                "`order`.idOrder, `order`.idPerson, `order`.idAddress, `order`.totalPrice, `order`.timeOrder, " +
                 "product.idProduct, product.typeName, product.productName, product.sex, product.brand, " +
                 "product.model, product.size, product.color, product.image, product.price, product.description, " +
                 "order_product.quantity " +
@@ -173,7 +173,7 @@ public class OrderDaoImpl implements OrderDao {
 
             order.setIdOrder(rs.getInt("idOrder"));
             order.setIdPerson(rs.getInt("idPerson"));
-            order.setIdPerson(rs.getInt("idAddress"));
+            order.setIdAddress(rs.getInt("idAddress"));
             order.setTotalPrice(rs.getInt("totalPrice"));
             order.setTimeOrder(rs.getDate("timeOrder"));
 

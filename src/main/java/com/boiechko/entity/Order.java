@@ -16,6 +16,7 @@ public class Order {
 
     public Order(int idPerson, int idAddress, int totalPrice, Date timeOrder) {
         this.idPerson = idPerson;
+        this.idAddress = idAddress;
         this.totalPrice = totalPrice;
         this.timeOrder = timeOrder;
     }
@@ -72,7 +73,7 @@ public class Order {
         return "Order{" +
                 "idOrder=" + idOrder +
                 ", idPerson=" + idPerson +
-                ", idPerson=" + idAddress +
+                ", idAddress=" + idAddress +
                 ", totalPrice=" + totalPrice +
                 ", timeOrder='" + timeOrder + '\'' +
                 '}';
