@@ -14,6 +14,14 @@ public class Order {
     public Order(){
     }
 
+    public Order(int idOrder, int idPerson, int idAddress, int totalPrice, Date timeOrder) {
+        this.idOrder = idOrder;
+        this.idPerson = idPerson;
+        this.idAddress = idAddress;
+        this.totalPrice = totalPrice;
+        this.timeOrder = timeOrder;
+    }
+
     public Order(int idPerson, int idAddress, int totalPrice, Date timeOrder) {
         this.idPerson = idPerson;
         this.idAddress = idAddress;

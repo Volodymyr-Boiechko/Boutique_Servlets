@@ -5,7 +5,7 @@ import com.boiechko.service.implementations.PersonServiceImpl;
 import com.boiechko.service.interfaces.PersonService;
 import com.boiechko.utils.ConvertDateUtil;
 import com.boiechko.utils.HashingPassword.HashPasswordUtil;
-import com.boiechko.utils.JavaMailUtil;
+import com.boiechko.utils.Mail.JavaMailUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -66,9 +66,8 @@ public class RegistrationsServlet extends HttpServlet {
 
             if (personService.add(person)) {
 
-                JavaMailUtil javaMailUtil = new JavaMailUtil("confirmRegistration");
-                javaMailUtil.setPerson(personService.getPersonByCredentials("username", username));
-                javaMailUtil.sendMail(email);
+                JavaMailUtil javaMailUtil = new JavaMailUtil("confirmRegistration", person);
+                javaMailUtil.sendMail(person.getEmail());
 
                 HttpSession session = request.getSession();
                 session.setAttribute("username", username);

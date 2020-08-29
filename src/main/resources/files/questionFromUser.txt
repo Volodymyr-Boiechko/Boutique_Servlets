@@ -17,12 +17,10 @@
         .info {
             margin-top: 20px;
             width: 100%;
-            word-wrap: break-word;
             color: grey;
         }
         .info span {
             font-size: 20px;
-            text-decoration: underline;
             margin-right: 25px;
             color:black;
             font-weight: bold;

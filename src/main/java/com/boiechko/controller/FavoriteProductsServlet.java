@@ -71,7 +71,7 @@ public class FavoriteProductsServlet extends HttpServlet {
                         response.getWriter().write("add");
 
                         List<Product> shoppingBag = (List<Product>) session.getAttribute("shoppingBag");
-                            if (shoppingBag.contains(product)) {
+                        if (shoppingBag.contains(product)) {
                             shoppingBag.remove(product);
                             session.setAttribute("shoppingBag", shoppingBag);
                         }

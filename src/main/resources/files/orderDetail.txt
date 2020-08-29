@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .wrapper{background-color:#e3e3e3;border:1px solid;width:750px;margin:0 auto;padding:20px 20px 20px 20px;font-family:Arial,Helvetica,sans-serif}.orderItem__block{min-height:200px;padding:40px 30px 25px 30px;border:.5px gray solid;background-color:#fff;margin-top:35px}.orderItem__block:first-of-type{margin-top:0}.orderItem__block__infoOrder{text-align:center}.orderItem__block__infoOrder__title{font-size:22px;font-weight:700;letter-spacing:4;margin-top:25px}.orderItem__block__infoOrder__descr{margin-top:10px;font-size:15px;font-weight:400;color:#686868;letter-spacing:1.2}.orderItem__block__infoOrder__text{margin:30px auto 20px auto;display:block;text-align:left;text-align:center}.orderItem__block__infoOrder__text__info{font-weight:700;margin-top:15px}.orderItem__block__infoOrder__text__info:first-of-type{margin-top:0}.orderItem__block__infoOrder__text__info_orderDetail{font-weight:bold;color:grey;margin-left:20px;display:inline-block}.orderItem__block__products__title{text-align:left;font-size:24px;letter-spacing:2.5;font-weight:700}.orderItem__block__products__block{margin-top:30px;border-top:.5px solid #ededed;padding-top:20px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row;position:relative}.orderItem__block__products__block__img{width:75px;height:100px;position:relative}.orderItem__block__products__block__img img{height:100%;width:100%;border:none;margin:0;padding:0}.orderItem__block__products__block__text{margin-left:35px}.orderItem__block__products__block__text_descr{color:#8b8b8b;font-weight:700;font-size:20px}.orderItem__block__products__block__text_price{font-weight:700;color:#2d2d2d;margin-top:7px;letter-spacing:2.3px;font-size:21px}.orderItem__block__products__block__text__char{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;margin-top:10px}.orderItem__block__products__block__text__char__label{margin-top:8px;width:100%}.orderItem__block__products__block__text__char__label_title{display:inline-block;font-weight:700;text-transform:uppercase;letter-spacing:1;font-size:12.5px}.orderItem__block__products__block__text__char__label_info{display:inline-block;margin-left:15px;font-weight:400;color:#979797;font-size:14px}.orderItem__block__products__totalPrice__textTotal{padding:20px 0 30px 0;margin-top:35px;border-top:.5px solid #ededed;margin-bottom:25px;border-bottom:.5px solid #ededed}.orderItem__block__products__totalPrice__textTotal__element{width:100%;margin-top:15px;font-size:14px;font-weight:700;display:-webkit-box;display:-ms-flexbox;display:flex}.orderItem__block__products__totalPrice__textTotal__element_title{width:50%;display:inline-block}.orderItem__block__products__totalPrice__textTotal__element_descr{display:inline-block;color:grey;text-align:right;width:50%}.orderItem__block__products__totalPrice__total{width:100%;display:-webkit-box;display:-ms-flexbox;display:flex;font-size:20px;font-weight:700;margin-top:15px}.orderItem__block__products__totalPrice__total_title{width:50%;display:inline-block}.orderItem__block__products__totalPrice__total_descr{display:inline-block;text-align:right;width:50%;color:#000;text-transform:uppercase}.orderItem__block__address__title{text-align:left;font-weight:700;font-size:24px;letter-spacing:2.5;text-transform:uppercase}.orderItem__block__address__block{margin-top:30px;border-top:.5px solid #ededed;padding-top:20px}.orderItem__block__address__block__title{display:inline-block;color:#777;font-size:18px;text-transform:uppercase;letter-spacing:1.5;font-weight:700;margin-top:25px}.orderItem__block__address__block__title:first-of-type{margin-top:0;margin-bottom:12px}.orderItem__block__address__block_element{margin-top:12px;font-size:15px;color:#2d2d2d;letter-spacing:.6}
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="orderItem">
+            <div class="orderItem__block__infoOrder">
+                <div class="orderItem__block__infoOrder__title">Інформація про замовлення</div>
+                <div class="orderItem__block__infoOrder__descr">Привіт ${username}, Ваше замовлення отримано.
+                    Ознайомтесь з
+                    деталями нижче
+                </div>
+                <div class="orderItem__block__infoOrder__text">
+                    <div class="orderItem__block__infoOrder__text__info">
+                        Замовлення №
+                        <div class="orderItem__block__infoOrder__text__info_orderDetail">${order.idOrder}</div>
+                    </div>
+                    <div class="orderItem__block__infoOrder__text__info">
+                        Дата замовлення
+                        <div class="orderItem__block__infoOrder__text__info_orderDetail">${order.timeOrder}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="orderItem__block">
+                <div class="orderItem__block__products">
+                    <div class="orderItem__block__products__title">
+                        ${products.size()} ${nameOfProduct}
+                    </div>
+                    <div class="productsWrapper">
+
+                    </div>
+                    <div class="orderItem__block__products__totalPrice">
+                        <div class="orderItem__block__products__totalPrice__textTotal">
+                            <div class="orderItem__block__products__totalPrice__textTotal__element">
+                                <div class="orderItem__block__products__totalPrice__textTotal__element_title">Проміжний підсумок</div>
+                                <div class="orderItem__block__products__totalPrice__textTotal__element_descr">${order.totalPrice} грн.</div>
+                            </div>
+                            <div class="orderItem__block__products__totalPrice__textTotal__element">
+                                <div class="orderItem__block__products__totalPrice__textTotal__element_title">Доставка</div>
+                                <div class="orderItem__block__products__totalPrice__textTotal__element_descr">Безкоштовно</div>
+                            </div>
+                        </div>
+                        <div class="orderItem__block__products__totalPrice__total">
+                            <div class="orderItem__block__products__totalPrice__total_title">Загальна сума</div>
+                            <div class="orderItem__block__products__totalPrice__total_descr">${order.totalPrice} грн.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="orderItem__block">
+                <div class="orderItem__block__address">
+                    <div class="orderItem__block__address__title">Деталі доставки</div>
+                    <div class="orderItem__block__address__block">
+                        <div class="orderItem__block__address__block__title">Адрес доставки:</div>
+                        <div class="orderItem__block__address__block_element">${person.firstName} ${person.surname}</div>
+                        <div class="orderItem__block__address__block_element">${address.street}</div>
+                        <div class="orderItem__block__address__block_element">${address.city}</div>
+                        <div class="orderItem__block__address__block_element">${address.country}</div>
+                        <div class="orderItem__block__address__block_element">${address.postCode}</div>
+                        <div class="orderItem__block__address__block_element">${person.phoneNumber}</div>
+                        <div class="orderItem__block__address__block__title">Передбачувана дата доставки:</div>
+                        <div class="orderItem__block__address__block_element">${deliveryDate}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

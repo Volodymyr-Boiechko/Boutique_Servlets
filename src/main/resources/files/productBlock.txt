@@ -1,0 +1,15 @@
+    <div class="orderItem__block__products__block">
+        <div class="orderItem__block__products__block__img">
+            <img src="cid:${product.image}" alt="${product.typeName}">
+        </div>
+        <div class="orderItem__block__products__block__text">
+            <div class="orderItem__block__products__block__text_descr">${product.description}</div>
+            <div class="orderItem__block__products__block__text_price">${product.price} грн.</div>
+            <div class="orderItem__block__products__block__text__char">
+                <div class="orderItem__block__products__block__text__char__label">
+                    <div class="orderItem__block__products__block__text__char__label_title">Кількість:</div>
+                    <div class="orderItem__block__products__block__text__char__label_info">${product.quantity}</div>
+                </div>
+            </div>
+        </div>
+    </div>

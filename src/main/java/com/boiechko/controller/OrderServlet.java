@@ -5,8 +5,11 @@ import com.boiechko.entity.OrderProduct;
 import com.boiechko.entity.Product;
 import com.boiechko.service.implementations.OrderProductServiceImpl;
 import com.boiechko.service.implementations.OrderServiceImpl;
+import com.boiechko.service.implementations.PersonServiceImpl;
 import com.boiechko.service.interfaces.OrderService;
+import com.boiechko.service.interfaces.PersonService;
 import com.boiechko.utils.ConvertDateUtil;
+import com.boiechko.utils.Mail.JavaMailUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,6 +26,7 @@ public class OrderServlet extends HttpServlet {
 
     private final OrderService orderService = new OrderServiceImpl();
     private final OrderProductServiceImpl orderProductService = new OrderProductServiceImpl();
+    private final PersonService personService = new PersonServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -36,6 +40,7 @@ public class OrderServlet extends HttpServlet {
 
         try {
 
+            //todo Замінити на атрибут Person
             int idPerson = (int) session.getAttribute("userId");
 
             final String[] selectedItems = request.getParameterValues("json[]");
@@ -64,6 +69,10 @@ public class OrderServlet extends HttpServlet {
 
 
                 }
+
+                order.setIdOrder(idOrder);
+                JavaMailUtil javaMailUtil = new JavaMailUtil("orderDetail", order, shoppingBag);
+                javaMailUtil.sendMail(personService.getById(idPerson).getEmail());
 
                 shoppingBag.clear();
                 session.setAttribute("shoppingBag", shoppingBag);

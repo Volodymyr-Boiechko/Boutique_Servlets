@@ -1,7 +1,7 @@
 package com.boiechko.controller;
 
 import com.boiechko.entity.Person;
-import com.boiechko.utils.JavaMailUtil;
+import com.boiechko.utils.Mail.JavaMailUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,9 +30,7 @@ public class FooterServlet extends HttpServlet {
 
         Person person = new Person(firstName, surname, lastName, email, phoneNumber);
 
-        JavaMailUtil javaMailUtil = new JavaMailUtil("questionFromUser");
-        javaMailUtil.setPerson(person);
-        javaMailUtil.setComment(comment);
+        JavaMailUtil javaMailUtil = new JavaMailUtil("questionFromUser", person, comment);
         javaMailUtil.sendMail("boiechko.work@gmail.com");
 
     }

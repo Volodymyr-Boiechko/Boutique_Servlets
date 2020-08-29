@@ -55,7 +55,7 @@
 
                     <div class="row">
 
-                        <div class="col-md-7">
+                        <div class="col-md-7" id="text">
 
                             <div class="shoppingBag__bag">
 
@@ -65,13 +65,13 @@
 
                                     <div class="shoppingBag__bag__block" id="${product.idProduct}">
 
-                                        <div href="${pageContext.request.contextPath}/manClothes/productItem?idProduct=${product.idProduct}"
+                                        <a href="${pageContext.request.contextPath}/manClothes/productItem?idProduct=${product.idProduct}"
                                              class="shoppingBag__bag__block__img">
 
                                             <img src="${pageContext.request.contextPath}/${product.image}"
                                                  alt="${product.typeName}">
 
-                                        </div>
+                                        </a>
 
                                         <div class="shoppingBag__bag__block__text">
 
@@ -359,6 +359,8 @@
 
         let addressSelect = document.getElementById('selectAddresses');
 
+        let html = document.getElementById('text').outerHTML;
+
         $.ajax({
 
             url: '/makeOrder',
@@ -369,7 +371,8 @@
                 json: selectElement,
                 totalPrice: formPrice(),
                 dateOrder: date,
-                idAddress: addressSelect.options[addressSelect.selectedIndex].getAttribute('name')
+                idAddress: addressSelect.options[addressSelect.selectedIndex].getAttribute('name'),
+                text: document.getElementById('text').outerHTML
             }
 
         }).done(function () {
