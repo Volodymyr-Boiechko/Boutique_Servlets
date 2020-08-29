@@ -5,10 +5,14 @@ import com.boiechko.dao.interfaces.ProductDao;
 import com.boiechko.entity.Product;
 import com.boiechko.service.interfaces.ProductService;
 
+import javax.servlet.http.Part;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class ProductServiceImpl implements ProductService {
 
+    private final String appPath = "C:\\Users\\volod\\IdeaProjects\\Boutique_Servlets\\web\\dataBaseImages\\";
     private final ProductDao productDao = new ProductDaoImpl();
 
     @Override
@@ -41,4 +45,39 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> groupBy(final String column) { return productDao.groupBy(column); }
+
+    @Override
+    public boolean saveImage(Part image, String destination) {
+
+        final String imagePath = appPath + destination.replace("/", "\\");
+
+        final File fileDir = new File(imagePath);
+        if (!fileDir.exists())
+            fileDir.mkdirs();
+
+        final String imageName = image.getSubmittedFileName();
+
+        if (validateImage(imageName)) {
+            try {
+                image.write(imagePath + File.separator + imageName);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else return false;
+
+        return true;
+
+    }
+
+    private boolean validateImage(final String imageName) {
+
+        final String fileExt = imageName.substring(imageName.length() - 3);
+        return "jpg".equals(fileExt) || "png".equals(fileExt) || "gif".equals(fileExt);
+    }
+
+    @Override
+    public String getDestinationOfImage(Part image, String destination) {
+        return destination + "/" + image.getSubmittedFileName();
+    }
 }

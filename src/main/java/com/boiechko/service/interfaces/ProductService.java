@@ -2,6 +2,7 @@ package com.boiechko.service.interfaces;
 
 import com.boiechko.entity.Product;
 
+import javax.servlet.http.Part;
 import java.util.List;
 
 public interface ProductService {
@@ -23,5 +24,9 @@ public interface ProductService {
     List<Product> getUniqueFields(final String uniqueColumn, final String condition, final String statement);
 
     List<Product> groupBy(final String column);
+
+    boolean saveImage(final Part image, final String destination);
+
+    String getDestinationOfImage(final Part image, final String destination);
 
 }
