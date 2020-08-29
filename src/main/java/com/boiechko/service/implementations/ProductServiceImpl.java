@@ -12,31 +12,33 @@ public class ProductServiceImpl implements ProductService {
     private final ProductDao productDao = new ProductDaoImpl();
 
     @Override
-    public boolean addProduct(Product product) { return productDao.add(product); }
+    public boolean addProduct(final Product product) { return productDao.add(product); }
 
     @Override
-    public Product getProductById(int id) { return productDao.getById(id); }
+    public Product getProductById(final int id) { return productDao.getById(id); }
 
     @Override
     public List<Product> getAllProducts() { return productDao.getAll(); }
 
     @Override
-    public boolean updateProduct(Product product) { return productDao.update(product); }
+    public boolean updateProduct(final Product product) { return productDao.update(product); }
 
     @Override
-    public boolean deleteProduct(int id) { return productDao.delete(id); }
+    public boolean deleteProduct(final int id) { return productDao.delete(id); }
 
     @Override
-    public List<Product> getAllByCredentials(String column, String credentials) { return productDao.getAllByCredentials(column, credentials); }
+    public List<Product> getAllByCredentials(final String column, final String credentials) {
+        return productDao.getAllByCredentials(column, credentials);
+    }
 
     @Override
     public List<Product> getNewest() { return productDao.getNewest(); }
 
     @Override
-    public List<Product> getUniqueFields(String uniqueColumn, String condition, String statement) {
+    public List<Product> getUniqueFields(final String uniqueColumn, final String condition, final String statement) {
         return productDao.getUniqueFields(uniqueColumn, condition, statement);
     }
 
     @Override
-    public List<Product> groupBy(String column) { return productDao.groupBy(column); }
+    public List<Product> groupBy(final String column) { return productDao.groupBy(column); }
 }

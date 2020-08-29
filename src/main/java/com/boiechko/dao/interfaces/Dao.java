@@ -5,17 +5,17 @@ import java.util.List;
 public interface Dao<T> {
 
     //add to data base
-    boolean add(T t);
+    boolean add(final T t);
 
     //get from data base
-    T getById(int id);
+    T getById(final int id);
 
     //get all data
     List<T> getAll();
 
     //update
-    boolean update(T t);
+    boolean update(final T t);
 
-    boolean delete(int id);
+    boolean delete(final int id);
 
 }

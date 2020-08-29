@@ -10,5 +10,5 @@ public class OrderProductServiceImpl implements OrderProductService {
     private final OrderProductDao orderProductDao = new OrderProductDaoImpl();
 
     @Override
-    public boolean addOrderProduct(OrderProduct orderProduct) { return orderProductDao.add(orderProduct); }
+    public boolean addOrderProduct(final OrderProduct orderProduct) { return orderProductDao.add(orderProduct); }
 }

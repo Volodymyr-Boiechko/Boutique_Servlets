@@ -69,7 +69,7 @@ public class JavaMailUtil {
         return null;
     }
 
-    public void sendMail(String recipient) {
+    public void sendMail(final String recipient) {
 
         try {
 
@@ -84,7 +84,7 @@ public class JavaMailUtil {
                 }
             });
 
-            Message message = prepareMessage(session, recipient);
+            final Message message = prepareMessage(session, recipient);
 
             assert message != null;
             Transport.send(message);
@@ -95,7 +95,7 @@ public class JavaMailUtil {
 
     }
 
-    private Message prepareMessage(Session session, String recipient) {
+    private Message prepareMessage(final Session session, final String recipient) {
 
         try {
 
@@ -121,7 +121,7 @@ public class JavaMailUtil {
 
     }
 
-    public String getHtmlCode(String pathToFile) {
+    public String getHtmlCode(final String pathToFile) {
 
         String result = "";
 
@@ -139,7 +139,7 @@ public class JavaMailUtil {
         return result;
     }
 
-    private String addProducts(String buf) {
+    private String addProducts(final String buf) {
 
         StringBuilder result = new StringBuilder();
         String pathToFile = "C:\\Users\\volod\\IdeaProjects\\Boutique_Servlets\\src\\main\\resources\\files\\productBlock.txt";
@@ -169,7 +169,7 @@ public class JavaMailUtil {
 
     }
 
-    private Multipart getHtmlCodeWithImages(String htmlCode) {
+    private Multipart getHtmlCodeWithImages(final String htmlCode) {
 
         Multipart multipart = new MimeMultipart();
 
@@ -253,7 +253,7 @@ public class JavaMailUtil {
         return htmlText;
     }
 
-    private String getTitleOfProducts(int size) {
+    private String getTitleOfProducts(final int size) {
 
         if (size == 1) {
             return size + " товар";

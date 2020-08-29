@@ -12,17 +12,17 @@ public class AddressServiceImpl implements AddressService {
     private final AddressDao addressDao = new AddressDaoImpl();
 
     @Override
-    public List<Address> getAddressesOfUser(int userID) { return addressDao.getAddressesOfUser(userID); }
+    public List<Address> getAddressesOfUser(final int userID) { return addressDao.getAddressesOfUser(userID); }
 
     @Override
-    public boolean addAddress(Address address) { return addressDao.add(address); }
+    public boolean addAddress(final Address address) { return addressDao.add(address); }
 
     @Override
-    public Address getAddressById(int id) { return addressDao.getById(id); }
+    public Address getAddressById(final int id) { return addressDao.getById(id); }
 
     @Override
-    public boolean updateAddress(Address address) { return addressDao.update(address); }
+    public boolean updateAddress(final Address address) { return addressDao.update(address); }
 
     @Override
-    public boolean deleteAddress(int id) { return addressDao.delete(id); }
+    public boolean deleteAddress(final int id) { return addressDao.delete(id); }
 }

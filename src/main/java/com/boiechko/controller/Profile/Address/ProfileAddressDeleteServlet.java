@@ -13,21 +13,18 @@ import java.io.IOException;
 @WebServlet("/userProfile/userAddresses/deleteAddress/*")
 public class ProfileAddressDeleteServlet extends HttpServlet {
 
+    private final AddressService addressService = new AddressServiceImpl();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         try {
 
-            String path = request.getRequestURI();
-            String[] elements = path.split("/");
+            String[] elements = request.getRequestURI().split("/");
 
-            int addressId = Integer.parseInt(elements[elements.length - 1]);
+            final int addressId = Integer.parseInt(elements[elements.length - 1]);
 
-            AddressService addressService = new AddressServiceImpl();
-
-            boolean success = addressService.deleteAddress(addressId);
-
-            if (success)
+            if (addressService.deleteAddress(addressId))
                 response.sendRedirect("/userProfile/userAddresses");
             else
                 response.sendError(500);
@@ -36,11 +33,6 @@ public class ProfileAddressDeleteServlet extends HttpServlet {
             exception.printStackTrace();
             response.sendError(500);
         }
-
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
 }

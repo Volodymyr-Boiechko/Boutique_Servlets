@@ -16,23 +16,22 @@ import java.util.Enumeration;
 @WebServlet("/logout/*")
 public class LogOutServlet extends HttpServlet {
 
+    private final PersonService personService = new PersonServiceImpl();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String pathInfo = request.getRequestURI();
-        String[] pathParts = pathInfo.split("/");
+        HttpSession session = request.getSession();
+
+        String[] pathParts = request.getRequestURI().split("/");
 
         if (pathParts.length != 2 ){
 
-            String username = pathParts[2];
+            final String username = pathParts[2];
 
-            PersonService service = new PersonServiceImpl();
-
-            Person person = service.getPersonByCredentials("username", username);
+            final Person person = personService.getPersonByCredentials("username", username);
 
             if (person.getUsername() != null) {
-
-                HttpSession session = request.getSession(false);
 
                 Enumeration<String> names = session.getAttributeNames();
 

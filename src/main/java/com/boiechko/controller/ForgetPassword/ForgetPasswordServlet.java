@@ -16,6 +16,8 @@ import java.io.IOException;
 @WebServlet("/forget/*")
 public class ForgetPasswordServlet extends HttpServlet {
 
+    private final PersonService personService = new PersonServiceImpl();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -26,11 +28,9 @@ public class ForgetPasswordServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String email = request.getParameter("email");
+        final String email = request.getParameter("email");
 
-        PersonService personService = new PersonServiceImpl();
-
-        Person person = personService.getPersonByCredentials("email", email);
+        final Person person = personService.getPersonByCredentials("email", email);
 
         if (person.getUsername() != null) {
 
@@ -39,14 +39,10 @@ public class ForgetPasswordServlet extends HttpServlet {
 
             response.getWriter().write(javaMailUtil.getVerificationCode());
 
-            HttpSession session = request.getSession();
-
-                session.setAttribute("email", email);
+            request.getSession().setAttribute("email", email);
 
         } else {
-
             response.sendError(403);
-
         }
     }
 }

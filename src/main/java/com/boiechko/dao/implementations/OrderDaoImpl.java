@@ -14,9 +14,9 @@ import java.util.*;
 public class OrderDaoImpl implements OrderDao {
 
     @Override
-    public boolean add(Order order) {
+    public boolean add(final Order order) {
 
-        String query = "INSERT INTO `order` (idPerson, idAddress, totalPrice, timeOrder) VALUES (?,?,?,?)";
+        final String query = "INSERT INTO `order` (idPerson, idAddress, totalPrice, timeOrder) VALUES (?,?,?,?)";
 
         try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
@@ -34,9 +34,9 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> getAllById(int id) {
+    public List<Order> getAllById(final int id) {
 
-        String query = "SELECT * FROM `order` WHERE idPerson = ?";
+        final String query = "SELECT * FROM `order` WHERE idPerson = ?";
 
         try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
@@ -70,9 +70,9 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public int getLastId() {
 
-        String query = "SELECT MAX(idOrder) FROM `order`";
+        final String query = "SELECT MAX(idOrder) FROM `order`";
 
-        try(Statement statement = DBConnection.getConnection().createStatement()) {
+        try (Statement statement = DBConnection.getConnection().createStatement()) {
 
             ResultSet rs = statement.executeQuery(query);
 
@@ -85,9 +85,9 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Map<Order, List<Product>> getAllOrdersAndTheirProducts(int idUser) {
+    public Map<Order, List<Product>> getAllOrdersAndTheirProducts(final int idUser) {
 
-        String query = "SELECT " +
+        final String query = "SELECT " +
                 "`order`.idOrder, `order`.idPerson, `order`.idAddress, `order`.totalPrice, `order`.timeOrder, " +
                 "product.idProduct, product.typeName, product.productName, product.sex, product.brand, " +
                 "product.model, product.size, product.color, product.image, product.price, product.description, " +
@@ -110,9 +110,9 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Map<Order, List<Product>> getOrderAndHisProducts(int idUser, int idOrder) {
+    public Map<Order, List<Product>> getOrderAndHisProducts(final int idUser, final int idOrder) {
 
-        String query = "SELECT " +
+        final String query = "SELECT " +
                 "`order`.idOrder, `order`.idPerson, `order`.idAddress, `order`.totalPrice, `order`.timeOrder, " +
                 "product.idProduct, product.typeName, product.productName, product.sex, product.brand, " +
                 "product.model, product.size, product.color, product.image, product.price, product.description, " +
@@ -135,7 +135,7 @@ public class OrderDaoImpl implements OrderDao {
         }
     }
 
-    private Map<Order, List<Product>> getOrderListMap(PreparedStatement preparedStatement) throws SQLException {
+    private Map<Order, List<Product>> getOrderListMap(final PreparedStatement preparedStatement) throws SQLException {
 
         ResultSet rs = preparedStatement.executeQuery();
 

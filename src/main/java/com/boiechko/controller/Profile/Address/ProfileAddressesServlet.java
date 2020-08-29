@@ -19,17 +19,17 @@ import java.util.List;
 @WebServlet("/userProfile/userAddresses")
 public class ProfileAddressesServlet extends HttpServlet {
 
+    private final AddressService addressService = new AddressServiceImpl();
+    private final PersonService personService = new PersonServiceImpl();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        AddressService addressService = new AddressServiceImpl();
-        PersonService personService = new PersonServiceImpl();
-
         HttpSession session = request.getSession();
-        int userId = (int) session.getAttribute("userId");
+        final int userId = (int) session.getAttribute("userId");
 
-        List<Address> addresses = addressService.getAddressesOfUser(userId);
-        Person person = personService.getPersonById(userId);
+        final List<Address> addresses = addressService.getAddressesOfUser(userId);
+        final Person person = personService.getPersonById(userId);
 
         request.setAttribute("addresses", addresses);
         request.setAttribute("person", person);
@@ -37,8 +37,4 @@ public class ProfileAddressesServlet extends HttpServlet {
         request.getRequestDispatcher("/jsp-pages/Profile/Address/addresses.jsp").forward(request, response);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
 }

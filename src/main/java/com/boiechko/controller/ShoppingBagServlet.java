@@ -28,7 +28,7 @@ public class ShoppingBagServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
 
-        List<Product> products = (List<Product>) session.getAttribute("shoppingBag");
+        final List<Product> products = (List<Product>) session.getAttribute("shoppingBag");
         if (products != null) {
 
             List<Integer> prices = new ArrayList<>();
@@ -53,9 +53,9 @@ public class ShoppingBagServlet extends HttpServlet {
         HttpSession session = request.getSession();
 
         final int id = Integer.parseInt(request.getParameter("idProduct"));
-        String username = (String) session.getAttribute("username");
+        final String username = (String) session.getAttribute("username");
 
-        Product product = productService.getProductById(id);
+        final Product product = productService.getProductById(id);
 
         if (username != null) {
 
@@ -106,16 +106,14 @@ public class ShoppingBagServlet extends HttpServlet {
         HttpSession session = request.getSession();
 
         final int id = Integer.parseInt(request.getParameter("idProduct"));
-        Product product = productService.getProductById(id);
+        final Product product = productService.getProductById(id);
 
         if (product.getTypeName() != null) {
 
             try {
 
-                List<Integer> shoppingBag = (List<Integer>) session.getAttribute("shoppingBag");
-
+                List<Product> shoppingBag = (List<Product>) session.getAttribute("shoppingBag");
                 shoppingBag.remove(product);
-
                 session.setAttribute("shoppingBag", shoppingBag);
 
             } catch (Exception e) {

@@ -18,22 +18,19 @@ import java.util.stream.Collectors;
 @WebServlet("/manClothes/productItem")
 public class ProductServlet extends HttpServlet {
 
+    private final ProductService productService = new ProductServiceImpl();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        ProductService productService = new ProductServiceImpl();
-
-        String[] urlParts = request.getRequestURI().split("/");
-
-        String sex = urlParts[1].equals("manClothes") ? "Чоловіче" : "Жіноче";
-
+        final String[] urlParts = request.getRequestURI().split("/");
+        final String sex = urlParts[1].equals("manClothes") ? "Чоловіче" : "Жіноче";
         final int id = Integer.parseInt(request.getParameter("idProduct"));
+        final Product product = productService.getProductById(id);
 
-        Product product = productService.getProductById(id);
+        final List<String> parts = new ArrayList<>(Arrays.asList(sex, getTypeName(product.getTypeName())));
 
-        List<String> parts = new ArrayList<>(Arrays.asList(sex, getTypeName(product.getTypeName())));
-
-        List<Product> products = productService.getAllByCredentials("productName",
+        final List<Product> products = productService.getAllByCredentials("productName",
                 product.getProductName()).stream().filter(i -> !i.equals(product)).limit(4).collect(Collectors.toList());
 
         request.setAttribute("product", product);
@@ -44,7 +41,7 @@ public class ProductServlet extends HttpServlet {
 
     }
 
-    private String getTypeName(String name) {
+    private String getTypeName(final String name) {
 
         switch (name) {
             case "Одяг":
@@ -59,10 +56,5 @@ public class ProductServlet extends HttpServlet {
                 return null;
 
         }
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
     }
 }

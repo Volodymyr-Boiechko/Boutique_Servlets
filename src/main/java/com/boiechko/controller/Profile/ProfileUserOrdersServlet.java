@@ -24,17 +24,16 @@ import java.util.Map;
 @WebServlet("/userProfile/userOrders")
 public class ProfileUserOrdersServlet extends HttpServlet {
 
+    private final PersonService personService = new PersonServiceImpl();
+    private final OrderService orderService = new OrderServiceImpl();
+    private final AddressService addressService = new AddressServiceImpl();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession();
 
-        final OrderService orderService = new OrderServiceImpl();
-        final AddressService addressService = new AddressServiceImpl();
-        final PersonService personService = new PersonServiceImpl();
-
         final int idUser = (int) session.getAttribute("userId");
-
         final String idOrderString = request.getParameter("idOrder");
 
         if (idOrderString != null) {
@@ -43,18 +42,14 @@ public class ProfileUserOrdersServlet extends HttpServlet {
 
             for (Map.Entry<Order, List<Product>> entry : map.entrySet()) {
 
-                Order order = entry.getKey();
-                List<Product> products = entry.getValue();
+                final Order order = entry.getKey();
+                final List<Product> products = entry.getValue();
+                final Address address = addressService.getAddressById(order.getIdAddress());
+                final Person person = personService.getPersonById(idUser);
 
                 request.setAttribute("order", order);
                 request.setAttribute("products", products);
-
-                Address address = addressService.getAddressById(order.getIdAddress());
-
                 request.setAttribute("address", address);
-
-                Person person = personService.getPersonById(idUser);
-
                 request.setAttribute("person", person);
 
             }
@@ -63,19 +58,11 @@ public class ProfileUserOrdersServlet extends HttpServlet {
 
         } else {
 
-            Map<Order, List<Product>> map = orderService.getAllOrdersAndTheirProducts(idUser);
-
-            request.setAttribute("productsByOrder", map);
+            request.setAttribute("productsByOrder", orderService.getAllOrdersAndTheirProducts(idUser));
 
             request.getRequestDispatcher("/jsp-pages/Profile/Orders/orders.jsp").forward(request, response);
 
         }
-
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 
     }
 }

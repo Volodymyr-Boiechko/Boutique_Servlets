@@ -6,12 +6,12 @@ import java.util.List;
 
 public interface ProductDao extends Dao<Product> {
 
-    List<Product> getAllByCredentials(String column, String credentials);
+    List<Product> getAllByCredentials(final String column, final String credentials);
 
     List<Product> getNewest();
 
-    List<Product> getUniqueFields(String uniqueColumn, String condition, String statement);
+    List<Product> getUniqueFields(final String uniqueColumn, final String condition, final String statement);
 
-    List<Product> groupBy(String column);
+    List<Product> groupBy(final String column);
 
 }

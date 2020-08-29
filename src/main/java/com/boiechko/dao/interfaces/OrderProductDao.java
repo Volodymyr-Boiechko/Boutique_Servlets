@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface OrderProductDao {
 
-    boolean add(OrderProduct orderProduct);
+    boolean add(final OrderProduct orderProduct);
 
 }

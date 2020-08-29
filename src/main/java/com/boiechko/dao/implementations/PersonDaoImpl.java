@@ -3,6 +3,7 @@ package com.boiechko.dao.implementations;
 import com.boiechko.config.DBConnection;
 import com.boiechko.dao.interfaces.PersonDao;
 import com.boiechko.entity.Person;
+import com.boiechko.enums.PersonType;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,11 +16,11 @@ public class PersonDaoImpl implements PersonDao {
 
     // We receive the user on special data
     @Override
-    public Person getByCredentials(String column, String credentials) {
+    public Person getByCredentials(final String column, final String credentials) {
 
-        String query = "SELECT * FROM person WHERE " + column + " = ?";
+        final String query = "SELECT * FROM person WHERE " + column + " = ?";
 
-        try(PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
             preparedStatement.setString(1, credentials);
             ResultSet rs = preparedStatement.executeQuery();
@@ -38,18 +39,18 @@ public class PersonDaoImpl implements PersonDao {
 
     //Add to DataBase
     @Override
-    public boolean add(Person person) {
+    public boolean add(final Person person) {
 
-        String query = "INSERT INTO person(username,password, birthDate, email, typeName, activationCode)" +
+        final String query = "INSERT INTO person(username,password, birthDate, email, typeName, activationCode)" +
                 "VALUE (?,?,?,?,?,?)";
 
-        try(PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
             preparedStatement.setString(1, person.getUsername());
             preparedStatement.setString(2, person.getPassword());
             preparedStatement.setDate(3, person.getBirthDate());
             preparedStatement.setString(4, person.getEmail());
-            preparedStatement.setString(5, "USER");
+            preparedStatement.setString(5, PersonType.USER.toString());
             preparedStatement.setString(6, UUID.randomUUID().toString());
 
             return preparedStatement.executeUpdate() > 0;
@@ -62,11 +63,11 @@ public class PersonDaoImpl implements PersonDao {
 
     // Get user from data base with special ID
     @Override
-    public Person getById(int id) {
+    public Person getById(final int id) {
 
-        String query = "SELECT * FROM person WHERE idPerson=?";
+        final String query = "SELECT * FROM person WHERE idPerson=?";
 
-        try(PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
             preparedStatement.setInt(1, id);
             ResultSet rs = preparedStatement.executeQuery();
@@ -87,9 +88,9 @@ public class PersonDaoImpl implements PersonDao {
     @Override
     public List<Person> getAll() {
 
-        String query = "SELECT * FROM person";
+        final String query = "SELECT * FROM person";
 
-        try(PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
             ResultSet rs = preparedStatement.executeQuery();
 
@@ -111,12 +112,12 @@ public class PersonDaoImpl implements PersonDao {
 
     // Update user's info in data base
     @Override
-    public boolean update(Person person) {
+    public boolean update(final Person person) {
 
-        String query = "UPDATE person SET username=?, password=?, firstName=?, surname=?, lastName=?," +
+        final String query = "UPDATE person SET username=?, password=?, firstName=?, surname=?, lastName=?," +
                 "birthDate=?,email=?,phoneNumber=?,activationCode=? WHERE idPerson=?";
 
-        try(PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
             preparedStatement.setString(1, person.getUsername());
             preparedStatement.setString(2, person.getPassword());
@@ -139,11 +140,11 @@ public class PersonDaoImpl implements PersonDao {
 
     // Delete user from data base
     @Override
-    public boolean delete(int id) {
+    public boolean delete(final int id) {
 
-        String query = "DELETE FROM person WHERE idPerson=?";
+        final String query = "DELETE FROM person WHERE idPerson=?";
 
-        try(PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
             preparedStatement.setInt(1, id);
 
@@ -155,7 +156,7 @@ public class PersonDaoImpl implements PersonDao {
         }
     }
 
-    private Person getPerson(ResultSet resultSet) throws SQLException {
+    private Person getPerson(final ResultSet resultSet) throws SQLException {
 
         Person person = new Person();
 

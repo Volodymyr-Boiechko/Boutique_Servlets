@@ -15,18 +15,18 @@ public class OrderServiceImpl implements OrderService {
     private final OrderDao orderDao = new OrderDaoImpl();
 
     @Override
-    public boolean addOrder(Order order) { return orderDao.add(order); }
+    public boolean addOrder(final Order order) { return orderDao.add(order); }
 
     @Override
-    public List<Order> getAllOrdersByPersonId(int id) { return orderDao.getAllById(id); }
+    public List<Order> getAllOrdersByPersonId(final int id) { return orderDao.getAllById(id); }
 
     @Override
     public int getLastId() { return orderDao.getLastId(); }
 
     @Override
-    public Map<Order, List<Product>> getAllOrdersAndTheirProducts(int idUser) {
+    public Map<Order, List<Product>> getAllOrdersAndTheirProducts(final int idUser) {
 
-        Map<Order, List<Product>> map = orderDao.getAllOrdersAndTheirProducts(idUser);
+        final Map<Order, List<Product>> map = orderDao.getAllOrdersAndTheirProducts(idUser);
 
         Map<Order, List<Product>> treeMap = new TreeMap<>(
                 (o1, o2) -> Integer.compare(o2.getIdOrder(), o1.getIdOrder())
@@ -39,7 +39,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Map<Order, List<Product>> getOrderAndHisProducts(int idUser, int idOrder) {
+    public Map<Order, List<Product>> getOrderAndHisProducts(final int idUser, final int idOrder) {
         return orderDao.getOrderAndHisProducts(idUser, idOrder);
     }
 

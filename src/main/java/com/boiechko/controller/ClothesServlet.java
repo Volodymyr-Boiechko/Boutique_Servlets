@@ -36,21 +36,21 @@ public class ClothesServlet extends HttpServlet {
 
         if (username != null) {
 
-            Person person = personService.getPersonByCredentials("username", username);
+            final Person person = personService.getPersonByCredentials("username", username);
 
             if (person.getPersonType().equals(PersonType.ADMIN))
                 request.setAttribute("show", true);
 
         }
 
-        String page = request.getParameter("page");
+        final String page = request.getParameter("page");
 
         if (page.equals("1")) {
 
             session.removeAttribute("clothes");
             session.removeAttribute("count");
 
-            String[] blocks = request.getRequestURI().split("/");
+            final String[] blocks = request.getRequestURI().split("/");
 
             switch (blocks[2]) {
                 case "clothes":
@@ -58,7 +58,7 @@ public class ClothesServlet extends HttpServlet {
                 case "accessories":
                 case "sportWear": {
 
-                    String productName = request.getParameter("productName");
+                    final String productName = request.getParameter("productName");
                     List<Product> clothes;
 
                     if (productName == null) {
@@ -73,7 +73,7 @@ public class ClothesServlet extends HttpServlet {
                 }
                 case "newestClothes": {
 
-                    List<Product> clothes = productService.getNewest();
+                    final List<Product> clothes = productService.getNewest();
 
                     session.setAttribute("clothes", clothes);
 
@@ -81,9 +81,9 @@ public class ClothesServlet extends HttpServlet {
                 }
                 case "brands": {
 
-                    String brand = request.getParameter("brand");
+                    final String brand = request.getParameter("brand");
 
-                    List<Product> clothes = productService.getAllByCredentials("brand", brand);
+                    final List<Product> clothes = productService.getAllByCredentials("brand", brand);
 
                     session.setAttribute("clothes", clothes);
 
@@ -98,7 +98,7 @@ public class ClothesServlet extends HttpServlet {
 
         }
 
-        List<Product> products = (List<Product>) session.getAttribute("clothes");
+        final List<Product> products = (List<Product>) session.getAttribute("clothes");
 
         int count = Integer.parseInt(page) * amountProductsInPage - 1;
 
@@ -113,7 +113,7 @@ public class ClothesServlet extends HttpServlet {
 
     }
 
-    private String getTypeName(String name) {
+    private String getTypeName(final String name) {
 
         switch (name) {
             case "clothes":
@@ -149,25 +149,18 @@ public class ClothesServlet extends HttpServlet {
             final int price = Integer.parseInt(request.getParameter("price"));
             final String description = request.getParameter("description");
 
-            Product product = new Product
+            final Product product = new Product
                     (typeName, productName, sex, brand, model, size, color,
                             "dataBaseImages/" + getDestination(image, destination), price, description
                     );
 
             if (saveImage(image, destination)) {
 
-                if (!productService.addProduct(product)) {
-
-                    response.sendError(500);
-
-                }
+                if (!productService.addProduct(product)) response.sendError(500);
 
             } else {
-
                 response.sendError(501);
-
             }
-
         } catch (Exception e) {
             e.printStackTrace();
             response.sendError(500);
@@ -175,39 +168,31 @@ public class ClothesServlet extends HttpServlet {
 
     }
 
-    private String getDestination(Part image, String destination) {
-
+    private String getDestination(final Part image, final String destination) {
         return destination + "/" + image.getSubmittedFileName();
-
     }
 
-    private boolean saveImage(Part image, String destination) throws IOException {
+    private boolean saveImage(final Part image, final String destination) throws IOException {
 
-        String imagePath = appPath + destination.replace("/", "\\");
+        final String imagePath = appPath + destination.replace("/", "\\");
 
-        File fileDir = new File(imagePath);
+        final File fileDir = new File(imagePath);
         if (!fileDir.exists())
             fileDir.mkdirs();
 
-        String imageName = image.getSubmittedFileName();
+        final String imageName = image.getSubmittedFileName();
 
-        if (validateImage(imageName)) {
-
+        if (validateImage(imageName))
             image.write(imagePath + File.separator + imageName);
-
-        } else {
-            return false;
-        }
+        else return false;
 
         return true;
 
     }
 
-    private boolean validateImage(String imageName) {
+    private boolean validateImage(final String imageName) {
 
-        String fileExt = imageName.substring(imageName.length() - 3);
-
+        final String fileExt = imageName.substring(imageName.length() - 3);
         return "jpg".equals(fileExt) || "png".equals(fileExt) || "gif".equals(fileExt);
     }
-
 }

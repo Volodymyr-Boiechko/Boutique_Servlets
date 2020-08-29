@@ -18,13 +18,13 @@ public class ProfileFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
-        HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
-        HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
+        final HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
+        final HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
 
         HttpSession session = httpRequest.getSession(false);
 
-        String username = (String) session.getAttribute("username");
-        Integer id = (Integer) session.getAttribute("userId");
+        final String username = (String) session.getAttribute("username");
+        final Integer id = (Integer) session.getAttribute("userId");
 
         if (username == null && id == null)
             httpResponse.sendRedirect("/login");

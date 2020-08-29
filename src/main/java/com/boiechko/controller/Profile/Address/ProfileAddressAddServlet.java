@@ -14,6 +14,8 @@ import java.io.IOException;
 @WebServlet("/userProfile/userAddresses/addAddress")
 public class ProfileAddressAddServlet extends HttpServlet {
 
+    private final AddressService addressService = new AddressServiceImpl();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -30,9 +32,7 @@ public class ProfileAddressAddServlet extends HttpServlet {
         final String street = request.getParameter("street");
         final String postCode = request.getParameter("postCode");
 
-        AddressService addressService = new AddressServiceImpl();
-
-        Address address = new Address(userId, country, city, street, postCode);
+        final Address address = new Address(userId, country, city, street, postCode);
 
         if (!addressService.addAddress(address)) {
             response.sendError(500);

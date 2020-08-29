@@ -16,13 +16,14 @@ import java.io.IOException;
 @WebServlet("/userProfile/userInfo")
 public class ProfileInfoServlet extends HttpServlet {
 
+    private final PersonService personService = new PersonServiceImpl();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        PersonService personService = new PersonServiceImpl();
         HttpSession session = request.getSession(false);
 
-        Person person = personService.getPersonById((Integer) session.getAttribute("userId"));
+        final Person person = personService.getPersonById((Integer) session.getAttribute("userId"));
         request.setAttribute("person", person);
 
         request.getRequestDispatcher("/jsp-pages/Profile/info.jsp").forward(request, response);
@@ -41,8 +42,7 @@ public class ProfileInfoServlet extends HttpServlet {
         final String email = request.getParameter("email");
         final String phoneNumber = request.getParameter("phoneNumber");
 
-        PersonService personService = new PersonServiceImpl();
-        Person person = personService.getPersonById(id);
+        final Person person = personService.getPersonById(id);
 
         if (person.getUsername() != null) {
 
@@ -55,8 +55,7 @@ public class ProfileInfoServlet extends HttpServlet {
 
             if (personService.updatePerson(person)) {
 
-                HttpSession session = request.getSession();
-                session.removeAttribute("person");
+                request.getSession().removeAttribute("person");
 
             } else {
                 response.sendError(500);

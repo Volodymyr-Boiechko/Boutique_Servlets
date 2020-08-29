@@ -8,14 +8,14 @@ import java.util.Map;
 
 public interface OrderDao {
 
-    boolean add(Order order);
+    boolean add(final Order order);
 
-    List<Order> getAllById(int id);
+    List<Order> getAllById(final int id);
 
     int getLastId();
 
-    Map<Order, List<Product>> getAllOrdersAndTheirProducts(int idUser);
+    Map<Order, List<Product>> getAllOrdersAndTheirProducts(final int idUser);
 
-    Map<Order, List<Product>> getOrderAndHisProducts(int idUser, int idOrder);
+    Map<Order, List<Product>> getOrderAndHisProducts(final int idUser, final int idOrder);
 
 }

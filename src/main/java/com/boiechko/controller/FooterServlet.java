@@ -28,7 +28,7 @@ public class FooterServlet extends HttpServlet {
         final String phoneNumber = request.getParameter("phoneNumber");
         final String comment = request.getParameter("comment");
 
-        Person person = new Person(firstName, surname, lastName, email, phoneNumber);
+        final Person person = new Person(firstName, surname, lastName, email, phoneNumber);
 
         JavaMailUtil javaMailUtil = new JavaMailUtil("questionFromUser", person, comment);
         javaMailUtil.sendMail("boiechko.work@gmail.com");

@@ -6,16 +6,16 @@ import java.util.List;
 
 public interface PersonService {
 
-    Person getPersonByCredentials(String column, String credentials);
+    Person getPersonByCredentials(final String column, final String credentials);
 
-    boolean addPerson(Person person);
+    boolean addPerson(final Person person);
 
-    Person getPersonById(int id);
+    Person getPersonById(final int id);
 
     List<Person> getAllPersons();
 
-    boolean updatePerson(Person person);
+    boolean updatePerson(final Person person);
 
-    boolean deletePerson(int id);
+    boolean deletePerson(final int id);
 
 }

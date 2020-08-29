@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 
 public class ConvertDateUtil {
 
-    public static Date convertDate(String dateString) {
+    public static Date convertDate(final String dateString) {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 

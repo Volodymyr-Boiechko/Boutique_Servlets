@@ -16,24 +16,20 @@ public class NavProfileServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
 
-        String username = (String) session.getAttribute("username");
-        Character letter = username.charAt(0);
-        String[] path = request.getRequestURI().split("/");
+        final String username = (String) session.getAttribute("username");
+        final Character letter = username.charAt(0);
+        final String[] path = request.getRequestURI().split("/");
         int number = -1;
 
-        for (String s : path) {
+        switch (path[path.length - 1]) {
 
-            switch (s) {
-
-                case "profile.jsp": number = 1; break;
-                case "orders.jsp": case "orderItem.jsp" : number = 2; break;
-                case "info.jsp": number = 3; break;
-                case "changePassword.jsp": number = 4; break;
-                case "addresses.jsp": case "editAddress.jsp": case "addAddress.jsp": number = 5; break;
-                default: number = -1;
-
-            }
+            case "profile.jsp": number = 1; break;
+            case "orders.jsp": case "orderItem.jsp": number = 2; break;
+            case "info.jsp": number = 3; break;
+            case "changePassword.jsp": number = 4; break;
+            case "addresses.jsp": case "editAddress.jsp": case "addAddress.jsp": number = 5; break;
         }
+
         request.setAttribute("number", number);
         request.setAttribute("letter", letter);
 

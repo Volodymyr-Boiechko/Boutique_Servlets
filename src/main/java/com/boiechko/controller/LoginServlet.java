@@ -19,6 +19,8 @@ import java.util.List;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
+    private final PersonService personService = new PersonServiceImpl();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -29,23 +31,20 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        HttpSession session = request.getSession();
 
         final String username = request.getParameter("username");
         final String hashedPassword = request.getParameter("password");
 
-        PersonService personService = new PersonServiceImpl();
-        Person person = personService.getPersonByCredentials("username", username);
+        final Person person = personService.getPersonByCredentials("username", username);
 
-        if (person.getActivationCode() == null) {
+        if (person.getUsername() != null) {
 
-            if (person.getUsername() != null) {
+            if (person.getActivationCode() == null) {
 
                 boolean isEqual = HashPasswordUtil.checkPassword(hashedPassword, person.getPassword());
 
                 if (isEqual) {
-
-
-                    HttpSession session = request.getSession();
 
                     session.setAttribute("username", username);
                     session.setAttribute("userId", personService.getPersonByCredentials("username", username).getIdPerson());
@@ -54,16 +53,13 @@ public class LoginServlet extends HttpServlet {
                     session.setAttribute("shoppingBag", new ArrayList<Product>());
 
                 } else {
-
                     response.sendError(401);
-
                 }
             } else {
-
-                response.sendError(403);
+                response.sendError(402);
             }
         } else {
-            response.sendError(402);
+            response.sendError(403);
         }
     }
 }

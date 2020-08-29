@@ -12,20 +12,20 @@ public class PersonServiceImpl implements PersonService {
     private final PersonDao personDao = new PersonDaoImpl();
 
     @Override
-    public Person getPersonByCredentials(String column, String credentials) { return personDao.getByCredentials(column, credentials); }
+    public Person getPersonByCredentials(final String column, final String credentials) { return personDao.getByCredentials(column, credentials); }
 
     @Override
-    public boolean addPerson(Person person) { return personDao.add(person); }
+    public boolean addPerson(final Person person) { return personDao.add(person); }
 
     @Override
-    public Person getPersonById(int id) { return personDao.getById(id); }
+    public Person getPersonById(final int id) { return personDao.getById(id); }
 
     @Override
     public List<Person> getAllPersons() { return personDao.getAll(); }
 
     @Override
-    public boolean updatePerson(Person person) { return personDao.update(person); }
+    public boolean updatePerson(final Person person) { return personDao.update(person); }
 
     @Override
-    public boolean deletePerson(int id) { return personDao.delete(id); }
+    public boolean deletePerson(final int id) { return personDao.delete(id); }
 }

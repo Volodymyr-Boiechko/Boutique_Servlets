@@ -26,21 +26,21 @@ public class HeaderServlet extends HttpServlet {
 
         request.setAttribute("clothesTypes", productService.getUniqueFields("productName", "typeName", "Одяг"));
 
-        List<Product> shoes = productService.getUniqueFields("productName", "typeName", "Взуття");
+        final List<Product> shoes = productService.getUniqueFields("productName", "typeName", "Взуття");
         request.setAttribute("shoes", shoes);
         request.setAttribute("shoesBrands", shoes.stream().limit(4).collect(Collectors.toList()));
         request.setAttribute("shoesImages", productService.getAllByCredentials("typeName", "Взуття").stream().limit(2).collect(Collectors.toList()));
 
-        List<Product> accessories = productService.getUniqueFields("productName", "typeName", "Аксесуари");
+        final List<Product> accessories = productService.getUniqueFields("productName", "typeName", "Аксесуари");
         request.setAttribute("accessories", accessories);
         request.setAttribute("accessoriesBrands", accessories.stream().limit(4).collect(Collectors.toList()));
         request.setAttribute("accessoriesImages", productService.getAllByCredentials("typeName", "Аксесуари").stream().limit(2).collect(Collectors.toList()));
 
-        List<Product> sportWear = productService.getUniqueFields("productName", "typeName", "Спортивний одяг");
+        final List<Product> sportWear = productService.getUniqueFields("productName", "typeName", "Спортивний одяг");
         request.setAttribute("sportWear", sportWear);
         request.setAttribute("sportWearImages", productService.getAllByCredentials("typeName", "Спортивний одяг").stream().limit(3).collect(Collectors.toList()));
 
-        List<Product> allBrands = productService.groupBy("brand");
+        final List<Product> allBrands = productService.groupBy("brand");
         List<Product> brands = new ArrayList<>();
 
         for (Product product : allBrands) {
@@ -56,5 +56,4 @@ public class HeaderServlet extends HttpServlet {
         request.setAttribute("brandsImages", brands.stream().limit(2).collect(Collectors.toList()));
 
     }
-
 }

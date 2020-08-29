@@ -24,7 +24,7 @@ public class FavoriteProductsServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
 
-        List<Integer> favoriteId = (List<Integer>) session.getAttribute("favoriteId");
+        final List<Integer> favoriteId = (List<Integer>) session.getAttribute("favoriteId");
         if (favoriteId != null) {
 
             List<Product> favorite = new ArrayList<>();
@@ -43,12 +43,12 @@ public class FavoriteProductsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession();
-        String username = (String) session.getAttribute("username");
+        final String username = (String) session.getAttribute("username");
 
         if (username != null) {
 
             final int idProduct = Integer.parseInt(request.getParameter("idProduct"));
-            Product product = productService.getProductById(idProduct);
+            final Product product = productService.getProductById(idProduct);
 
             if (product.getTypeName() != null) {
 
@@ -80,9 +80,7 @@ public class FavoriteProductsServlet extends HttpServlet {
 
                         doDelete(request, response);
                         response.getWriter().write("remove");
-
                     }
-
                 } catch (Exception e) {
                     response.sendError(500);
                     e.printStackTrace();
@@ -102,7 +100,7 @@ public class FavoriteProductsServlet extends HttpServlet {
         HttpSession session = request.getSession();
 
         final int idProduct = Integer.parseInt(request.getParameter("idProduct"));
-        Product product = productService.getProductById(idProduct);
+        final Product product = productService.getProductById(idProduct);
 
         if (product.getTypeName() != null) {
 

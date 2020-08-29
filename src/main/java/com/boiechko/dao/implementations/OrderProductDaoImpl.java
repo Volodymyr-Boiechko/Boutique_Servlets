@@ -13,9 +13,9 @@ import java.util.List;
 public class OrderProductDaoImpl implements OrderProductDao {
 
     @Override
-    public boolean add(OrderProduct orderProduct) {
+    public boolean add(final OrderProduct orderProduct) {
 
-        String query = "INSERT INTO order_product (idOrder, idProduct, quantity) VALUES (?,?,?)";
+        final String query = "INSERT INTO order_product (idOrder, idProduct, quantity) VALUES (?,?,?)";
 
         try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 

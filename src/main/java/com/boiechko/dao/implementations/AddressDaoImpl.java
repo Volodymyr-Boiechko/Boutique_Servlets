@@ -14,9 +14,9 @@ import java.util.List;
 public class AddressDaoImpl implements AddressDao {
 
     @Override
-    public List<Address> getAddressesOfUser(int userID) {
+    public List<Address> getAddressesOfUser(final int userID) {
 
-        String query = "SELECT * FROM address WHERE idPerson = ? ORDER BY idAddress DESC";
+        final String query = "SELECT * FROM address WHERE idPerson = ? ORDER BY idAddress DESC";
 
         try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
@@ -37,7 +37,7 @@ public class AddressDaoImpl implements AddressDao {
                 address.setPostCode(rs.getString("postCode"));
 
                 list.add(address);
-                
+
             }
 
             return list;
@@ -49,9 +49,9 @@ public class AddressDaoImpl implements AddressDao {
     }
 
     @Override
-    public boolean add(Address address) {
+    public boolean add(final Address address) {
 
-        String query = "INSERT INTO address(idPerson, country, city, street, postCode)" +
+        final String query = "INSERT INTO address(idPerson, country, city, street, postCode)" +
                 "VALUES (?,?,?,?,?)";
 
         try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
@@ -71,9 +71,9 @@ public class AddressDaoImpl implements AddressDao {
     }
 
     @Override
-    public Address getById(int id) {
+    public Address getById(final int id) {
 
-        String query = "SELECT * FROM address WHERE idAddress = ?";
+        final String query = "SELECT * FROM address WHERE idAddress = ?";
 
         try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
@@ -102,14 +102,15 @@ public class AddressDaoImpl implements AddressDao {
     }
 
     @Override
-    public List<Address> getAll() { throw new UnsupportedOperationException(); }
+    public List<Address> getAll() {
+        throw new UnsupportedOperationException();
+    }
 
     @Override
-    public boolean update(Address address) {
+    public boolean update(final Address address) {
 
-        String query = "UPDATE address SET idPerson = ?, country = ?, city = ?, street = ?, postCode = ? " +
+        final String query = "UPDATE address SET idPerson = ?, country = ?, city = ?, street = ?, postCode = ? " +
                 "WHERE idAddress = ?";
-
 
         try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
@@ -117,7 +118,7 @@ public class AddressDaoImpl implements AddressDao {
             preparedStatement.setString(2, address.getCountry());
             preparedStatement.setString(3, address.getCity());
             preparedStatement.setString(4, address.getStreet());
-            preparedStatement.setString(5 , address.getPostCode());
+            preparedStatement.setString(5, address.getPostCode());
             preparedStatement.setInt(6, address.getIdAddress());
 
             return preparedStatement.executeUpdate() > 0;
@@ -129,9 +130,9 @@ public class AddressDaoImpl implements AddressDao {
     }
 
     @Override
-    public boolean delete(int id) {
+    public boolean delete(final int id) {
 
-        String query = "DELETE FROM address WHERE idAddress = ?";
+        final String query = "DELETE FROM address WHERE idAddress = ?";
 
         try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 

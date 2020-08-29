@@ -18,17 +18,17 @@ import java.io.IOException;
 @WebServlet("/registration/*")
 public class RegistrationsServlet extends HttpServlet {
 
+    private final PersonService personService = new PersonServiceImpl();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String pathInfo = request.getRequestURI();
-        String[] pathParts = pathInfo.split("/");
+        String[] pathParts = request.getRequestURI().split("/");
 
         if (pathParts.length != 2 && pathParts[2].length() == 36) {
 
             String activationCode = pathParts[2];
 
-            PersonService personService = new PersonServiceImpl();
             Person person = personService.getPersonByCredentials("activationCode", activationCode);;
 
             if (person.getUsername() != null) {
@@ -55,12 +55,11 @@ public class RegistrationsServlet extends HttpServlet {
         final String date = request.getParameter("date");
         final String email = request.getParameter("email");
 
-        PersonService personService = new PersonServiceImpl();
         Person person = personService.getPersonByCredentials("username", username);
 
         if (person.getUsername() == null) {
 
-            String hashedPassword = HashPasswordUtil.hashPassword(password);
+            final String hashedPassword = HashPasswordUtil.hashPassword(password);
 
             person = new Person(username, hashedPassword, ConvertDateUtil.convertDate(date), email);
 
@@ -69,14 +68,9 @@ public class RegistrationsServlet extends HttpServlet {
                 JavaMailUtil javaMailUtil = new JavaMailUtil("confirmRegistration", person);
                 javaMailUtil.sendMail(person.getEmail());
 
-                HttpSession session = request.getSession();
-                session.setAttribute("username", username);
-                session.setAttribute("userId", personService.getPersonByCredentials("username", username).getIdPerson());
-
             } else {
                 response.sendError(500);
             }
-
         } else {
             response.sendError(403);
         }

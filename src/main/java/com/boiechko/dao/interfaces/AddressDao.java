@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface AddressDao extends Dao<Address> {
 
-    List<Address> getAddressesOfUser(int userID);
+    List<Address> getAddressesOfUser(final int userID);
 
 }
