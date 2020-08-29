@@ -47,7 +47,7 @@ public class LoginServlet extends HttpServlet {
                 if (isEqual) {
 
                     session.setAttribute("username", username);
-                    session.setAttribute("userId", personService.getPersonByCredentials("username", username).getIdPerson());
+                    session.setAttribute("person", personService.getPersonByCredentials("username", username));
 
                     session.setAttribute("favoriteId", new ArrayList<Integer>());
                     session.setAttribute("shoppingBag", new ArrayList<Product>());

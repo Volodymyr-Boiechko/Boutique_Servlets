@@ -10,7 +10,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/userProfile/userInfo")
@@ -20,11 +19,6 @@ public class ProfileInfoServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        HttpSession session = request.getSession(false);
-
-        final Person person = personService.getPersonById((Integer) session.getAttribute("userId"));
-        request.setAttribute("person", person);
 
         request.getRequestDispatcher("/jsp-pages/Profile/info.jsp").forward(request, response);
 

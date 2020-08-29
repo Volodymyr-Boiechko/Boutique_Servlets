@@ -3,9 +3,7 @@ package com.boiechko.controller;
 import com.boiechko.entity.Person;
 import com.boiechko.entity.Product;
 import com.boiechko.enums.PersonType;
-import com.boiechko.service.implementations.PersonServiceImpl;
 import com.boiechko.service.implementations.ProductServiceImpl;
-import com.boiechko.service.interfaces.PersonService;
 import com.boiechko.service.interfaces.ProductService;
 
 import javax.servlet.ServletException;
@@ -22,7 +20,6 @@ import java.util.List;
 public class ClothesServlet extends HttpServlet {
 
     private final ProductService productService = new ProductServiceImpl();
-    private final PersonService personService = new PersonServiceImpl();
     private final String appPath = "C:\\Users\\volod\\IdeaProjects\\Boutique_Servlets\\web\\dataBaseImages\\";
 
     private final int amountProductsInPage = 12;
@@ -32,11 +29,9 @@ public class ClothesServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
 
-        final String username = (String) session.getAttribute("username");
+        final Person person = (Person) session.getAttribute("person");
 
-        if (username != null) {
-
-            final Person person = personService.getPersonByCredentials("username", username);
+        if (person != null) {
 
             if (person.getPersonType().equals(PersonType.ADMIN))
                 request.setAttribute("show", true);

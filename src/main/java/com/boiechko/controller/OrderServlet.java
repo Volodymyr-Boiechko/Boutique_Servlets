@@ -2,12 +2,11 @@ package com.boiechko.controller;
 
 import com.boiechko.entity.Order;
 import com.boiechko.entity.OrderProduct;
+import com.boiechko.entity.Person;
 import com.boiechko.entity.Product;
 import com.boiechko.service.implementations.OrderProductServiceImpl;
 import com.boiechko.service.implementations.OrderServiceImpl;
-import com.boiechko.service.implementations.PersonServiceImpl;
 import com.boiechko.service.interfaces.OrderService;
-import com.boiechko.service.interfaces.PersonService;
 import com.boiechko.utils.ConvertDateUtil;
 import com.boiechko.utils.Mail.JavaMailUtil;
 
@@ -26,11 +25,10 @@ public class OrderServlet extends HttpServlet {
 
     private final OrderService orderService = new OrderServiceImpl();
     private final OrderProductServiceImpl orderProductService = new OrderProductServiceImpl();
-    private final PersonService personService = new PersonServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        response.sendError(404);
     }
 
     @Override
@@ -40,8 +38,7 @@ public class OrderServlet extends HttpServlet {
 
         try {
 
-            //todo Замінити на атрибут Person
-            int idPerson = (int) session.getAttribute("userId");
+            final Person person = (Person) session.getAttribute("person");
 
             final String[] selectedItems = request.getParameterValues("json[]");
             final int totalPrice = Integer.parseInt(request.getParameter("totalPrice"));
@@ -51,7 +48,7 @@ public class OrderServlet extends HttpServlet {
             List<Integer> selectedItemsIntegers = new ArrayList<>();
             for (String selectedItem : selectedItems) selectedItemsIntegers.add(Integer.parseInt(selectedItem));
 
-            Order order = new Order(idPerson, idAddress, totalPrice, ConvertDateUtil.convertDate(dateOrder));
+            Order order = new Order(person.getIdPerson(), idAddress, totalPrice, ConvertDateUtil.convertDate(dateOrder));
 
             if (orderService.addOrder(order)) {
 
@@ -72,7 +69,7 @@ public class OrderServlet extends HttpServlet {
 
                 order.setIdOrder(idOrder);
                 JavaMailUtil javaMailUtil = new JavaMailUtil("orderDetail", order, shoppingBag);
-                javaMailUtil.sendMail(personService.getPersonById(idPerson).getEmail());
+                javaMailUtil.sendMail(person.getEmail());
 
                 session.setAttribute("shoppingBag", new ArrayList<Product>());
 
