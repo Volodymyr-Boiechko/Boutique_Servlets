@@ -3,7 +3,9 @@ package com.boiechko.controller;
 import com.boiechko.entity.Person;
 import com.boiechko.entity.Product;
 import com.boiechko.enums.PersonType;
+import com.boiechko.service.implementations.ClothesServiceImpl;
 import com.boiechko.service.implementations.ProductServiceImpl;
+import com.boiechko.service.interfaces.ClothesService;
 import com.boiechko.service.interfaces.ProductService;
 
 import javax.servlet.ServletException;
@@ -12,7 +14,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/manClothes/*")
@@ -20,9 +21,9 @@ import java.util.List;
 public class ClothesServlet extends HttpServlet {
 
     private final ProductService productService = new ProductServiceImpl();
-    private final String appPath = "C:\\Users\\volod\\IdeaProjects\\Boutique_Servlets\\web\\dataBaseImages\\";
+    private final ClothesService clothesService = new ClothesServiceImpl();
 
-    private final int amountProductsInPage = 12;
+    private final String appPath = "C:\\Users\\volod\\IdeaProjects\\Boutique_Servlets\\web\\dataBaseImages\\";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -31,98 +32,26 @@ public class ClothesServlet extends HttpServlet {
 
         final Person person = (Person) session.getAttribute("person");
 
-        if (person != null) {
-
-            if (person.getPersonType().equals(PersonType.ADMIN))
-                request.setAttribute("show", true);
-
-        }
+        if (person != null && person.getPersonType().equals(PersonType.ADMIN))
+            request.setAttribute("show", true);
 
         final String page = request.getParameter("page");
 
         if (page.equals("1")) {
 
             session.removeAttribute("clothes");
-            session.removeAttribute("count");
-
-            final String[] blocks = request.getRequestURI().split("/");
-
-            switch (blocks[2]) {
-                case "clothes":
-                case "shoes":
-                case "accessories":
-                case "sportWear": {
-
-                    final String productName = request.getParameter("productName");
-                    List<Product> clothes;
-
-                    if (productName == null) {
-
-                        clothes = productService.getAllByCredentials("typeName", getTypeName(blocks[2]));
-                    } else {
-                        clothes = productService.getAllByCredentials("productName", productName);
-                    }
-
-                    session.setAttribute("clothes", clothes);
-                    break;
-                }
-                case "newestClothes": {
-
-                    final List<Product> clothes = productService.getNewest();
-
-                    session.setAttribute("clothes", clothes);
-
-                    break;
-                }
-                case "brands": {
-
-                    final String brand = request.getParameter("brand");
-
-                    final List<Product> clothes = productService.getAllByCredentials("brand", brand);
-
-                    session.setAttribute("clothes", clothes);
-
-                    break;
-                }
-                default: {
-
-                    session.setAttribute("clothes", new ArrayList<Product>());
-
-                }
-            }
+            session.setAttribute("clothes", clothesService.getListOfClothes(request));
 
         }
 
-        final List<Product> products = (List<Product>) session.getAttribute("clothes");
+        final List<Product> clothes = (List<Product>) session.getAttribute("clothes");
 
-        int count = Integer.parseInt(page) * amountProductsInPage - 1;
-
-        if (count >= products.size())
-            count = products.size() - 1;
-
-        session.setAttribute("count", Integer.toString(count));
-        session.setAttribute("number", Integer.toString(count + 1));
-        session.setAttribute("page", page);
+        request.setAttribute("amount", clothesService.getAmountOfProducts(page, clothes.size()));
+        request.setAttribute("number", clothesService.getNumberOfProductsOnPage(page));
+        request.setAttribute("page", page);
 
         request.getRequestDispatcher("/jsp-pages/clothes.jsp").forward(request, response);
 
-    }
-
-    private String getTypeName(final String name) {
-
-        switch (name) {
-            case "clothes":
-                return "Одяг";
-            case "shoes":
-                return "Взуття";
-            case "accessories":
-                return "Аксесуари";
-            case "sportWear":
-                return "Спортивний одяг";
-            default:
-                return null;
-
-        }
     }
 
     @Override

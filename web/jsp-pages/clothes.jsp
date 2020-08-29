@@ -13,7 +13,7 @@
 </head>
 <body>
 <jsp:include page="components/header.jsp"/>
-<c:if test="${count + 1 != 0}">
+<c:if test="${number != 0}">
 
     <div class="clothes">
 
@@ -23,7 +23,7 @@
 
                 <div class="row">
 
-                    <c:forEach items="${clothes}" begin="0" end="${count}" var="product">
+                    <c:forEach items="${clothes}" begin="0" end="${amount}" var="product">
 
                         <div class="block col-md-4" id="${product.idProduct}">
 
