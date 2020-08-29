@@ -24,16 +24,16 @@ public class FavoriteProductsServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
 
-        if (session.getAttribute("favoriteId") == null)
-            session.setAttribute("favoriteId", new ArrayList<Integer>());
-
-        List<Product> favorite = new ArrayList<>();
         List<Integer> favoriteId = (List<Integer>) session.getAttribute("favoriteId");
+        if (favoriteId != null) {
 
-        for (Integer id : favoriteId)
-            favorite.add(productService.getProductById(id));
+            List<Product> favorite = new ArrayList<>();
+            for (Integer id : favoriteId)
+                favorite.add(productService.getProductById(id));
 
-        request.setAttribute("favorite", favorite);
+            request.setAttribute("favorite", favorite);
+
+        }
 
         request.getRequestDispatcher("/jsp-pages/favoriteProducts.jsp").forward(request, response);
 

@@ -1,9 +1,3 @@
-<%@ page import="com.boiechko.entity.Product" %>
-<%@ page import="com.boiechko.service.implementations.ProductServiceImpl" %>
-<%@ page import="com.boiechko.service.interfaces.ProductService" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.stream.Collectors" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -18,47 +12,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
 </head>
 <body>
-
+<jsp:include page="/headerServlet"/>
 <div class="over"></div>
-
-<%
-
-    ProductService productService = new ProductServiceImpl();
-
-    request.setAttribute("newestProducts", productService.getNewest().stream().limit(3).collect(Collectors.toList()));
-
-    request.setAttribute("clothesTypes", productService.getUniqueFields("productName", "typeName", "Одяг"));
-
-    List<Product> shoes = productService.getUniqueFields("productName", "typeName", "Взуття");
-    request.setAttribute("shoes", shoes);
-    request.setAttribute("shoesBrands", shoes.stream().limit(4).collect(Collectors.toList()));
-    request.setAttribute("shoesImages", productService.getAllByCredentials("typeName", "Взуття").stream().limit(2).collect(Collectors.toList()));
-
-    List<Product> accessories = productService.getUniqueFields("productName", "typeName", "Аксесуари");
-    request.setAttribute("accessories", accessories);
-    request.setAttribute("accessoriesBrands", accessories.stream().limit(4).collect(Collectors.toList()));
-    request.setAttribute("accessoriesImages", productService.getAllByCredentials("typeName", "Аксесуари").stream().limit(2).collect(Collectors.toList()));
-
-    List<Product> sportWear = productService.getUniqueFields("productName", "typeName", "Спортивний одяг");
-    request.setAttribute("sportWear", sportWear);
-    request.setAttribute("sportWearImages", productService.getAllByCredentials("typeName", "Спортивний одяг").stream().limit(3).collect(Collectors.toList()));
-
-    List<Product> allBrands = productService.groupBy("brand");
-    List<Product> brands = new ArrayList<>();
-
-    for (Product product : allBrands) {
-
-        List<Product> count = productService.getAllByCredentials("brand", product.getBrand());
-
-        if (count.size() >= 10)
-            brands.add(product);
-
-    }
-
-    request.setAttribute("brands", brands);
-    request.setAttribute("brandsImages", brands.stream().limit(2).collect(Collectors.toList()));
-
-%>
 
 <header class="header">
 

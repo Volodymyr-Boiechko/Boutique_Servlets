@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @WebServlet("/shoppingBag")
@@ -27,22 +28,20 @@ public class ShoppingBagServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
 
-        if (session.getAttribute("shoppingBag") == null)
-            session.setAttribute("shoppingBag", new ArrayList<Product>());
-
         List<Product> products = (List<Product>) session.getAttribute("shoppingBag");
-        List<Integer> prices = new ArrayList<>();
+        if (products != null) {
 
-        for (Product product: products)
-            prices.add(product.getPrice());
+            List<Integer> prices = new ArrayList<>();
 
-        int idUser = 0;
-        if (session.getAttribute("userId") != null)
-            idUser = (int) session.getAttribute("userId");
+            for (Product product: products)
+                prices.add(product.getPrice());
 
-        request.setAttribute("addresses", addressService.getAddressesOfUser(idUser));
+            final int idUser = (int) session.getAttribute("userId");
 
-        request.setAttribute("prices", prices);
+            request.setAttribute("prices", prices);
+            request.setAttribute("addresses", addressService.getAddressesOfUser(idUser));
+            request.setAttribute("count", new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5)));
+        }
 
         request.getRequestDispatcher("/jsp-pages/shoppingBag.jsp").forward(request, response);
 

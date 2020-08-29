@@ -4,36 +4,14 @@
     <title>Nav Profile</title>
 </head>
 <body>
-<%
-    String username = (String) session.getAttribute("username");
-    Character letter = username.charAt(0);
-    String[] path = request.getRequestURI().split("/");
-    int number = -1;
-
-    for (String s : path) {
-
-        switch (s) {
-
-            case "profile.jsp": number = 1; break;
-            case "orders.jsp": case "orderItem.jsp" : number = 2; break;
-            case "info.jsp": number = 3; break;
-            case "changePassword.jsp": number = 4; break;
-            case "addresses.jsp": case "editAddress.jsp": case "addAddress.jsp": number = 5; break;
-            default: number = -1;
-
-        }
-    }
-    request.setAttribute("number", number);
-
-%>
+<jsp:include page="/navProfile"/>
 <nav class="profile__nav">
 
     <ul class="profile__nav__list" id="NavList">
 
         <li class="profile__nav__list__element headerBlock" style="margin-top: 0;">
 
-            <div class="headerBlock__image"><%=letter%>
-            </div>
+            <div class="headerBlock__image">${letter}</div>
 
             <div class="headerBlock__text">Привіт,<br><span>${username}</span></div>
 

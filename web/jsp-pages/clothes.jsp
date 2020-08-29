@@ -1,10 +1,5 @@
-<%@ page import="com.boiechko.entity.Product" %>
-<%@ page import="com.boiechko.enums.PersonType" %>
-<%@ page import="com.boiechko.service.implementations.PersonServiceImpl" %>
-<%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="C" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Clothes</title>
@@ -18,15 +13,6 @@
 </head>
 <body>
 <jsp:include page="components/header.jsp"/>
-<%
-    if (session.getAttribute("favoriteId") == null)
-        session.setAttribute("favoriteId", new ArrayList<Product>());
-    else if (session.getAttribute("shoppingBag") == null)
-        session.setAttribute("shoppingBag", new ArrayList<Product>());
-
-    int number = Integer.parseInt((String) session.getAttribute("count")) + 1;
-
-%>
 <c:if test="${count + 1 != 0}">
 
     <div class="clothes">
@@ -81,16 +67,7 @@
 
                     </c:forEach>
 
-                    <%
-                        if (session.getAttribute("username") != null) {
-                            request.setAttribute("person", new PersonServiceImpl().getPersonByCredentials("username", (String) session.getAttribute("username")));
-                            request.setAttribute("personType", PersonType.ADMIN);
-                        }
-                    %>
-
                     <c:if test="${not empty username}">
-
-                        <c:set var="show" scope="request" value="${person.personType.equals(personType)}"/>
 
                         <c:if test="${show}">
 
@@ -118,9 +95,8 @@
 
             <div class="clothes__more">
 
-                <div class="clothes__more_title">Ви переглянули <%=number%> із ${clothes.size()} товарів</div>
+                <div class="clothes__more_title">Ви переглянули ${number} із ${clothes.size()} товарів</div>
 
-                <c:set var="number" scope="request" value="<%=number%>"/>
                 <c:if test="${clothes.size() != number}">
 
                     <button onclick="morePages()" class="clothes__more__downloadMore">Загрузити ще</button>
@@ -234,7 +210,7 @@
 <script src="${pageContext.request.contextPath}/js/addToFavorite.js"></script>
 <script>
 
-    let array = <%=session.getAttribute("favoriteId")%>;
+    let array = ${favoriteId};
 
     setInterval(function () {
 

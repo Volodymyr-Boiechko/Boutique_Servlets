@@ -1,5 +1,3 @@
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.Arrays" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -98,7 +96,6 @@
 
                                                 </c:if>
 
-                                                <%request.setAttribute("count", new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5)));%>
                                                 <label class="shoppingBag__bag__block__text__char_count">
                                                     К-сть:
                                                     <select class="select">
@@ -301,7 +298,7 @@
 
     function formPrice() {
 
-        let array = <%=request.getAttribute("prices")%>;
+        let array = ${prices};
         let price = 0;
 
         let elements = document.querySelectorAll('.select');

@@ -1,6 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.boiechko.entity.Product" %>
-<%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -16,10 +14,7 @@
 </head>
 <body>
 <jsp:include page="components/header.jsp"/>
-<%
-    if (session.getAttribute("favoriteId") == null)
-        session.setAttribute("favoriteId", new ArrayList<Product>());
-%>
+
 <div class="container">
 
     <div class="path">
@@ -199,7 +194,7 @@
 <script src="${pageContext.request.contextPath}/js/addToShoppingBag.js"></script>
 <script>
 
-    let array = <%=session.getAttribute("favoriteId")%>;
+    let array = ${favoriteId};
 
     setInterval(function () {
 

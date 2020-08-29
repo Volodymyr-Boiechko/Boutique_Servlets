@@ -19,7 +19,14 @@ public class UpdatePassword extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        request.getRequestDispatcher("/jsp-pages/ForgetPassword/updatePassword.jsp").forward(request,response);
+        HttpSession session = request.getSession();
+
+        final String email = (String) session.getAttribute("email");
+
+        if (email != null)
+            request.getRequestDispatcher("/jsp-pages/ForgetPassword/updatePassword.jsp").forward(request,response);
+        else
+            response.sendError(404);
 
     }
 
@@ -45,7 +52,7 @@ public class UpdatePassword extends HttpServlet {
 
                     HttpSession session = request.getSession();
 
-                    session.invalidate();
+                    session.removeAttribute("email");
 
                 } else {
                     response.sendError(503);

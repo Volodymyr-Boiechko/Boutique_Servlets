@@ -10,13 +10,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/updatePassword.css">
 </head>
 <body>
-
-<%
-    String email = (String) session.getAttribute("email");
-    if (email == null)
-        response.sendError(404);
-%>
-
 <div class="container" style="margin-top: 80px;">
 
     <h1 class="title">Оновлення паролю</h1>
@@ -91,7 +84,7 @@
             data: {
 
                 password: password,
-                email: "<%=(String) session.getAttribute("email")%>"
+                email: "${email}"
             }
         }).done(function () {
 

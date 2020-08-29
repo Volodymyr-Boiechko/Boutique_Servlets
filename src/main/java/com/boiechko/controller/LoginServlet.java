@@ -50,6 +50,9 @@ public class LoginServlet extends HttpServlet {
                     session.setAttribute("username", username);
                     session.setAttribute("userId", personService.getPersonByCredentials("username", username).getIdPerson());
 
+                    session.setAttribute("favoriteId", new ArrayList<Integer>());
+                    session.setAttribute("shoppingBag", new ArrayList<Product>());
+
                 } else {
 
                     response.sendError(401);

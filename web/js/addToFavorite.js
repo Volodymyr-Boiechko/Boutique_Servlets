@@ -5,7 +5,7 @@ function addToFavorite(idProduct) {
     $.ajax({
 
         url: "/favorite",
-        async: true,
+        async: false,
         method: "POST",
         data: {
 
