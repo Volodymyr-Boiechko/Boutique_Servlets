@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Enumeration;
 
 @WebServlet("/userProfile/changePassword")
 public class ProfileChangePasswordServlet extends HttpServlet {
@@ -23,8 +24,7 @@ public class ProfileChangePasswordServlet extends HttpServlet {
 
         HttpSession session = request.getSession(false);
 
-        PersonService personService = new PersonServiceImpl();
-        Person person = personService.getPersonById((Integer) session.getAttribute("userId"));
+        final Person person = personService.getPersonById((Integer) session.getAttribute("userId"));
         request.setAttribute("person", person);
 
         request.getRequestDispatcher("/jsp-pages/Profile/changePassword.jsp").forward(request, response);
@@ -41,24 +41,16 @@ public class ProfileChangePasswordServlet extends HttpServlet {
 
         final Person person = personService.getPersonById(id);
 
-        if (person.getUsername() != null) {
+        boolean isEqual = HashPasswordUtil.checkPassword(currentPassword, person.getPassword());
 
-            boolean isEqual = HashPasswordUtil.checkPassword(currentPassword, person.getPassword());
+        if (isEqual) {
 
-            if (isEqual) {
+            person.setPassword(HashPasswordUtil.hashPassword(newPassword));
 
-                person.setPassword(HashPasswordUtil.hashPassword(newPassword));
+            if (!personService.updatePerson(person)) response.sendError(500);
 
-                if (personService.updatePerson(person)) {
-                    request.getSession().removeAttribute("person");
-                } else {
-                    response.sendError(500);
-                }
-            } else {
-                response.sendError(401);
-            }
         } else {
-            response.sendError(500);
+            response.sendError(401);
         }
     }
 }

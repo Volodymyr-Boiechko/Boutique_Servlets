@@ -44,24 +44,13 @@ public class ProfileInfoServlet extends HttpServlet {
 
         final Person person = personService.getPersonById(id);
 
-        if (person.getUsername() != null) {
+        person.setFirstName(firstName);
+        person.setSurname(surname);
+        person.setLastName(lastName);
+        person.setBirthDate(ConvertDateUtil.convertDate(date));
+        person.setEmail(email);
+        person.setPhoneNumber(phoneNumber);
 
-            person.setFirstName(firstName);
-            person.setSurname(surname);
-            person.setLastName(lastName);
-            person.setBirthDate(ConvertDateUtil.convertDate(date));
-            person.setEmail(email);
-            person.setPhoneNumber(phoneNumber);
-
-            if (personService.updatePerson(person)) {
-
-                request.getSession().removeAttribute("person");
-
-            } else {
-                response.sendError(500);
-            }
-        } else {
-            response.sendError(500);
-        }
+        if (!personService.updatePerson(person)) response.sendError(500);
     }
 }

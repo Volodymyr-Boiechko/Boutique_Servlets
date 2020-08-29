@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -50,9 +51,11 @@
                         <input id="postCodeEdit" type="text" value="${address.postCode}">
                     </label>
 
-                    <button id="button" disabled class="info__form__button" type="submit">Зберегти зміни</button>
+                    <button onclick="validateAddress()" id="button" disabled class="info__form__button" type="submit">Зберегти зміни</button>
 
-                    <a class="info__form__button active_button delete" href="${pageContext.request.contextPath}/userProfile/userAddresses/deleteAddress/${address.idAddress}">Видалити адресу</a>
+                    <c:if test="${show}">
+                        <button onclick="deleteAddress(${address.idAddress})" class="info__form__button active_button delete">Видалити адресу</button>
+                    </c:if>
 
                 </form>
 
@@ -71,6 +74,7 @@
     </div>
 </div>
 <jsp:include page="../../components/footer.jsp"/>
+<script src="${pageContext.request.contextPath}/js/deleteAddress.js"></script>
 <script>
 
     $(document).ready(function () {
@@ -80,27 +84,21 @@
         });
     });
 
-    document.getElementById("form").onsubmit = function () {
-        return validate();
-    }
-
-    function validate() {
+    function validateAddress() {
 
         let success = false;
 
         $.ajax({
 
-            url: "/userProfile/userAddresses/editAddress",
-            async: true,
-            type: "POST",
-            data: {
+            url: "/userProfile/userAddresses/editAddress" +
+                "?country=" + document.getElementById("countryEdit").value +
+                "&city=" + document.getElementById("cityEdit").value +
+                "&street=" + document.getElementById("streetEdit").value +
+                "&postCode=" + document.getElementById("postCodeEdit").value +
+                "&id=${address.idAddress}",
 
-                country: document.getElementById("countryEdit").value,
-                city: document.getElementById("cityEdit").value,
-                street: document.getElementById("streetEdit").value,
-                postCode: document.getElementById("postCodeEdit").value,
-                id: ${address.idAddress}
-            }
+            async: false,
+            type: "PUT",
 
         }).done(function () {
 
@@ -142,11 +140,11 @@
 
         if (checkChanges() === true) {
 
-            $("button").removeAttr("disabled");
+            $("#button").removeAttr("disabled");
             button.classList.add("active_button");
 
         } else {
-            $("button").attr("disabled", "disabled");
+            $("#button").attr("disabled", "disabled");
             button.classList.remove("active_button");
 
         }

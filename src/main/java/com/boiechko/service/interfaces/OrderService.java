@@ -14,6 +14,8 @@ public interface OrderService {
 
     int getLastId();
 
+    boolean checkIfAddressHasOrder(final int id);
+
     Map<Order, List<Product>> getAllOrdersAndTheirProducts(final int idUser);
 
     Map<Order, List<Product>> getOrderAndHisProducts(final int idUser, final int idOrder);

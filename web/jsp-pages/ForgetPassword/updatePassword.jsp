@@ -14,7 +14,7 @@
 
     <h1 class="title">Оновлення паролю</h1>
 
-    <form class="form" id="form" method="post">
+    <div class="form" id="form">
 
         <label class="form__label">
             <b>Пароль</b>
@@ -26,9 +26,9 @@
             <input id="confirm" type="password" required>
         </label>
 
-        <button class="button button_updatePassword" type="submit">Підтвердити</button>
+        <button onclick="validate()" class="button button_updatePassword" type="submit">Підтвердити</button>
 
-    </form>
+    </div>
 </div>
 
 <div class="overlay">
@@ -58,10 +58,6 @@
         });
     });
 
-    document.getElementById("form").onsubmit = function () {
-        return validate();
-    }
-
     function validate() {
 
         let password = document.getElementById('password').value;
@@ -78,14 +74,10 @@
 
         $.ajax({
 
-            url: "/forget/updatePassword",
-            async: true,
-            type: "POST",
-            data: {
+            url: "/forget/updatePassword?password=" + password + "&email=${email}",
+            async: false,
+            type: "PUT",
 
-                password: password,
-                email: "${email}"
-            }
         }).done(function () {
 
             success = true;
@@ -99,8 +91,6 @@
                 alert("Не вдалось оновити пароль. Зверніться до технічної підтримки!");
             else if (response.status === 403)
                 alert("Придумайте новий пароль!");
-            else if (response.status === 503)
-                alert("asdad")
 
         });
 
@@ -108,7 +98,5 @@
     }
 
 </script>
-
-
 </body>
 </html>

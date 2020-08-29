@@ -43,23 +43,7 @@ public class OrderDaoImpl implements OrderDao {
             preparedStatement.setInt(1, id);
             ResultSet rs = preparedStatement.executeQuery();
 
-            List<Order> orders = new ArrayList<>();
-
-            while (rs.next()) {
-
-                Order order = new Order();
-
-                order.setIdOrder(rs.getInt("idOrder"));
-                order.setIdPerson(rs.getInt("idPerson"));
-                order.setIdPerson(rs.getInt("idAddress"));
-                order.setIdPerson(rs.getInt("totalPrice"));
-                order.setTimeOrder(rs.getDate("timeOrder"));
-
-                orders.add(order);
-
-            }
-
-            return orders;
+            return getOrderList(rs);
 
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -82,6 +66,25 @@ public class OrderDaoImpl implements OrderDao {
             sqlException.printStackTrace();
             return -1;
         }
+    }
+
+    @Override
+    public List<Order> getAllByAddressId(int id) {
+
+        final String query = "SELECT * FROM `order` WHERE idAddress = ?";
+
+        try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
+
+            preparedStatement.setInt(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            return getOrderList(rs);
+
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+            return null;
+        }
+
     }
 
     @Override
@@ -185,5 +188,26 @@ public class OrderDaoImpl implements OrderDao {
             orderListMap.put(order, products);
 
         return orderListMap;
+    }
+
+    private List<Order> getOrderList(final ResultSet rs) throws SQLException {
+
+        List<Order> orders = new ArrayList<>();
+
+        while (rs.next()) {
+
+            Order order = new Order();
+            order.setIdOrder(rs.getInt("idOrder"));
+            order.setIdPerson(rs.getInt("idPerson"));
+            order.setIdPerson(rs.getInt("idAddress"));
+            order.setIdPerson(rs.getInt("totalPrice"));
+            order.setTimeOrder(rs.getDate("timeOrder"));
+
+            orders.add(order);
+
+        }
+
+        return orders;
+
     }
 }

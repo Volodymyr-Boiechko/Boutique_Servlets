@@ -24,6 +24,14 @@ public class OrderServiceImpl implements OrderService {
     public int getLastId() { return orderDao.getLastId(); }
 
     @Override
+    public boolean checkIfAddressHasOrder(int id) {
+
+        List<Order> orders = orderDao.getAllByAddressId(id);
+        return orders.size() == 0;
+    }
+
+
+    @Override
     public Map<Order, List<Product>> getAllOrdersAndTheirProducts(final int idUser) {
 
         final Map<Order, List<Product>> map = orderDao.getAllOrdersAndTheirProducts(idUser);

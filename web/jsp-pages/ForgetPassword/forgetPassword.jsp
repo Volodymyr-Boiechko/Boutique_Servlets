@@ -32,10 +32,9 @@
             <input id="code" type="text">
         </label>
 
-        <button class="button button_forget" onclick="validate()">Продовжити</button>
+        <button class="button button_forgetPassword" onclick="validate()">Продовжити</button>
 
     </div>
-
 
 </div>
 

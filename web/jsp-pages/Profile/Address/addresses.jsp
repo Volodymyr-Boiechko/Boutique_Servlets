@@ -35,7 +35,7 @@
 
                 </div>
 
-                <c:forEach items="${addresses}" var="address">
+                <c:forEach items="${addresses}" var="address" varStatus="status">
 
                     <div class="address__block">
 
@@ -51,7 +51,7 @@
                         <div class="address__block__icons">
 
                             <a class="address__block__icons__href"
-                               href="${pageContext.request.contextPath}/userProfile/userAddresses/editAddress/${address.idAddress}">
+                               href="${pageContext.request.contextPath}/userProfile/userAddresses/editAddress?idAddress=${address.idAddress}">
 
                                 <div class="address__block__icons__href_text">Змінити</div>
                                 <img class="address__block__icons__href_icon"
@@ -59,14 +59,18 @@
 
                             </a>
 
-                            <a style="margin-top: 12px;" class="address__block__icons__href"
-                               href="${pageContext.request.contextPath}/userProfile/userAddresses/deleteAddress/${address.idAddress}">
+                            <c:if test="${show.get(status.index)}">
 
-                                <div class="address__block__icons__href_text">Видалити</div>
-                                <img class="address__block__icons__href_icon"
-                                     src="${pageContext.request.contextPath}/img/profile/delete.png" alt="delete">
+                                <button onclick="deleteAddress(${address.idAddress})" style="margin-top: 12px;" class="address__block__icons__href"
+                                        href="${pageContext.request.contextPath}/userProfile/userAddresses/deleteAddress/${address.idAddress}">
 
-                            </a>
+                                    <div class="address__block__icons__href_text">Видалити</div>
+                                    <img class="address__block__icons__href_icon"
+                                         src="${pageContext.request.contextPath}/img/profile/delete.png" alt="delete">
+
+                                </button>
+
+                            </c:if>
 
                         </div>
 
@@ -83,5 +87,6 @@
 
 </div>
 <jsp:include page="../../components/footer.jsp"/>
+<script src="${pageContext.request.contextPath}/js/deleteAddress.js"></script>
 </body>
 </html>

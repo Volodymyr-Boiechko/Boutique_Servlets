@@ -63,7 +63,7 @@
 
                                     <div class="header__profileBlock__user">
                                         <div class="header__profileBlock__user_text">Привіт ${username}</div>
-                                        <a href="${pageContext.request.contextPath}/logout/${username}">Вийти</a>
+                                        <a href="${pageContext.request.contextPath}/logout">Вийти</a>
                                     </div>
 
                                 </c:when>
