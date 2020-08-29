@@ -31,7 +31,7 @@ public class FavoriteProductsServlet extends HttpServlet {
         List<Integer> favoriteId = (List<Integer>) session.getAttribute("favoriteId");
 
         for (Integer id : favoriteId)
-            favorite.add(productService.getById(id));
+            favorite.add(productService.getProductById(id));
 
         request.setAttribute("favorite", favorite);
 
@@ -48,7 +48,7 @@ public class FavoriteProductsServlet extends HttpServlet {
         if (username != null) {
 
             final int idProduct = Integer.parseInt(request.getParameter("idProduct"));
-            Product product = productService.getById(idProduct);
+            Product product = productService.getProductById(idProduct);
 
             if (product.getTypeName() != null) {
 
@@ -102,7 +102,7 @@ public class FavoriteProductsServlet extends HttpServlet {
         HttpSession session = request.getSession();
 
         final int idProduct = Integer.parseInt(request.getParameter("idProduct"));
-        Product product = productService.getById(idProduct);
+        Product product = productService.getProductById(idProduct);
 
         if (product.getTypeName() != null) {
 

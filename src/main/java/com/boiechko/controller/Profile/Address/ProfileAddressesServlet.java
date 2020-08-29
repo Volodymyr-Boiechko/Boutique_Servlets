@@ -29,7 +29,7 @@ public class ProfileAddressesServlet extends HttpServlet {
         int userId = (int) session.getAttribute("userId");
 
         List<Address> addresses = addressService.getAddressesOfUser(userId);
-        Person person = personService.getById(userId);
+        Person person = personService.getPersonById(userId);
 
         request.setAttribute("addresses", addresses);
         request.setAttribute("person", person);

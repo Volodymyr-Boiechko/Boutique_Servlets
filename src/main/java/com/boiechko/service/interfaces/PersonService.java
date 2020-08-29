@@ -8,14 +8,14 @@ public interface PersonService {
 
     Person getPersonByCredentials(String column, String credentials);
 
-    boolean add(Person person);
+    boolean addPerson(Person person);
 
-    Person getById(int id);
+    Person getPersonById(int id);
 
-    List<Person> getAll();
+    List<Person> getAllPersons();
 
-    boolean update(Person t);
+    boolean updatePerson(Person person);
 
-    boolean delete(int id);
+    boolean deletePerson(int id);
 
 }

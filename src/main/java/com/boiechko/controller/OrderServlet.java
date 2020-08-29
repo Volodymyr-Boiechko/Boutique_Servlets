@@ -53,7 +53,7 @@ public class OrderServlet extends HttpServlet {
 
             Order order = new Order(idPerson, idAddress, totalPrice, ConvertDateUtil.convertDate(dateOrder));
 
-            if (orderService.add(order)) {
+            if (orderService.addOrder(order)) {
 
                 List<Product> shoppingBag = (List<Product>) session.getAttribute("shoppingBag");
 
@@ -62,20 +62,19 @@ public class OrderServlet extends HttpServlet {
                 for (int i = 0; i < shoppingBag.size(); i++) {
 
                     OrderProduct orderProduct = new OrderProduct(idOrder, shoppingBag.get(i).getIdProduct(), selectedItemsIntegers.get(i));
+                    shoppingBag.get(i).setQuantity(selectedItemsIntegers.get(i));
 
-                    if (!orderProductService.add(orderProduct)) {
+                    if (!orderProductService.addOrderProduct(orderProduct)) {
                         response.sendError(500);
                     }
-
 
                 }
 
                 order.setIdOrder(idOrder);
                 JavaMailUtil javaMailUtil = new JavaMailUtil("orderDetail", order, shoppingBag);
-                javaMailUtil.sendMail(personService.getById(idPerson).getEmail());
+                javaMailUtil.sendMail(personService.getPersonById(idPerson).getEmail());
 
-                shoppingBag.clear();
-                session.setAttribute("shoppingBag", shoppingBag);
+                session.setAttribute("shoppingBag", new ArrayList<Product>());
 
             } else {
                 response.sendError(500);

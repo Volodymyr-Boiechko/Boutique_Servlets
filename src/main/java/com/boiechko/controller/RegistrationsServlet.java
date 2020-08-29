@@ -35,7 +35,7 @@ public class RegistrationsServlet extends HttpServlet {
 
                 person.setActivationCode(null);
 
-                if (personService.update(person))
+                if (personService.updatePerson(person))
                     response.sendRedirect("/login");
 
             } else {
@@ -64,7 +64,7 @@ public class RegistrationsServlet extends HttpServlet {
 
             person = new Person(username, hashedPassword, ConvertDateUtil.convertDate(date), email);
 
-            if (personService.add(person)) {
+            if (personService.addPerson(person)) {
 
                 JavaMailUtil javaMailUtil = new JavaMailUtil("confirmRegistration", person);
                 javaMailUtil.sendMail(person.getEmail());

@@ -41,7 +41,7 @@ public class UpdatePassword extends HttpServlet {
 
                 person.setPassword(HashPasswordUtil.hashPassword(password));
 
-                if (personService.update(person)) {
+                if (personService.updatePerson(person)) {
 
                     HttpSession session = request.getSession();
 

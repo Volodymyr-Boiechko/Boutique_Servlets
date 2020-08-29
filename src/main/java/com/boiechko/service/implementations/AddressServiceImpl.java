@@ -9,23 +9,20 @@ import java.util.List;
 
 public class AddressServiceImpl implements AddressService {
 
-    AddressDao addressDao = new AddressDaoImpl();
+    private final AddressDao addressDao = new AddressDaoImpl();
 
     @Override
     public List<Address> getAddressesOfUser(int userID) { return addressDao.getAddressesOfUser(userID); }
 
     @Override
-    public boolean add(Address address) { return addressDao.add(address); }
+    public boolean addAddress(Address address) { return addressDao.add(address); }
 
     @Override
-    public Address getById(int id) { return addressDao.getById(id); }
+    public Address getAddressById(int id) { return addressDao.getById(id); }
 
     @Override
-    public List<Address> getAll() { return addressDao.getAll(); }
+    public boolean updateAddress(Address address) { return addressDao.update(address); }
 
     @Override
-    public boolean update(Address address) { return addressDao.update(address); }
-
-    @Override
-    public boolean delete(int id) { return addressDao.delete(id); }
+    public boolean deleteAddress(int id) { return addressDao.delete(id); }
 }

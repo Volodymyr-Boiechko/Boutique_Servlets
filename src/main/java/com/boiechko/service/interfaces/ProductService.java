@@ -1,11 +1,20 @@
 package com.boiechko.service.interfaces;
 
-import com.boiechko.dao.interfaces.Dao;
 import com.boiechko.entity.Product;
 
 import java.util.List;
 
-public interface ProductService extends Dao<Product> {
+public interface ProductService {
+
+    boolean addProduct(Product product);
+
+    Product getProductById(int id);
+
+    List<Product> getAllProducts();
+
+    boolean updateProduct(Product product);
+
+    boolean deleteProduct(int id);
 
     List<Product> getAllByCredentials(String column, String credentials);
 

@@ -9,12 +9,25 @@ import java.util.List;
 
 public class ProductServiceImpl implements ProductService {
 
-    ProductDao productDao = new ProductDaoImpl();
+    private final ProductDao productDao = new ProductDaoImpl();
 
     @Override
-    public List<Product> getAllByCredentials(String column, String credentials) {
-        return productDao.getAllByCredentials(column, credentials);
-    }
+    public boolean addProduct(Product product) { return productDao.add(product); }
+
+    @Override
+    public Product getProductById(int id) { return productDao.getById(id); }
+
+    @Override
+    public List<Product> getAllProducts() { return productDao.getAll(); }
+
+    @Override
+    public boolean updateProduct(Product product) { return productDao.update(product); }
+
+    @Override
+    public boolean deleteProduct(int id) { return productDao.delete(id); }
+
+    @Override
+    public List<Product> getAllByCredentials(String column, String credentials) { return productDao.getAllByCredentials(column, credentials); }
 
     @Override
     public List<Product> getNewest() { return productDao.getNewest(); }
@@ -26,19 +39,4 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> groupBy(String column) { return productDao.groupBy(column); }
-
-    @Override
-    public boolean add(Product product) { return productDao.add(product); }
-
-    @Override
-    public Product getById(int id) { return productDao.getById(id); }
-
-    @Override
-    public List<Product> getAll() { return productDao.getAll(); }
-
-    @Override
-    public boolean update(Product product) { return productDao.update(product); }
-
-    @Override
-    public boolean delete(int id) { return productDao.delete(id); }
 }

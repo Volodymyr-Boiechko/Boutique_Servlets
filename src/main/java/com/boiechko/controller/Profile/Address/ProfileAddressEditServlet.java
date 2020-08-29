@@ -24,7 +24,7 @@ public class ProfileAddressEditServlet extends HttpServlet {
             String[] path = request.getRequestURI().split("/");
 
             int idAddress = Integer.parseInt(path[path.length - 1]);
-            Address address = addressService.getById(idAddress);
+            Address address = addressService.getAddressById(idAddress);
 
             request.setAttribute("address", address);
 
@@ -47,7 +47,7 @@ public class ProfileAddressEditServlet extends HttpServlet {
         final String street = request.getParameter("street");
         final String postCode = request.getParameter("postCode");
 
-        Address address = addressService.getById(idAddress);
+        Address address = addressService.getAddressById(idAddress);
 
         if (address.getCountry() != null) {
 
@@ -56,7 +56,7 @@ public class ProfileAddressEditServlet extends HttpServlet {
             address.setStreet(street);
             address.setPostCode(postCode);
 
-            if (addressService.update(address)) {
+            if (addressService.updateAddress(address)) {
 
                 request.getSession().removeAttribute("address");
 

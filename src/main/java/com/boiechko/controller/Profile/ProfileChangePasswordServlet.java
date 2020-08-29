@@ -22,7 +22,7 @@ public class ProfileChangePasswordServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
 
         PersonService personService = new PersonServiceImpl();
-        Person person = personService.getById((Integer) session.getAttribute("userId"));
+        Person person = personService.getPersonById((Integer) session.getAttribute("userId"));
         request.setAttribute("person", person);
 
         request.getRequestDispatcher("/jsp-pages/Profile/changePassword.jsp").forward(request, response);
@@ -38,7 +38,7 @@ public class ProfileChangePasswordServlet extends HttpServlet {
         final String newPassword = request.getParameter("newPassword");
 
         PersonService personService = new PersonServiceImpl();
-        Person person = personService.getById(id);
+        Person person = personService.getPersonById(id);
 
         if (person.getUsername() != null) {
 
@@ -48,7 +48,7 @@ public class ProfileChangePasswordServlet extends HttpServlet {
 
                 person.setPassword(HashPasswordUtil.hashPassword(newPassword));
 
-                if (personService.update(person)) {
+                if (personService.updatePerson(person)) {
                     HttpSession session = request.getSession();
                     session.removeAttribute("person");
                 } else {

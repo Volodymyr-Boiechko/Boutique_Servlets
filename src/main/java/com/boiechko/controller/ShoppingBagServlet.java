@@ -56,7 +56,7 @@ public class ShoppingBagServlet extends HttpServlet {
         final int id = Integer.parseInt(request.getParameter("idProduct"));
         String username = (String) session.getAttribute("username");
 
-        Product product = productService.getById(id);
+        Product product = productService.getProductById(id);
 
         if (username != null) {
 
@@ -107,7 +107,7 @@ public class ShoppingBagServlet extends HttpServlet {
         HttpSession session = request.getSession();
 
         final int id = Integer.parseInt(request.getParameter("idProduct"));
-        Product product = productService.getById(id);
+        Product product = productService.getProductById(id);
 
         if (product.getTypeName() != null) {
 

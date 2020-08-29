@@ -49,11 +49,11 @@ public class ProfileUserOrdersServlet extends HttpServlet {
                 request.setAttribute("order", order);
                 request.setAttribute("products", products);
 
-                Address address = addressService.getById(order.getIdAddress());
+                Address address = addressService.getAddressById(order.getIdAddress());
 
                 request.setAttribute("address", address);
 
-                Person person = personService.getById(idUser);
+                Person person = personService.getPersonById(idUser);
 
                 request.setAttribute("person", person);
 

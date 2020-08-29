@@ -34,7 +34,7 @@ public class ProfileAddressAddServlet extends HttpServlet {
 
         Address address = new Address(userId, country, city, street, postCode);
 
-        if (!addressService.add(address)) {
+        if (!addressService.addAddress(address)) {
             response.sendError(500);
         }
     }

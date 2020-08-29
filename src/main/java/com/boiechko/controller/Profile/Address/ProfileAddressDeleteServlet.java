@@ -25,7 +25,7 @@ public class ProfileAddressDeleteServlet extends HttpServlet {
 
             AddressService addressService = new AddressServiceImpl();
 
-            boolean success = addressService.delete(addressId);
+            boolean success = addressService.deleteAddress(addressId);
 
             if (success)
                 response.sendRedirect("/userProfile/userAddresses");

@@ -12,13 +12,13 @@ import java.util.TreeMap;
 
 public class OrderServiceImpl implements OrderService {
 
-    OrderDao orderDao = new OrderDaoImpl();
+    private final OrderDao orderDao = new OrderDaoImpl();
 
     @Override
-    public boolean add(Order order) { return orderDao.add(order); }
+    public boolean addOrder(Order order) { return orderDao.add(order); }
 
     @Override
-    public List<Order> getAllById(int id) { return orderDao.getAllById(id); }
+    public List<Order> getAllOrdersByPersonId(int id) { return orderDao.getAllById(id); }
 
     @Override
     public int getLastId() { return orderDao.getLastId(); }

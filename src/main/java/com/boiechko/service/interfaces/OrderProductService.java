@@ -1,6 +1,9 @@
 package com.boiechko.service.interfaces;
 
-import com.boiechko.dao.interfaces.OrderProductDao;
+import com.boiechko.entity.OrderProduct;
 
-public interface OrderProductService extends OrderProductDao {
+public interface OrderProductService {
+
+    boolean addOrderProduct(OrderProduct orderProduct);
+
 }

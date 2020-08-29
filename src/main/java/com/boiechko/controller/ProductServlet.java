@@ -29,7 +29,7 @@ public class ProductServlet extends HttpServlet {
 
         final int id = Integer.parseInt(request.getParameter("idProduct"));
 
-        Product product = productService.getById(id);
+        Product product = productService.getProductById(id);
 
         List<String> parts = new ArrayList<>(Arrays.asList(sex, getTypeName(product.getTypeName())));
 

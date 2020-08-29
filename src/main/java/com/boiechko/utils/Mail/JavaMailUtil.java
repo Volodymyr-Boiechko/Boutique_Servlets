@@ -231,8 +231,8 @@ public class JavaMailUtil {
                 PersonService personService = new PersonServiceImpl();
                 AddressService addressService = new AddressServiceImpl();
 
-                Person person = personService.getById(order.getIdPerson());
-                Address address = addressService.getById(order.getIdAddress());
+                Person person = personService.getPersonById(order.getIdPerson());
+                Address address = addressService.getAddressById(order.getIdAddress());
 
                 String[] searchList = {"${username}", "${order.idOrder}", "${order.timeOrder}", "${products.size()} ${nameOfProduct}",
                         "${order.totalPrice}", "${person.firstName} ", "${person.surname}", "${address.street}", "${address.city}", "${address.country}", "${address.postCode}",

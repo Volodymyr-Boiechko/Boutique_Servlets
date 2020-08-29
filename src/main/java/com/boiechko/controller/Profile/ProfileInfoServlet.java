@@ -22,7 +22,7 @@ public class ProfileInfoServlet extends HttpServlet {
         PersonService personService = new PersonServiceImpl();
         HttpSession session = request.getSession(false);
 
-        Person person = personService.getById((Integer) session.getAttribute("userId"));
+        Person person = personService.getPersonById((Integer) session.getAttribute("userId"));
         request.setAttribute("person", person);
 
         request.getRequestDispatcher("/jsp-pages/Profile/info.jsp").forward(request, response);
@@ -42,7 +42,7 @@ public class ProfileInfoServlet extends HttpServlet {
         final String phoneNumber = request.getParameter("phoneNumber");
 
         PersonService personService = new PersonServiceImpl();
-        Person person = personService.getById(id);
+        Person person = personService.getPersonById(id);
 
         if (person.getUsername() != null) {
 
@@ -53,7 +53,7 @@ public class ProfileInfoServlet extends HttpServlet {
             person.setEmail(email);
             person.setPhoneNumber(phoneNumber);
 
-            if (personService.update(person)) {
+            if (personService.updatePerson(person)) {
 
                 HttpSession session = request.getSession();
                 session.removeAttribute("person");

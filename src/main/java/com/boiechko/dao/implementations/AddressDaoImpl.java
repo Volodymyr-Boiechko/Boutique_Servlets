@@ -17,15 +17,13 @@ public class AddressDaoImpl implements AddressDao {
     public List<Address> getAddressesOfUser(int userID) {
 
         String query = "SELECT * FROM address WHERE idPerson = ? ORDER BY idAddress DESC";
-        PreparedStatement preparedStatement = null;
 
-        List<Address> list = new ArrayList<>();
+        try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
-        try {
-            preparedStatement = DBConnection.getConnection().prepareStatement(query);
             preparedStatement.setInt(1, userID);
-
             ResultSet rs = preparedStatement.executeQuery();
+
+            List<Address> list = new ArrayList<>();
 
             while (rs.next()) {
 
@@ -47,15 +45,7 @@ public class AddressDaoImpl implements AddressDao {
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
             return null;
-        } finally {
-            try {
-                assert preparedStatement != null;
-                preparedStatement.close();
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
         }
-
     }
 
     @Override
@@ -63,10 +53,8 @@ public class AddressDaoImpl implements AddressDao {
 
         String query = "INSERT INTO address(idPerson, country, city, street, postCode)" +
                 "VALUES (?,?,?,?,?)";
-        PreparedStatement preparedStatement = null;
 
-        try {
-            preparedStatement = DBConnection.getConnection().prepareStatement(query);
+        try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
             preparedStatement.setInt(1, address.getIdPerson());
             preparedStatement.setString(2, address.getCountry());
@@ -79,13 +67,6 @@ public class AddressDaoImpl implements AddressDao {
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
             return false;
-        } finally {
-            try {
-                assert preparedStatement != null;
-                preparedStatement.close();
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
         }
     }
 
@@ -93,15 +74,13 @@ public class AddressDaoImpl implements AddressDao {
     public Address getById(int id) {
 
         String query = "SELECT * FROM address WHERE idAddress = ?";
-        PreparedStatement preparedStatement = null;
 
-        Address address = new Address();
+        try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
-        try {
-            preparedStatement = DBConnection.getConnection().prepareStatement(query);
             preparedStatement.setInt(1, id);
-
             ResultSet rs = preparedStatement.executeQuery();
+
+            Address address = new Address();
 
             while (rs.next()) {
 
@@ -119,67 +98,20 @@ public class AddressDaoImpl implements AddressDao {
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
             return null;
-        } finally {
-            try {
-                assert preparedStatement != null;
-                preparedStatement.close();
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
         }
-
     }
 
     @Override
-    public List<Address> getAll() {
-
-        String query = "SELECT * FROM address";
-        Statement statement = null;
-
-        List<Address> list = new ArrayList<>();
-
-        try {
-            statement = DBConnection.getConnection().createStatement();
-            ResultSet rs = statement.executeQuery(query);
-
-            while (rs.next()) {
-
-                Address address = new Address();
-
-                address.setIdAddress(rs.getInt("idAddress"));
-                address.setIdPerson(rs.getInt("idPerson"));
-                address.setCountry(rs.getString("country"));
-                address.setCity(rs.getString("city"));
-                address.setStreet(rs.getString("street"));
-                address.setPostCode(rs.getString("postCode"));
-
-                list.add(address);
-            }
-
-            return list;
-
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-            return null;
-        } finally {
-            try {
-                assert statement != null;
-                statement.close();
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
-        }
-    }
+    public List<Address> getAll() { throw new UnsupportedOperationException(); }
 
     @Override
     public boolean update(Address address) {
 
         String query = "UPDATE address SET idPerson = ?, country = ?, city = ?, street = ?, postCode = ? " +
                 "WHERE idAddress = ?";
-        PreparedStatement preparedStatement = null;
 
-        try {
-            preparedStatement = DBConnection.getConnection().prepareStatement(query);
+
+        try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
             preparedStatement.setInt(1, address.getIdPerson());
             preparedStatement.setString(2, address.getCountry());
@@ -193,13 +125,6 @@ public class AddressDaoImpl implements AddressDao {
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
             return false;
-        } finally {
-            try {
-                assert preparedStatement != null;
-                preparedStatement.close();
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
         }
     }
 
@@ -207,10 +132,9 @@ public class AddressDaoImpl implements AddressDao {
     public boolean delete(int id) {
 
         String query = "DELETE FROM address WHERE idAddress = ?";
-        PreparedStatement preparedStatement = null;
 
-        try {
-            preparedStatement = DBConnection.getConnection().prepareStatement(query);
+        try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
+
             preparedStatement.setInt(1, id);
 
             return preparedStatement.executeUpdate() > 0;
@@ -218,13 +142,6 @@ public class AddressDaoImpl implements AddressDao {
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
             return false;
-        } finally {
-            try {
-                assert preparedStatement != null;
-                preparedStatement.close();
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
         }
     }
 }

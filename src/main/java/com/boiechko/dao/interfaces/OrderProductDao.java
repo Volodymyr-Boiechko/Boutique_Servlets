@@ -8,6 +8,4 @@ public interface OrderProductDao {
 
     boolean add(OrderProduct orderProduct);
 
-    List<OrderProduct> getAllByIdOrder(int id);
-
 }

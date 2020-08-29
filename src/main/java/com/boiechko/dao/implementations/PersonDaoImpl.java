@@ -15,52 +15,24 @@ public class PersonDaoImpl implements PersonDao {
 
     // We receive the user on special data
     @Override
-    public Person getPersonByCredentials(String column, String credentials) {
+    public Person getByCredentials(String column, String credentials) {
 
         String query = "SELECT * FROM person WHERE " + column + " = ?";
 
-        PreparedStatement preparedStatement = null;
-        Person person = new Person();
-
-        try {
-            preparedStatement = DBConnection.getConnection().prepareStatement(query);
+        try(PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
             preparedStatement.setString(1, credentials);
-
             ResultSet rs = preparedStatement.executeQuery();
 
-            while (rs.next()) {
+            Person person = new Person();
 
-                person.setIdPerson(rs.getInt("idPerson"));
-                person.setUsername(rs.getString("username"));
-                person.setPassword(rs.getString("password"));
-                person.setFirstName(rs.getString("firstName"));
-                person.setSurname(rs.getString("surname"));
-                person.setLastName(rs.getString("lastName"));
-                person.setBirthDate(rs.getDate("birthDate"));
-                person.setEmail(rs.getString("email"));
-                person.setPhoneNumber(rs.getString("phoneNumber"));
-                person.setPersonType(rs.getString("typeName"));
-                person.setActivationCode(rs.getString("activationCode"));
-
-            }
+            if (rs.next()) person = getPerson(rs);
 
             return person;
 
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
-
             return null;
-
-        } finally {
-
-            try {
-                assert preparedStatement != null;
-                preparedStatement.close();
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
-
         }
     }
 
@@ -71,10 +43,7 @@ public class PersonDaoImpl implements PersonDao {
         String query = "INSERT INTO person(username,password, birthDate, email, typeName, activationCode)" +
                 "VALUE (?,?,?,?,?,?)";
 
-        PreparedStatement preparedStatement = null;
-
-        try {
-            preparedStatement = DBConnection.getConnection().prepareStatement(query);
+        try(PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
             preparedStatement.setString(1, person.getUsername());
             preparedStatement.setString(2, person.getPassword());
@@ -86,18 +55,8 @@ public class PersonDaoImpl implements PersonDao {
             return preparedStatement.executeUpdate() > 0;
 
         } catch (SQLException sqlException) {
-
             sqlException.printStackTrace();
             return false;
-        } finally {
-            try {
-
-                assert preparedStatement != null;
-                preparedStatement.close();
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -107,48 +66,20 @@ public class PersonDaoImpl implements PersonDao {
 
         String query = "SELECT * FROM person WHERE idPerson=?";
 
-        PreparedStatement preparedStatement = null;
-        Person person = new Person();
-
-        try {
-
-            preparedStatement = DBConnection.getConnection().prepareStatement(query);
+        try(PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
             preparedStatement.setInt(1, id);
-
             ResultSet rs = preparedStatement.executeQuery();
 
-            while (rs.next()) {
+            Person person = new Person();
 
-                person.setIdPerson(rs.getInt("idPerson"));
-                person.setUsername(rs.getString("username"));
-                person.setPassword(rs.getString("password"));
-                person.setFirstName(rs.getString("firstName"));
-                person.setSurname(rs.getString("surname"));
-                person.setLastName(rs.getString("lastName"));
-                person.setBirthDate(rs.getDate("birthDate"));
-                person.setEmail(rs.getString("email"));
-                person.setPhoneNumber(rs.getString("phoneNumber"));
-                person.setPersonType(rs.getString("typeName"));
-                person.setActivationCode(rs.getString("activationCode"));
-
-            }
+            if (rs.next()) person = getPerson(rs);
 
             return person;
 
         } catch (SQLException sqlException) {
-
             sqlException.printStackTrace();
-
             return null;
-        } finally {
-
-            try {
-                assert preparedStatement != null;
-                preparedStatement.close();
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
         }
     }
 
@@ -157,46 +88,24 @@ public class PersonDaoImpl implements PersonDao {
     public List<Person> getAll() {
 
         String query = "SELECT * FROM person";
-        List<Person> personList = new ArrayList<>();
 
-        PreparedStatement preparedStatement = null;
+        try(PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
-        try {
-
-            preparedStatement = DBConnection.getConnection().prepareStatement(query);
             ResultSet rs = preparedStatement.executeQuery();
+
+            List<Person> personList = new ArrayList<>();
 
             while (rs.next()) {
 
-                Person person = new Person();
-                person.setIdPerson(rs.getInt("idPerson"));
-                person.setUsername(rs.getString("username"));
-                person.setPassword(rs.getString("password"));
-                person.setFirstName(rs.getString("firstName"));
-                person.setSurname(rs.getString("surname"));
-                person.setLastName(rs.getString("lastName"));
-                person.setBirthDate(rs.getDate("birthDate"));
-                person.setEmail(rs.getString("email"));
-                person.setPhoneNumber(rs.getString("phoneNumber"));
-                person.setPersonType(rs.getString("typeName"));
-                person.setActivationCode(rs.getString("activationCode"));
+                Person person = getPerson(rs);
 
                 personList.add(person);
 
             }
             return personList;
         } catch (SQLException sqlException) {
-
             sqlException.printStackTrace();
             return null;
-
-        } finally {
-            try {
-                assert preparedStatement != null;
-                preparedStatement.close();
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
         }
     }
 
@@ -207,10 +116,7 @@ public class PersonDaoImpl implements PersonDao {
         String query = "UPDATE person SET username=?, password=?, firstName=?, surname=?, lastName=?," +
                 "birthDate=?,email=?,phoneNumber=?,activationCode=? WHERE idPerson=?";
 
-        PreparedStatement preparedStatement = null;
-
-        try {
-            preparedStatement = DBConnection.getConnection().prepareStatement(query);
+        try(PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
             preparedStatement.setString(1, person.getUsername());
             preparedStatement.setString(2, person.getPassword());
@@ -228,15 +134,6 @@ public class PersonDaoImpl implements PersonDao {
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
             return false;
-        } finally {
-
-            try {
-                assert preparedStatement != null;
-                preparedStatement.close();
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
-
         }
     }
 
@@ -246,10 +143,8 @@ public class PersonDaoImpl implements PersonDao {
 
         String query = "DELETE FROM person WHERE idPerson=?";
 
-        PreparedStatement preparedStatement = null;
+        try(PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
-        try {
-            preparedStatement = DBConnection.getConnection().prepareStatement(query);
             preparedStatement.setInt(1, id);
 
             return preparedStatement.executeUpdate() > 0;
@@ -257,13 +152,26 @@ public class PersonDaoImpl implements PersonDao {
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
             return false;
-        } finally {
-            try {
-                assert preparedStatement != null;
-                preparedStatement.close();
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
         }
+    }
+
+    private Person getPerson(ResultSet resultSet) throws SQLException {
+
+        Person person = new Person();
+
+        person.setIdPerson(resultSet.getInt("idPerson"));
+        person.setUsername(resultSet.getString("username"));
+        person.setPassword(resultSet.getString("password"));
+        person.setFirstName(resultSet.getString("firstName"));
+        person.setSurname(resultSet.getString("surname"));
+        person.setLastName(resultSet.getString("lastName"));
+        person.setBirthDate(resultSet.getDate("birthDate"));
+        person.setEmail(resultSet.getString("email"));
+        person.setPhoneNumber(resultSet.getString("phoneNumber"));
+        person.setPersonType(resultSet.getString("typeName"));
+        person.setActivationCode(resultSet.getString("activationCode"));
+
+        return person;
+
     }
 }

@@ -139,7 +139,7 @@ public class ClothesServlet extends HttpServlet {
 
             if (saveImage(image, destination)) {
 
-                if (!productService.add(product)) {
+                if (!productService.addProduct(product)) {
 
                     response.sendError(500);
 

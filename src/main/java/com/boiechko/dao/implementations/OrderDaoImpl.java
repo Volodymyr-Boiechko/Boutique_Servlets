@@ -17,10 +17,8 @@ public class OrderDaoImpl implements OrderDao {
     public boolean add(Order order) {
 
         String query = "INSERT INTO `order` (idPerson, idAddress, totalPrice, timeOrder) VALUES (?,?,?,?)";
-        PreparedStatement preparedStatement = null;
 
-        try {
-            preparedStatement = DBConnection.getConnection().prepareStatement(query);
+        try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
             preparedStatement.setInt(1, order.getIdPerson());
             preparedStatement.setInt(2, order.getIdAddress());
@@ -32,13 +30,6 @@ public class OrderDaoImpl implements OrderDao {
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
             return false;
-        } finally {
-            try {
-                assert preparedStatement != null;
-                preparedStatement.close();
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
         }
     }
 
@@ -46,12 +37,10 @@ public class OrderDaoImpl implements OrderDao {
     public List<Order> getAllById(int id) {
 
         String query = "SELECT * FROM `order` WHERE idPerson = ?";
-        PreparedStatement preparedStatement = null;
 
-        try {
-            preparedStatement = DBConnection.getConnection().prepareStatement(query);
+        try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
+
             preparedStatement.setInt(1, id);
-
             ResultSet rs = preparedStatement.executeQuery();
 
             List<Order> orders = new ArrayList<>();
@@ -75,15 +64,7 @@ public class OrderDaoImpl implements OrderDao {
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
             return null;
-        } finally {
-            try {
-                assert preparedStatement != null;
-                preparedStatement.close();
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
         }
-
     }
 
     @Override
@@ -123,13 +104,9 @@ public class OrderDaoImpl implements OrderDao {
             return getOrderListMap(preparedStatement);
 
         } catch (SQLException sqlException) {
-
             sqlException.printStackTrace();
             return null;
-
         }
-
-
     }
 
     @Override
@@ -153,14 +130,13 @@ public class OrderDaoImpl implements OrderDao {
             return getOrderListMap(preparedStatement);
 
         } catch (SQLException sqlException) {
-
             sqlException.printStackTrace();
             return null;
-
         }
     }
 
     private Map<Order, List<Product>> getOrderListMap(PreparedStatement preparedStatement) throws SQLException {
+
         ResultSet rs = preparedStatement.executeQuery();
 
         Map<Order, List<Product>> orderListMap = new HashMap<>();
