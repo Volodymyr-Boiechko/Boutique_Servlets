@@ -114,7 +114,7 @@
                 <div class="headerFavorite__links">
 
                     <a href="${pageContext.request.contextPath}/login">Увійти</a>
-                    <a href="${pageContext.request.contextPath}/registration/">Зареєструватись</a>
+                    <a href="${pageContext.request.contextPath}/registration">Зареєструватись</a>
 
                 </div>
 

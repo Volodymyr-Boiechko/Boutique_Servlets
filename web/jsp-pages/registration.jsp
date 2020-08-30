@@ -42,7 +42,7 @@
             <input id="email" class="long" type="text">
         </label>
 
-        <button class="button" type="submit">Зареєструватись</button>
+        <button class="button button_registration" type="submit">Зареєструватись</button>
 
         <div class="form__under">
             Вже зареєстровані?

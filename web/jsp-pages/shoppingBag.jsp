@@ -246,7 +246,7 @@
                 <div class="headerShoppingBag__links">
 
                     <a class="headerShoppingBag__links_link" href="${pageContext.request.contextPath}/login">Увійти</a>
-                    <a class="headerShoppingBag__links_link" href="${pageContext.request.contextPath}/registration/">Зареєструватись</a>
+                    <a class="headerShoppingBag__links_link" href="${pageContext.request.contextPath}/registration">Зареєструватись</a>
 
                 </div>
 

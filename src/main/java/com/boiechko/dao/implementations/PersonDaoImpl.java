@@ -51,7 +51,7 @@ public class PersonDaoImpl implements PersonDao {
             preparedStatement.setDate(3, person.getBirthDate());
             preparedStatement.setString(4, person.getEmail());
             preparedStatement.setString(5, PersonType.USER.toString());
-            preparedStatement.setString(6, UUID.randomUUID().toString());
+            preparedStatement.setString(6, person.getActivationCode());
 
             return preparedStatement.executeUpdate() > 0;
 

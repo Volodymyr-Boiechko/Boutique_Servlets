@@ -37,11 +37,12 @@ public class Person {
         this.activationCode = activationCode;
     }
 
-    public Person(String username, String password, Date birthDate, String email) {
+    public Person(String username, String password, Date birthDate, String email, String activationCode) {
         this.username = username;
         this.password = password;
         this.birthDate = birthDate;
         this.email = email;
+        this.activationCode = activationCode;
     }
 
     public Person(String firstName, String surname, String lastName, String email, String phoneNumber) {

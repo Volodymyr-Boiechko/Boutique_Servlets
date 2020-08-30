@@ -72,7 +72,7 @@
                                     <div class="header__profileBlock__login">
                                         <a href="${pageContext.request.contextPath}/login">Увійти</a>
                                         <span>|</span>
-                                        <a href="${pageContext.request.contextPath}/registration/">Зареєструватись</a>
+                                        <a href="${pageContext.request.contextPath}/registration">Зареєструватись</a>
                                     </div>
 
                                 </c:otherwise>

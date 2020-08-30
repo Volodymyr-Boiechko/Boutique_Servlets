@@ -12,8 +12,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.UUID;
 
 @WebServlet("/registration")
 public class RegistrationsServlet extends HttpServlet {
@@ -52,12 +52,11 @@ public class RegistrationsServlet extends HttpServlet {
 
             final String hashedPassword = HashPasswordUtil.hashPassword(password);
 
-            person = new Person(username, hashedPassword, ConvertDateUtil.convertDate(date), email);
+            person = new Person(username, hashedPassword, ConvertDateUtil.convertDate(date), email, UUID.randomUUID().toString());
 
             if (personService.addPerson(person)) {
 
-                JavaMailUtil javaMailUtil = new JavaMailUtil("confirmRegistration",
-                        personService.getPersonByCredentials("username", username));
+                JavaMailUtil javaMailUtil = new JavaMailUtil("confirmRegistration", person);
                 javaMailUtil.sendMail(person.getEmail());
 
             } else {
