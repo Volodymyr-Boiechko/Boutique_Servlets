@@ -33,57 +33,77 @@
 
                 </div>
 
-                <c:forEach var="entry" items="${productsByOrder}">
+                <c:choose>
 
-                    <div class="orders__block">
+                    <c:when test="${productsByOrder.size() == 0}">
 
-                        <div class="orders__block__text">
+                        <div class="orders__block">
 
-                            <div class="orders__block__text_descr">
-                                <span>Замовлення №:</span><br>
-                                    ${entry.key.idOrder}
+                            <div class="orders__block__img orders__block__img_notFound">
+                                <img src="${pageContext.request.contextPath}/img/other/sad_smile.png" alt="sadSmile">
                             </div>
-
-                            <div class="orders__block__text_descr">
-                                <span>Дата замовлення:</span><br>
-                                    ${entry.key.timeOrder}
-                            </div>
+                            <h1 class="orders__block__title orders__block__title_notFound">Замовлень не знайдено</h1>
 
                         </div>
 
-                        <div class="orders__block__info">
+                    </c:when>
+                    <c:otherwise>
 
-                            <div class="orders__block__info__images">
+                        <c:forEach var="entry" items="${productsByOrder}">
 
-                                <c:forEach var="listEl" items="${entry.value}" begin="0" end="2" varStatus="theCount">
+                            <div class="orders__block">
 
-                                    <a id="link"
-                                       href="${pageContext.request.contextPath}/manClothes/productItem?idProduct=${listEl.idProduct}"
-                                       class="orders__block__info__images_img">
-                                        <c:if test="${theCount.count == 3 && entry.value.size() > 3}">
+                                <div class="orders__block__text">
 
-                                            <div class="hover">
-                                                <div class="hover__plus">+${entry.value.size() - 3}</div>
-                                            </div>
+                                    <div class="orders__block__text_descr">
+                                        <span>Замовлення №:</span><br>
+                                            ${entry.key.idOrder}
+                                    </div>
 
-                                        </c:if>
-                                        <img src="${pageContext.request.contextPath}/${listEl.image}"
-                                             alt="${listEl.typeName}">
-                                    </a>
+                                    <div class="orders__block__text_descr">
+                                        <span>Дата замовлення:</span><br>
+                                            ${entry.key.timeOrder}
+                                    </div>
 
-                                </c:forEach>
+                                </div>
+
+                                <div class="orders__block__info">
+
+                                    <div class="orders__block__info__images">
+
+                                        <c:forEach var="listEl" items="${entry.value}" begin="0" end="2" varStatus="theCount">
+
+                                            <a id="link"
+                                               href="${pageContext.request.contextPath}/manClothes/productItem?idProduct=${listEl.idProduct}"
+                                               class="orders__block__info__images_img">
+                                                <c:if test="${theCount.count == 3 && entry.value.size() > 3}">
+
+                                                    <div class="hover">
+                                                        <div class="hover__plus">+${entry.value.size() - 3}</div>
+                                                    </div>
+
+                                                </c:if>
+                                                <img src="${pageContext.request.contextPath}/${listEl.image}"
+                                                     alt="${listEl.typeName}">
+                                            </a>
+
+                                        </c:forEach>
+
+                                    </div>
+                                    <div class="orders__block__info__button">
+                                        <a href="${pageContext.request.contextPath}/userProfile/userOrders?idOrder=${entry.key.idOrder}"
+                                           class="button button_orders">Переглянути замовлення</a>
+                                    </div>
+
+                                </div>
 
                             </div>
-                            <div class="orders__block__info__button">
-                                <a href="${pageContext.request.contextPath}/userProfile/userOrders?idOrder=${entry.key.idOrder}"
-                                   class="button button_orders">Переглянути замовлення</a>
-                            </div>
 
-                        </div>
+                        </c:forEach>
 
-                    </div>
+                    </c:otherwise>
 
-                </c:forEach>
+                </c:choose>
 
             </div>
 

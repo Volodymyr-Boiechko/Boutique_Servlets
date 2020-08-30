@@ -13,79 +13,108 @@
 </head>
 <body>
 <jsp:include page="components/header.jsp"/>
-<c:if test="${amount != 0}">
+<c:choose>
 
-    <div class="clothes">
+    <c:when test="${amount == 0}">
 
-        <div class="container">
+        <div class="headerClothes">
 
-            <div>
+            <img src="${pageContext.request.contextPath}/img/other/sad_smile.png" alt="sadSmile">
 
-                <div class="row">
+            <div class="headerClothes__title">На жаль такого типу продукту не знайдено</div>
 
-                    <c:forEach items="${clothes}" begin="0" end="${amount}" var="product">
+            <div class="headerClothes__descr"></div>
 
-                        <div class="block col-md-4" id="${product.idProduct}">
+        </div>
 
-                            <a href="${pageContext.request.contextPath}/manClothes/productItem?idProduct=${product.idProduct}">
+    </c:when>
+    <c:otherwise>
 
-                                <div class="clothes__block">
+        <div class="clothes">
 
-                                    <div class="clothes__block__img">
+            <div class="container">
 
-                                        <img class="clothes__block__img_main"
-                                             src="${pageContext.request.contextPath}/${product.image}"
-                                             alt="${product.productName}">
+                <div>
 
-                                        <div class="hover"></div>
+                    <div class="row">
 
-                                    </div>
+                        <c:forEach items="${clothes}" begin="0" end="${amount}" var="product">
 
-                                    <div class="clothes__block__text">
+                            <div class="block col-md-4" id="${product.idProduct}">
 
-                                        <div class="clothes__block__text_title">
-                                                ${product.description}
+                                <a href="${pageContext.request.contextPath}/manClothes/productItem?idProduct=${product.idProduct}">
+
+                                    <div class="clothes__block">
+
+                                        <div class="clothes__block__img">
+
+                                            <img class="clothes__block__img_main"
+                                                 src="${pageContext.request.contextPath}/${product.image}"
+                                                 alt="${product.productName}">
+
+                                            <div class="hover"></div>
+
                                         </div>
 
-                                        <div class="clothes__block__text_price">
-                                                ${product.price} грн.
+                                        <div class="clothes__block__text">
+
+                                            <div class="clothes__block__text_title">
+                                                    ${product.description}
+                                            </div>
+
+                                            <div class="clothes__block__text_price">
+                                                    ${product.price} грн.
+                                            </div>
+
                                         </div>
 
                                     </div>
+                                </a>
 
-                                </div>
-                            </a>
+                                <button onclick="addToFavorite(${product.idProduct})" class="clothes__block__img__favorite">
 
-                            <button onclick="addToFavorite(${product.idProduct})" class="clothes__block__img__favorite">
+                                    <img class="clothes__block__img__favorite_img" id="favorite" src="${pageContext.request.contextPath}/img/other/favorite.png"
+                                         alt="favorite">
 
-                                <img class="clothes__block__img__favorite_img" id="favorite" src="${pageContext.request.contextPath}/img/other/favorite.png"
-                                     alt="favorite">
-
-                            </button>
-
-                        </div>
-
-                    </c:forEach>
-
-                    <c:if test="${not empty username}">
-
-                        <c:if test="${show}">
-
-                            <div class="col-md-4">
-
-                                <div class="clothes__block" style="border: 0.5px grey solid;">
-
-                                    <button name="addButton" class="clothes__block__addButton" id="addButton">
-
-                                        <img src="${pageContext.request.contextPath}/img/other/add.jpg" alt="add">
-
-                                    </button>
-
-                                </div>
+                                </button>
 
                             </div>
 
+                        </c:forEach>
+
+                        <c:if test="${not empty username}">
+
+                            <c:if test="${show}">
+
+                                <div class="col-md-4">
+
+                                    <div class="clothes__block" style="border: 0.5px grey solid;">
+
+                                        <button name="addButton" class="clothes__block__addButton" id="addButton">
+
+                                            <img src="${pageContext.request.contextPath}/img/other/add.jpg" alt="add">
+
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                            </c:if>
+
                         </c:if>
+
+                    </div>
+
+                </div>
+
+                <div class="clothes__more">
+
+                    <div class="clothes__more_title">Ви переглянули ${number} із ${clothes.size()} товарів</div>
+
+                    <c:if test="${clothes.size() != number}">
+
+                        <button onclick="morePages()" class="clothes__more__downloadMore">Загрузити ще</button>
 
                     </c:if>
 
@@ -93,24 +122,11 @@
 
             </div>
 
-            <div class="clothes__more">
-
-                <div class="clothes__more_title">Ви переглянули ${number} із ${clothes.size()} товарів</div>
-
-                <c:if test="${clothes.size() != number}">
-
-                    <button onclick="morePages()" class="clothes__more__downloadMore">Загрузити ще</button>
-
-                </c:if>
-
-            </div>
-
         </div>
 
-    </div>
+    </c:otherwise>
 
-</c:if>
-
+</c:choose>
 
 <div class="overlay" id="addOverlay">
     <div class="modalw modalw_call modalw_addProduct" id="add">

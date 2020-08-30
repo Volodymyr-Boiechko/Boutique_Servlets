@@ -32,7 +32,7 @@ public class ShoppingBagServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         final List<Product> products = (List<Product>) request.getSession().getAttribute("shoppingBag");
-        if (products != null) {
+        if (products != null && products.size() != 0) {
 
             final Person person = (Person) request.getSession().getAttribute("person");
 
