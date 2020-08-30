@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface OrderService {
 
-    boolean addOrder(Order order);
+    boolean addOrder(final Order order);
 
     List<Order> getAllOrdersByPersonId(final int id);
 
@@ -18,6 +18,6 @@ public interface OrderService {
 
     Map<Order, List<Product>> getAllOrdersAndTheirProducts(final int idUser);
 
-    Map<Order, List<Product>> getOrderAndHisProducts(final int idUser, final int idOrder);
+    Map.Entry<Order, List<Product>> getOrderAndHisProducts(final int idPerson, final String idOrder);
 
 }

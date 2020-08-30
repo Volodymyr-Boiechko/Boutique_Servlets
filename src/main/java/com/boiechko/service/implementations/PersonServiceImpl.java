@@ -3,6 +3,7 @@ package com.boiechko.service.implementations;
 import com.boiechko.dao.implementations.PersonDaoImpl;
 import com.boiechko.dao.interfaces.PersonDao;
 import com.boiechko.entity.Person;
+import com.boiechko.enums.PersonType;
 import com.boiechko.service.interfaces.PersonService;
 
 import java.util.List;
@@ -28,4 +29,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public boolean deletePerson(final int id) { return personDao.delete(id); }
+
+    @Override
+    public boolean checkAdmin(Person person) { return person != null && person.getPersonType().equals(PersonType.ADMIN); }
 }

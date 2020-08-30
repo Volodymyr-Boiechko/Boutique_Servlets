@@ -210,7 +210,7 @@ public class JavaMailUtil {
 
             case "confirmRegistration":
                 htmlText = htmlText.replace("user", person.getUsername());
-                htmlText = htmlText.replace("href", "http://localhost:8080/registration/" + person.getActivationCode());
+                htmlText = htmlText.replace("href", "http://localhost:8080/registration?activationCode=" + person.getActivationCode());
                 break;
             case "recoverPassword":
                 verificationCode = VerificationCode.generateCode();

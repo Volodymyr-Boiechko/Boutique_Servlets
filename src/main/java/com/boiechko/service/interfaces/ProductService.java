@@ -19,12 +19,6 @@ public interface ProductService {
 
     List<Product> getAllByCredentials(final String column, final String credentials);
 
-    List<Product> getNewest();
-
-    List<Product> getUniqueFields(final String uniqueColumn, final String condition, final String statement);
-
-    List<Product> groupBy(final String column);
-
     boolean saveImage(final Part image, final String destination);
 
     String getDestinationOfImage(final Part image, final String destination);

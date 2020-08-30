@@ -2,10 +2,11 @@ package com.boiechko.controller;
 
 import com.boiechko.entity.Person;
 import com.boiechko.entity.Product;
-import com.boiechko.enums.PersonType;
 import com.boiechko.service.implementations.ClothesServiceImpl;
+import com.boiechko.service.implementations.PersonServiceImpl;
 import com.boiechko.service.implementations.ProductServiceImpl;
 import com.boiechko.service.interfaces.ClothesService;
+import com.boiechko.service.interfaces.PersonService;
 import com.boiechko.service.interfaces.ProductService;
 
 import javax.servlet.ServletException;
@@ -21,6 +22,7 @@ public class ClothesServlet extends HttpServlet {
 
     private final ProductService productService = new ProductServiceImpl();
     private final ClothesService clothesService = new ClothesServiceImpl();
+    private final PersonService personService = new PersonServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -29,7 +31,7 @@ public class ClothesServlet extends HttpServlet {
 
         final Person person = (Person) session.getAttribute("person");
 
-        if (person != null && person.getPersonType().equals(PersonType.ADMIN))
+        if (personService.checkAdmin(person))
             request.setAttribute("show", true);
 
         final String page = request.getParameter("page");

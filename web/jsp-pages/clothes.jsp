@@ -13,7 +13,7 @@
 </head>
 <body>
 <jsp:include page="components/header.jsp"/>
-<c:if test="${number != 0}">
+<c:if test="${amount != 0}">
 
     <div class="clothes">
 

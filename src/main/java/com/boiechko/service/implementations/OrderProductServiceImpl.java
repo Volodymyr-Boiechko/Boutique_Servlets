@@ -3,12 +3,31 @@ package com.boiechko.service.implementations;
 import com.boiechko.dao.implementations.OrderProductDaoImpl;
 import com.boiechko.dao.interfaces.OrderProductDao;
 import com.boiechko.entity.OrderProduct;
+import com.boiechko.entity.Product;
 import com.boiechko.service.interfaces.OrderProductService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrderProductServiceImpl implements OrderProductService {
 
     private final OrderProductDao orderProductDao = new OrderProductDaoImpl();
 
     @Override
-    public boolean addOrderProduct(final OrderProduct orderProduct) { return orderProductDao.add(orderProduct); }
+    public boolean addOrderProduct(int idOrder, final String[] selectedItems, final List<Product> shoppingBag) {
+
+        for (int i = 0; i < shoppingBag.size(); i++) {
+
+            OrderProduct orderProduct = new OrderProduct(idOrder, shoppingBag.get(i).getIdProduct(), Integer.parseInt(selectedItems[i]));
+            shoppingBag.get(i).setQuantity(Integer.parseInt(selectedItems[i]));
+
+            if (!orderProductDao.add(orderProduct)) {
+                return false;
+            }
+
+        }
+
+        return true;
+
+    }
 }

@@ -1,5 +1,8 @@
 package com.boiechko.controller.Profile;
 
+import com.boiechko.service.implementations.PersonProfileServiceImpl;
+import com.boiechko.service.interfaces.PersonProfileService;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +14,8 @@ import java.io.IOException;
 @WebServlet("/navProfile")
 public class NavProfileServlet extends HttpServlet {
 
+    private final PersonProfileService personProfileService = new PersonProfileServiceImpl();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -18,19 +23,8 @@ public class NavProfileServlet extends HttpServlet {
 
         final String username = (String) session.getAttribute("username");
         final Character letter = username.charAt(0);
-        final String[] path = request.getRequestURI().split("/");
-        int number = -1;
 
-        switch (path[path.length - 1]) {
-
-            case "profile.jsp": number = 1; break;
-            case "orders.jsp": case "orderItem.jsp": number = 2; break;
-            case "info.jsp": number = 3; break;
-            case "changePassword.jsp": number = 4; break;
-            case "addresses.jsp": case "editAddress.jsp": case "addAddress.jsp": number = 5; break;
-        }
-
-        request.setAttribute("number", number);
+        request.setAttribute("number", personProfileService.getNumberOfProfileNavigation(request));
         request.setAttribute("letter", letter);
 
     }

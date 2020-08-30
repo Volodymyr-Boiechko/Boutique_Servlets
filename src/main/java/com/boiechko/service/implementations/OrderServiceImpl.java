@@ -47,8 +47,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Map<Order, List<Product>> getOrderAndHisProducts(final int idUser, final int idOrder) {
-        return orderDao.getOrderAndHisProducts(idUser, idOrder);
+    public Map.Entry<Order, List<Product>> getOrderAndHisProducts(final int idPerson, final String idOrder) {
+
+        Map<Order, List<Product>> map = orderDao.getOrderAndHisProducts(idPerson, Integer.parseInt(idOrder));
+
+        return map.entrySet().iterator().next();
+
     }
+
+
 
 }

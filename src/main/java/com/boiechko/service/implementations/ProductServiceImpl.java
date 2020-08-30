@@ -36,17 +36,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getNewest() { return productDao.getNewest(); }
-
-    @Override
-    public List<Product> getUniqueFields(final String uniqueColumn, final String condition, final String statement) {
-        return productDao.getUniqueFields(uniqueColumn, condition, statement);
-    }
-
-    @Override
-    public List<Product> groupBy(final String column) { return productDao.groupBy(column); }
-
-    @Override
     public boolean saveImage(Part image, String destination) {
 
         final String imagePath = appPath + destination.replace("/", "\\");

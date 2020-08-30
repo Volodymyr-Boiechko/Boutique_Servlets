@@ -36,48 +36,30 @@ public class OrderServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
 
-        try {
+        final Person person = (Person) session.getAttribute("person");
 
-            final Person person = (Person) session.getAttribute("person");
+        final String[] selectedItems = request.getParameterValues("json[]");
+        final int totalPrice = Integer.parseInt(request.getParameter("totalPrice"));
+        final int idAddress = Integer.parseInt(request.getParameter("idAddress"));
+        final String dateOrder = request.getParameter("dateOrder");
 
-            final String[] selectedItems = request.getParameterValues("json[]");
-            final int totalPrice = Integer.parseInt(request.getParameter("totalPrice"));
-            final int idAddress = Integer.parseInt(request.getParameter("idAddress"));
-            final String dateOrder = request.getParameter("dateOrder");
+        final Order order = new Order(person.getIdPerson(), idAddress, totalPrice, ConvertDateUtil.convertDate(dateOrder));
+        final List<Product> shoppingBag = (List<Product>) session.getAttribute("shoppingBag");
 
-            List<Integer> selectedItemsIntegers = new ArrayList<>();
-            for (String selectedItem : selectedItems) selectedItemsIntegers.add(Integer.parseInt(selectedItem));
+        if (orderService.addOrder(order)) {
 
-            Order order = new Order(person.getIdPerson(), idAddress, totalPrice, ConvertDateUtil.convertDate(dateOrder));
+            final int idOrder = orderService.getLastId();
+            order.setIdOrder(idOrder);
 
-            if (orderService.addOrder(order)) {
-
-                List<Product> shoppingBag = (List<Product>) session.getAttribute("shoppingBag");
-
-                int idOrder = orderService.getLastId();
-
-                for (int i = 0; i < shoppingBag.size(); i++) {
-
-                    OrderProduct orderProduct = new OrderProduct(idOrder, shoppingBag.get(i).getIdProduct(), selectedItemsIntegers.get(i));
-                    shoppingBag.get(i).setQuantity(selectedItemsIntegers.get(i));
-
-                    if (!orderProductService.addOrderProduct(orderProduct)) {
-                        response.sendError(500);
-                    }
-
-                }
-
-                order.setIdOrder(idOrder);
-                JavaMailUtil javaMailUtil = new JavaMailUtil("orderDetail", order, shoppingBag);
-                javaMailUtil.sendMail(person.getEmail());
-
-                session.setAttribute("shoppingBag", new ArrayList<Product>());
-
-            } else {
+            if (!orderProductService.addOrderProduct(idOrder, selectedItems, shoppingBag))
                 response.sendError(500);
-            }
-        } catch (Error error) {
-            error.printStackTrace();
+
+            JavaMailUtil javaMailUtil = new JavaMailUtil("orderDetail", order, shoppingBag);
+            javaMailUtil.sendMail(person.getEmail());
+
+            session.setAttribute("shoppingBag", new ArrayList<Product>());
+
+        } else {
             response.sendError(500);
         }
 

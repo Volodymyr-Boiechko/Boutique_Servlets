@@ -18,4 +18,6 @@ public interface PersonService {
 
     boolean deletePerson(final int id);
 
+    boolean checkAdmin(final Person person);
+
 }

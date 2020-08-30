@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet("/registration/*")
+@WebServlet("/registration")
 public class RegistrationsServlet extends HttpServlet {
 
     private final PersonService personService = new PersonServiceImpl();
@@ -23,27 +23,18 @@ public class RegistrationsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String[] pathParts = request.getRequestURI().split("/");
+        final String activationCode = request.getParameter("activationCode");
 
-        if (pathParts.length != 2 && pathParts[2].length() == 36) {
+        if (activationCode != null) {
 
-            String activationCode = pathParts[2];
+            final Person person = personService.getPersonByCredentials("activationCode", activationCode);
+            person.setActivationCode(null);
 
-            Person person = personService.getPersonByCredentials("activationCode", activationCode);;
-
-            if (person.getUsername() != null) {
-
-                person.setActivationCode(null);
-
-                if (personService.updatePerson(person))
-                    response.sendRedirect("/login");
-
-            } else {
-                response.sendError(503);
-            }
+            if (personService.updatePerson(person))
+                response.sendRedirect("/login");
 
         } else {
-            request.getRequestDispatcher("/jsp-pages/registration.jsp").forward(request,response);
+            request.getRequestDispatcher("/jsp-pages/registration.jsp").forward(request, response);
         }
     }
 
@@ -65,7 +56,8 @@ public class RegistrationsServlet extends HttpServlet {
 
             if (personService.addPerson(person)) {
 
-                JavaMailUtil javaMailUtil = new JavaMailUtil("confirmRegistration", person);
+                JavaMailUtil javaMailUtil = new JavaMailUtil("confirmRegistration",
+                        personService.getPersonByCredentials("username", username));
                 javaMailUtil.sendMail(person.getEmail());
 
             } else {

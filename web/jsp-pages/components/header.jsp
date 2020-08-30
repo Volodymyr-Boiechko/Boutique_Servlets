@@ -152,7 +152,7 @@
 
                                 <ul class="subheader__list__dropdown__list__elem_images">
 
-                                    <c:forEach items="${newestProducts}" var="product">
+                                    <c:forEach items="${newestProducts}" var="product" begin="0" end="2">
 
                                         <a href="${pageContext.request.contextPath}/manClothes/brands?brand=${product.brand}&page=1">
 
@@ -276,7 +276,7 @@
 
                                 <ol class="subheader__list__dropdown__list__elem_links">
 
-                                    <c:forEach items="${shoesBrands}" var="product">
+                                    <c:forEach items="${shoes}" var="product" begin="0" end="3">
 
                                         <li>
                                             <a href="${pageContext.request.contextPath}/manClothes/shoes?brand=${product.brand}&page=1">
@@ -297,7 +297,7 @@
 
                                 <ul class="subheader__list__dropdown__list__elem_images">
 
-                                    <c:forEach items="${shoesImages}" var="product">
+                                    <c:forEach items="${shoes}" var="product" begin="0" end="1">
 
                                         <a href="${pageContext.request.contextPath}/manClothes/shoes?brand=${product.brand}&page=1">
 
@@ -359,7 +359,7 @@
 
                                 <ol class="subheader__list__dropdown__list__elem_links">
 
-                                    <c:forEach items="${accessoriesBrands}" var="product">
+                                    <c:forEach items="${accessories}" var="product" begin="0" end="4">
 
                                         <li>
                                             <a href="${pageContext.request.contextPath}/manClothes/accessories?brand=${product.brand}&page=1">
@@ -379,7 +379,7 @@
 
                                 <ul class="subheader__list__dropdown__list__elem_images">
 
-                                    <c:forEach items="${accessoriesImages}" var="product">
+                                    <c:forEach items="${accessories}" var="product" begin="0" end="1">
 
                                         <a href="${pageContext.request.contextPath}/manClothes/accessories?brand=${product.brand}&page=1">
 
@@ -438,7 +438,7 @@
 
                                 <ul class="subheader__list__dropdown__list__elem_images">
 
-                                    <c:forEach items="${sportWearImages}" var="product">
+                                    <c:forEach items="${sportWear}" var="product" begin="0" end="2">
 
                                         <a href="${pageContext.request.contextPath}/manClothes/sportWear?brand=${product.brand}&page=1">
 
@@ -493,7 +493,7 @@
 
                                 <ul class="subheader__list__dropdown__list__elem_images">
 
-                                    <c:forEach items="${brandsImages}" var="product">
+                                    <c:forEach items="${brands}" var="product" begin="0" end="1">
 
                                         <a href="${pageContext.request.contextPath}/manClothes/brands?brand=${product.brand}&page=1">
 

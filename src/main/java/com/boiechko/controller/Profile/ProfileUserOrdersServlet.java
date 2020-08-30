@@ -1,6 +1,5 @@
 package com.boiechko.controller.Profile;
 
-import com.boiechko.entity.Address;
 import com.boiechko.entity.Order;
 import com.boiechko.entity.Person;
 import com.boiechko.entity.Product;
@@ -14,7 +13,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -28,26 +26,17 @@ public class ProfileUserOrdersServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
-
-        final Person person = (Person) session.getAttribute("person");
+        final Person person = (Person) request.getSession().getAttribute("person");
         final String idOrderString = request.getParameter("idOrder");
 
         if (idOrderString != null) {
 
-            Map<Order, List<Product>> map = orderService.getOrderAndHisProducts(person.getIdPerson(), Integer.parseInt(idOrderString));
+            final Map.Entry<Order, List<Product>> entry = orderService.getOrderAndHisProducts(person.getIdPerson(), idOrderString);
 
-            for (Map.Entry<Order, List<Product>> entry : map.entrySet()) {
+            request.setAttribute("order", entry.getKey());
+            request.setAttribute("products", entry.getValue());
+            request.setAttribute("address", addressService.getAddressById(entry.getKey().getIdAddress()));
 
-                final Order order = entry.getKey();
-                final List<Product> products = entry.getValue();
-                final Address address = addressService.getAddressById(order.getIdAddress());
-
-                request.setAttribute("order", order);
-                request.setAttribute("products", products);
-                request.setAttribute("address", address);
-
-            }
             request.getRequestDispatcher("/jsp-pages/Profile/Orders/orderItem.jsp").forward(request, response);
 
         } else {
