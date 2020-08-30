@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 public class PersonProfileServiceImpl implements PersonProfileService {
 
     @Override
-    public int getNumberOfProfileNavigation(HttpServletRequest request) {
+    public int getNumberOfProfileNavigation(final HttpServletRequest request) {
 
         final String[] path = request.getRequestURI().split("/");
         int number = -1;

@@ -18,19 +18,15 @@ public class ClothesServiceImpl implements ClothesService {
     private final int amountProductsInPage = 12;
 
     @Override
-    public List<Product> getNewest() {
-        return productDao.getNewest();
-    }
+    public List<Product> getNewest() { return productDao.getNewest(); }
 
     @Override
-    public List<Product> getUniqueFields(String uniqueColumn, String condition, String statement) {
+    public List<Product> getUniqueFields(final String uniqueColumn, final String condition, final String statement) {
         return productDao.getUniqueFields(uniqueColumn, condition, statement);
     }
 
     @Override
-    public List<Product> groupBy(String column) {
-        return productDao.groupBy(column);
-    }
+    public List<Product> groupBy(final String column) { return productDao.groupBy(column); }
 
     @Override
     public List<Product> getPopularBrands() {
@@ -107,13 +103,18 @@ public class ClothesServiceImpl implements ClothesService {
     }
 
     @Override
-    public String getNumberOfProductsOnPage(final String page) {
+    public String getNumberOfProductsOnPage(final String page, final int clothesSize) {
 
-        return Integer.toString(Integer.parseInt(page) * amountProductsInPage);
+        int number = Integer.parseInt(page) * amountProductsInPage;
+
+        if (number > clothesSize)
+            number = clothesSize;
+
+        return Integer.toString(number);
     }
 
     @Override
-    public List<Product> getFavoriteClothes(List<Integer> favoriteId) {
+    public List<Product> getFavoriteClothes(final List<Integer> favoriteId) {
 
         List<Product> favorite = new ArrayList<>();
         for (Integer id : favoriteId)
@@ -124,7 +125,7 @@ public class ClothesServiceImpl implements ClothesService {
     }
 
     @Override
-    public boolean isInFavorite(List<Integer> favoriteId, Product product) {
+    public boolean isInFavorite(final List<Integer> favoriteId, final Product product) {
 
         boolean isInFavorite = false;
 
@@ -139,7 +140,7 @@ public class ClothesServiceImpl implements ClothesService {
     }
 
     @Override
-    public boolean isInShoppingBag(List<Product> shoppingBag, Product product) {
+    public boolean isInShoppingBag(final List<Product> shoppingBag, final Product product) {
 
         boolean isInBag = false;
 

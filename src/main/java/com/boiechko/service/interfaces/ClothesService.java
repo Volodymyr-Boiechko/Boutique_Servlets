@@ -19,7 +19,7 @@ public interface ClothesService {
 
     String getAmountOfProducts(final String page, final int clothesSize);
 
-    String getNumberOfProductsOnPage(final String page);
+    String getNumberOfProductsOnPage(final String page, final int clothesSize);
 
     List<Product> getFavoriteClothes(final List<Integer> favoriteId);
 

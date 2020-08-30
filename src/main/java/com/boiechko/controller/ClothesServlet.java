@@ -46,7 +46,7 @@ public class ClothesServlet extends HttpServlet {
         final List<Product> clothes = (List<Product>) session.getAttribute("clothes");
 
         request.setAttribute("amount", clothesService.getAmountOfProducts(page, clothes.size()));
-        request.setAttribute("number", clothesService.getNumberOfProductsOnPage(page));
+        request.setAttribute("number", clothesService.getNumberOfProductsOnPage(page, clothes.size()));
         request.setAttribute("page", page);
 
         request.getRequestDispatcher("/jsp-pages/clothes.jsp").forward(request, response);

@@ -31,5 +31,5 @@ public class PersonServiceImpl implements PersonService {
     public boolean deletePerson(final int id) { return personDao.delete(id); }
 
     @Override
-    public boolean checkAdmin(Person person) { return person != null && person.getPersonType().equals(PersonType.ADMIN); }
+    public boolean checkAdmin(final Person person) { return person != null && person.getPersonType().equals(PersonType.ADMIN); }
 }

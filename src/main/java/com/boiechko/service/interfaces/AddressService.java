@@ -16,4 +16,6 @@ public interface AddressService {
 
     boolean deleteAddress(final int id);
 
+    List<Boolean> canDeleteAddress(final List<Address> addresses);
+
 }

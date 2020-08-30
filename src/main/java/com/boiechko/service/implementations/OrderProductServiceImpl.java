@@ -14,7 +14,7 @@ public class OrderProductServiceImpl implements OrderProductService {
     private final OrderProductDao orderProductDao = new OrderProductDaoImpl();
 
     @Override
-    public boolean addOrderProduct(int idOrder, final String[] selectedItems, final List<Product> shoppingBag) {
+    public boolean addOrderProduct(final int idOrder, final String[] selectedItems, final List<Product> shoppingBag) {
 
         for (int i = 0; i < shoppingBag.size(); i++) {
 

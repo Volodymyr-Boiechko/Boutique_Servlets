@@ -4,6 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface PersonProfileService {
 
-    int getNumberOfProfileNavigation(HttpServletRequest request);
+    int getNumberOfProfileNavigation(final HttpServletRequest request);
 
 }

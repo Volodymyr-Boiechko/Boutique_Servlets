@@ -46,5 +46,7 @@ public class ProfileInfoServlet extends HttpServlet {
         person.setPhoneNumber(phoneNumber);
 
         if (!personService.updatePerson(person)) response.sendError(500);
+
+        request.getSession().setAttribute("person", person);
     }
 }

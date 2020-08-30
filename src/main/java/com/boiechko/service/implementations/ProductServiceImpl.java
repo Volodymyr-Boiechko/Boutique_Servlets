@@ -5,9 +5,12 @@ import com.boiechko.dao.interfaces.ProductDao;
 import com.boiechko.entity.Product;
 import com.boiechko.service.interfaces.ProductService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ProductServiceImpl implements ProductService {
@@ -36,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public boolean saveImage(Part image, String destination) {
+    public boolean saveImage(final Part image, final String destination) {
 
         final String imagePath = appPath + destination.replace("/", "\\");
 
@@ -66,7 +69,34 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public String getDestinationOfImage(Part image, String destination) {
+    public String getDestinationOfImage(final Part image, final String destination) {
         return destination + "/" + image.getSubmittedFileName();
+    }
+
+    @Override
+    public List<String> getPathToProduct(final HttpServletRequest request, final Product product) {
+
+        final String[] urlParts = request.getRequestURI().split("/");
+        final String sex = urlParts[1].equals("manClothes") ? "Чоловіче" : "Жіноче";
+
+        return new ArrayList<>(Arrays.asList(sex, getTypeName(product.getTypeName())));
+
+    }
+
+    private String getTypeName(final String name) {
+
+        switch (name) {
+            case "Одяг":
+                return "clothes";
+            case "Взуття":
+                return "shoes";
+            case "Аксесуари":
+                return "accessories";
+            case "Спортивний одяг":
+                return "sportWear";
+            default:
+                return null;
+
+        }
     }
 }

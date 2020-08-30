@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/userProfile/userAddresses/*")
@@ -35,34 +34,28 @@ public class ProfileAddressesServlet extends HttpServlet {
 
             final List<Address> addresses = addressService.getAddressesOfUser(person.getIdPerson());
 
-            List<Boolean> show = new ArrayList<>();
-            for (Address address : addresses)
-                show.add(orderService.checkIfAddressHasOrder(address.getIdAddress()));
-
-            request.setAttribute("show", show);
+            request.setAttribute("canDelete", addressService.canDeleteAddress(addresses));
             request.setAttribute("addresses", addresses);
-            request.setAttribute("person", person);
 
             request.getRequestDispatcher("/jsp-pages/Profile/Address/addresses.jsp").forward(request, response);
-
-        } else if (path.length == 4 && path[3].contains("addAddress")) {
-
-            request.getRequestDispatcher("/jsp-pages/Profile/Address/addAddress.jsp").forward(request, response);
 
         } else if (path.length == 4 && path[3].contains("editAddress")) {
 
             final int idAddress = Integer.parseInt(request.getParameter("idAddress"));
             final Address address = addressService.getAddressById(idAddress);
 
-            final boolean hasOrder = orderService.checkIfAddressHasOrder(idAddress);
+            final boolean canDelete = orderService.checkIfAddressHasOrder(idAddress);
 
-            request.setAttribute("show", hasOrder);
+            request.setAttribute("canDelete", canDelete);
             request.setAttribute("address", address);
 
             request.getRequestDispatcher("/jsp-pages/Profile/Address/editAddress.jsp").forward(request, response);
 
-        }
+        } else if (path.length == 4 && path[3].contains("addAddress")) {
 
+            request.getRequestDispatcher("/jsp-pages/Profile/Address/addAddress.jsp").forward(request, response);
+
+        }
     }
 
     @Override

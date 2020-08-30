@@ -84,7 +84,7 @@
 
         <li class="profile__nav__list__element">
 
-            <a href="${pageContext.request.contextPath}/logout/${username}"
+            <a href="${pageContext.request.contextPath}/logout"
                class="profile__nav__list__element__block">
 
                 <img class="profile__nav__list__element__block_icon" src="${pageContext.request.contextPath}/img/profile/logout.png"

@@ -59,7 +59,7 @@
 
                             </a>
 
-                            <c:if test="${show.get(status.index)}">
+                            <c:if test="${canDelete.get(status.index)}">
 
                                 <button onclick="deleteAddress(${address.idAddress})" style="margin-top: 12px;" class="address__block__icons__href"
                                         href="${pageContext.request.contextPath}/userProfile/userAddresses/deleteAddress/${address.idAddress}">
