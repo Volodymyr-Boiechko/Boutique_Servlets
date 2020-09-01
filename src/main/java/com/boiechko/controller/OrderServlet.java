@@ -3,6 +3,7 @@ package com.boiechko.controller;
 import com.boiechko.entity.Order;
 import com.boiechko.entity.Person;
 import com.boiechko.entity.Product;
+import com.boiechko.service.implementations.JavaMailService;
 import com.boiechko.service.implementations.OrderProductServiceImpl;
 import com.boiechko.service.implementations.OrderServiceImpl;
 import com.boiechko.service.interfaces.OrderService;
@@ -53,8 +54,7 @@ public class OrderServlet extends HttpServlet {
                 response.sendError(500);
             }
 
-            JavaMailUtil javaMailUtil = new JavaMailUtil("orderDetail", order, shoppingBag);
-            javaMailUtil.sendMail(person.getEmail());
+            JavaMailService.sendOrderDetailsEmail(person.getEmail(), "orderDetail", order, shoppingBag);
 
             session.setAttribute("shoppingBag", new ArrayList<Product>());
 

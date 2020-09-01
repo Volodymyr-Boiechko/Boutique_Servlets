@@ -4,7 +4,8 @@
     <title>Recover password</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,500;0,700;1,300&display=swap"
+          rel="stylesheet">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap-reboot.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/forgetPassword.css">
@@ -87,9 +88,7 @@
             async: true,
             type: "POST",
             data: {
-
                 email: email
-
             }
 
         }).done(function (code) {
@@ -108,26 +107,23 @@
 
             success = false;
 
-            if (response.status === 403) {
-
+            if (response.status === 403)
                 alert("Користувача з такою електронною поштою не знайдено");
 
-            }
         });
 
         return success;
     }
 
     function validate() {
+
         let enteredCode = document.getElementById("code").value;
 
-        if (verificationCode !== enteredCode) {
-
-            alert("WRONG");
-
-        } else {
+        if (verificationCode !== enteredCode)
+            alert("Код підтвердження неправильний");
+        else
             window.location.href = "${pageContext.request.contextPath}/forget/updatePassword";
-        }
+
     }
 
 </script>

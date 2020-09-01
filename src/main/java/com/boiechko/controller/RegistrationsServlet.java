@@ -1,11 +1,11 @@
 package com.boiechko.controller;
 
 import com.boiechko.entity.Person;
+import com.boiechko.service.implementations.JavaMailService;
 import com.boiechko.service.implementations.PersonServiceImpl;
 import com.boiechko.service.interfaces.PersonService;
 import com.boiechko.utils.ConvertDateUtil;
 import com.boiechko.utils.HashingPassword.HashPasswordUtil;
-import com.boiechko.utils.Mail.JavaMailUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -57,8 +57,8 @@ public class RegistrationsServlet extends HttpServlet {
 
             if (personService.addPerson(person)) {
 
-                JavaMailUtil javaMailUtil = new JavaMailUtil("confirmRegistration", person);
-                javaMailUtil.sendMail(person.getEmail());
+
+                JavaMailService.sendConfirmRegistrationEmail(person.getEmail(), "confirmRegistration", person);
 
             } else {
                 response.sendError(500);

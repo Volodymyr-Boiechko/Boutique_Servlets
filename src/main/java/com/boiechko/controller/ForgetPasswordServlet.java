@@ -1,6 +1,7 @@
 package com.boiechko.controller;
 
 import com.boiechko.entity.Person;
+import com.boiechko.service.implementations.JavaMailService;
 import com.boiechko.service.implementations.PersonServiceImpl;
 import com.boiechko.service.interfaces.PersonService;
 import com.boiechko.utils.HashingPassword.HashPasswordUtil;
@@ -47,12 +48,17 @@ public class ForgetPasswordServlet extends HttpServlet {
         final String email = request.getParameter("email");
         final Person person = personService.getPersonByColumn("email", email);
 
-        JavaMailUtil javaMailUtil = new JavaMailUtil("recoverPassword", person);
-        javaMailUtil.sendMail(email);
+        if (person != null) {
 
-        response.getWriter().write(javaMailUtil.getVerificationCode());
+            String verificationCode = JavaMailService.sendRecoveryPasswordEmail(email, "recoverPassword", person);
 
-        request.getSession().setAttribute("email", email);
+            response.getWriter().write(verificationCode);
+
+            request.getSession().setAttribute("email", email);
+
+        } else {
+            response.sendError(403);
+        }
 
     }
 

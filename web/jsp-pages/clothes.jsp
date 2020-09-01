@@ -15,7 +15,7 @@
 <jsp:include page="components/header.jsp"/>
 <c:choose>
 
-    <c:when test="${lastIndexOfShownProduct == 0}">
+    <c:when test="${clothes.size() == 0}">
 
         <div class="headerClothes">
 

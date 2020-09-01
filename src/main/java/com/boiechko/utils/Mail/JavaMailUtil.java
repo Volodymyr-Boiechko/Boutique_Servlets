@@ -35,7 +35,9 @@ public class JavaMailUtil {
     private Order order = new Order();
     private List<Product> products;
 
-    public String getVerificationCode() { return verificationCode; }
+    public String getVerificationCode() {
+        return verificationCode;
+    }
 
     public JavaMailUtil(String emailSubject, Person person) {
         this.emailSubject = emailSubject;
@@ -109,8 +111,11 @@ public class JavaMailUtil {
 
             String htmlCode = getHtmlCode(pathToFile);
 
-            if (emailSubject.contains("orderDetail")) message.setContent(getHtmlCodeWithImages(htmlCode));
-            else message.setContent(replaceMarkersFromHtml(htmlCode), "text/html;charset=UTF-8");
+            if (emailSubject.contains("orderDetail")) {
+                message.setContent(getHtmlCodeWithImages(htmlCode));
+            } else {
+                message.setContent(replaceMarkersFromHtml(htmlCode), "text/html;charset=UTF-8");
+            }
 
             return message;
 
@@ -125,15 +130,16 @@ public class JavaMailUtil {
 
         String result = "";
 
-        try (BufferedReader br = new BufferedReader(
-                new InputStreamReader(
-                        new FileInputStream(pathToFile), StandardCharsets.UTF_8)))
-        {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(pathToFile), StandardCharsets.UTF_8))) {
+
             String buf;
-            while ((buf = br.readLine()) != null) result = String.format("%s%s\n", result, buf);
+            while ((buf = br.readLine()) != null) {
+                result = String.format("%s%s\n", result, buf);
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
-            return "";
+            return null;
         }
 
         return result;
@@ -182,7 +188,7 @@ public class JavaMailUtil {
 
             for (Product product : products) {
 
-                String imagePath = path + product.getImage().replace("/", "\\");;
+                String imagePath = path + product.getImage().replace("/", "\\");
 
                 MimeBodyPart imagePart = new MimeBodyPart();
                 try {
@@ -208,22 +214,26 @@ public class JavaMailUtil {
 
         switch (emailSubject) {
 
-            case "confirmRegistration":
+            case "confirmRegistration": {
                 htmlText = htmlText.replace("user", person.getUsername());
                 htmlText = htmlText.replace("link", "http://localhost:8080/registration?activationCode=" + person.getActivationCode());
                 break;
-            case "recoverPassword":
+            }
+            case "recoverPassword": {
                 verificationCode = VerificationCode.generateCode();
                 htmlText = htmlText.replace("user", person.getUsername());
                 htmlText = htmlText.replace("number", verificationCode);
                 break;
+            }
             case "questionFromUser": {
 
                 String[] searchList = {"firstName", "surname", "lastName", "email", "phoneNumber", "comment"};
                 String[] replaceList = {person.getFirstName(), person.getSurname(), person.getLastName(),
                         person.getEmail(), person.getPhoneNumber(), comment};
 
-                for (int i = 0; i < searchList.length; i++) htmlText = htmlText.replace(searchList[i], replaceList[i]);
+                for (int i = 0; i < searchList.length; i++) {
+                    htmlText = htmlText.replace(searchList[i], replaceList[i]);
+                }
                 break;
             }
             case "orderDetail": {
@@ -235,17 +245,19 @@ public class JavaMailUtil {
                 Address address = addressService.getAddressById(order.getIdAddress());
 
                 String[] searchList = {"${username}", "${order.idOrder}", "${order.timeOrder}", "${products.size()} ${nameOfProduct}",
-                        "${order.totalPrice}", "${person.firstName} ", "${person.surname}", "${address.street}", "${address.city}", "${address.country}", "${address.postCode}",
-                        "${person.phoneNumber}", "${deliveryDate}"
+                        "${order.totalPrice}", "${person.firstName} ", "${person.surname}", "${address.street}", "${address.city}",
+                        "${address.country}", "${address.postCode}", "${person.phoneNumber}", "${deliveryDate}"
                 };
                 String[] replaceList = {person.getUsername(), Integer.toString(order.getIdOrder()), order.getTimeOrder().toString(),
-                        getTitleOfProducts(products.size()), Integer.toString(order.getTotalPrice()), person.getFirstName() + "\t", person.getSurname(),
-                        address.getStreet(), address.getCity(), address.getCountry(), address.getPostCode(), person.getPhoneNumber(),
-                        order.getTimeOrder().toLocalDate().plusDays(21).toString()
+                        getTitleOfProducts(products.size()), Integer.toString(order.getTotalPrice()), person.getFirstName() + "\t",
+                        person.getSurname(), address.getStreet(), address.getCity(), address.getCountry(), address.getPostCode(),
+                        person.getPhoneNumber(), order.getTimeOrder().toLocalDate().plusDays(21).toString()
 
                 };
 
-                for (int i = 0; i < searchList.length; i++) htmlText = htmlText.replace(searchList[i], replaceList[i]);
+                for (int i = 0; i < searchList.length; i++) {
+                    htmlText = htmlText.replace(searchList[i], replaceList[i]);
+                }
                 break;
             }
         }
@@ -257,10 +269,11 @@ public class JavaMailUtil {
 
         if (size == 1) {
             return size + " товар";
-        } else if (size > 1 && size < 5)
+        } else if (size > 1 && size < 5) {
             return size + " товари";
-        else
+        } else {
             return size + " товарів";
+        }
 
     }
 }
