@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @WebServlet("/userProfile/userOrders")
-public class ProfileUserOrdersServlet extends HttpServlet {
+public class ProfilePersonOrdersServlet extends HttpServlet {
 
     private final OrderService orderService = new OrderServiceImpl();
     private final AddressService addressService = new AddressServiceImpl();
@@ -31,17 +31,19 @@ public class ProfileUserOrdersServlet extends HttpServlet {
 
         if (idOrderString != null) {
 
-            final Map.Entry<Order, List<Product>> entry = orderService.getOrderAndHisProducts(person.getIdPerson(), idOrderString);
+            final Map.Entry<Order, List<Product>> orderAndHisProducts =
+                    orderService.getOrderAndHisProducts(person.getIdPerson(), idOrderString);
 
-            request.setAttribute("order", entry.getKey());
-            request.setAttribute("products", entry.getValue());
-            request.setAttribute("address", addressService.getAddressById(entry.getKey().getIdAddress()));
+            request.setAttribute("order", orderAndHisProducts.getKey());
+            request.setAttribute("products", orderAndHisProducts.getValue());
+            request.setAttribute("address",
+                    addressService.getAddressById(orderAndHisProducts.getKey().getIdAddress()));
 
             request.getRequestDispatcher("/jsp-pages/Profile/Orders/orderItem.jsp").forward(request, response);
 
         } else {
 
-            request.setAttribute("productsByOrder", orderService.getAllOrdersAndTheirProducts(person.getIdPerson()));
+            request.setAttribute("allOrdersOfPerson", orderService.getAllOrdersAndTheirProducts(person.getIdPerson()));
 
             request.getRequestDispatcher("/jsp-pages/Profile/Orders/orders.jsp").forward(request, response);
 

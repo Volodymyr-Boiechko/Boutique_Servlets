@@ -1,7 +1,6 @@
 package com.boiechko.controller;
 
 import com.boiechko.entity.Person;
-import com.boiechko.entity.Product;
 import com.boiechko.service.implementations.PersonServiceImpl;
 import com.boiechko.service.interfaces.PersonService;
 import com.boiechko.utils.HashingPassword.HashPasswordUtil;
@@ -13,8 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
@@ -29,25 +26,25 @@ public class LoginServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        HttpSession session = request.getSession();
+        final HttpSession session = request.getSession();
 
         final String username = request.getParameter("username");
-        final String hashedPassword = request.getParameter("password");
+        final String enteredPassword = request.getParameter("password");
 
-        final Person person = personService.getPersonByCredentials("username", username);
+        final Person person = personService.getPersonByColumn("username", username);
 
         if (person.getUsername() != null) {
 
             if (person.getActivationCode() == null) {
 
-                boolean isEqual = HashPasswordUtil.checkPassword(hashedPassword, person.getPassword());
+                boolean isEnteredPasswordEqualPersonPassword = HashPasswordUtil.checkPassword(enteredPassword, person.getPassword());
 
-                if (isEqual) {
+                if (isEnteredPasswordEqualPersonPassword) {
 
                     session.setAttribute("username", username);
-                    session.setAttribute("person", personService.getPersonByCredentials("username", username));
+                    session.setAttribute("person", personService.getPersonByColumn("username", username));
 
                 } else {
                     response.sendError(401);

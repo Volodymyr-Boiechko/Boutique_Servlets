@@ -35,7 +35,7 @@
 
                 <c:choose>
 
-                    <c:when test="${productsByOrder.size() == 0}">
+                    <c:when test="${allOrdersOfPerson.size() == 0}">
 
                         <div class="orders__block">
 
@@ -49,7 +49,7 @@
                     </c:when>
                     <c:otherwise>
 
-                        <c:forEach var="entry" items="${productsByOrder}">
+                        <c:forEach var="entry" items="${allOrdersOfPerson}">
 
                             <div class="orders__block">
 

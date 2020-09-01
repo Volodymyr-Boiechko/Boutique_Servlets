@@ -95,7 +95,7 @@
     function validate() {
 
         let success = false;
-        let user = ${person.idPerson};
+        let idPerson = ${person.idPerson};
 
         $.ajax({
 
@@ -110,7 +110,7 @@
                 birthDate: document.getElementById('date').value,
                 email: document.getElementById('email').value,
                 phoneNumber: document.getElementById('phoneNumber').value,
-                id: user
+                idPerson: idPerson
 
             }
 

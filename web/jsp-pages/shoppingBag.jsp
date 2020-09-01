@@ -100,7 +100,7 @@
                                                     К-сть:
                                                     <select class="select">
 
-                                                        <c:forEach items="${count}" var="element">
+                                                        <c:forEach items="${maxQuantity}" var="element">
                                                             <option value="${element}">${element}</option>
                                                         </c:forEach>
 
@@ -158,7 +158,7 @@
 
                                     <c:choose>
 
-                                        <c:when test="${addresses.size() == 0}">
+                                        <c:when test="${addressesOfPerson.size() == 0}">
 
                                             <div class="shoppingBag__bag__block_title">Для того щоб зробити замовлення
                                                 потрібно додати хоча б одну адресу. Це можна зробити у Вашому профілі в
@@ -170,7 +170,7 @@
 
                                             <select id="selectAddresses" class="shoppingBag__bag__block__address">
 
-                                                <c:forEach items="${addresses}" var="address">
+                                                <c:forEach items="${addressesOfPerson}" var="address">
 
                                                     <option name="${address.idAddress}">
 
@@ -188,7 +188,6 @@
 
 
                                 </div>
-
 
                             </div>
 
@@ -298,7 +297,7 @@
 
     function formPrice() {
 
-        let array = ${prices};
+        let array = ${pricesOfProducts};
         let price = 0;
 
         let elements = document.querySelectorAll('.select');

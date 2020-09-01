@@ -3,7 +3,6 @@ package com.boiechko.controller;
 import com.boiechko.entity.Person;
 import com.boiechko.utils.Mail.JavaMailUtil;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,12 +13,12 @@ import java.io.IOException;
 public class FooterServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.sendError(404);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 
         final String firstName = request.getParameter("firstName");
         final String surname = request.getParameter("surname");

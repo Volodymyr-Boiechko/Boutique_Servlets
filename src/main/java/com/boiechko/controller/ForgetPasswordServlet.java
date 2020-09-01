@@ -11,7 +11,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/forget/*")
@@ -22,30 +21,31 @@ public class ForgetPasswordServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String[] path = request.getRequestURI().split("/");
+        final String[] path = request.getRequestURI().split("/");
 
-        if (path.length == 2 && path[1].contains("forget")) {
-
-            request.getRequestDispatcher("/jsp-pages/ForgetPassword/forgetPassword.jsp").forward(request, response);
-
-        } else if (path.length == 3 && path[2].contains("updatePassword")) {
+        if (path.length == 3 && path[2].contains("updatePassword")) {
 
             final String email = (String) request.getSession().getAttribute("email");
 
-            if (email != null)
+            if (email != null) {
                 request.getRequestDispatcher("/jsp-pages/ForgetPassword/updatePassword.jsp").forward(request, response);
-            else
+            } else {
                 response.sendError(404);
+            }
+
+        } else if (path.length == 2 && path[1].contains("forget")) {
+
+            request.getRequestDispatcher("/jsp-pages/ForgetPassword/forgetPassword.jsp").forward(request, response);
 
         }
 
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         final String email = request.getParameter("email");
-        final Person person = personService.getPersonByCredentials("email", email);
+        final Person person = personService.getPersonByColumn("email", email);
 
         JavaMailUtil javaMailUtil = new JavaMailUtil("recoverPassword", person);
         javaMailUtil.sendMail(email);
@@ -57,15 +57,15 @@ public class ForgetPasswordServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         final String password = request.getParameter("password");
         final String email = request.getParameter("email");
-        final Person person = personService.getPersonByCredentials("email", email);
+        final Person person = personService.getPersonByColumn("email", email);
 
-        final boolean equals = HashPasswordUtil.checkPassword(password, person.getPassword());
+        final boolean isOldPasswordEqualNewPassword = HashPasswordUtil.checkPassword(password, person.getPassword());
 
-        if (!equals) {
+        if (!isOldPasswordEqualNewPassword) {
 
             person.setPassword(HashPasswordUtil.hashPassword(password));
 

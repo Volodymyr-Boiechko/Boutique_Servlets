@@ -21,10 +21,10 @@
 
         <a class="path__info" href="${pageContext.request.contextPath}/">Головна сторінка</a>
         <div class="path_divider">›</div>
-        <div class="path__info">${path.get(0)}</div>
+        <div class="path__info">${pathToProduct.get(0)}</div>
         <div class="path_divider">›</div>
         <a class="path__info"
-           href="${pageContext.request.contextPath}/manClothes/${path.get(1)}?page=1">${product.typeName}</a>
+           href="${pageContext.request.contextPath}/manClothes/${pathToProduct.get(1)}?page=1">${product.typeName}</a>
         <div class="path_divider">›</div>
         <a class="path__info"
            href="${pageContext.request.contextPath}/manClothes/clothes?productName=${product.productName}&page=1">${product.productName}</a>
@@ -138,7 +138,7 @@
 
             <div class="offset-md-2"></div>
 
-            <c:forEach items="${mayLike}" var="product">
+            <c:forEach items="${productsThatUserMayLike}" var="product">
 
                 <div class="block col-md-2">
 
@@ -194,7 +194,7 @@
 <script src="${pageContext.request.contextPath}/js/addToShoppingBag.js"></script>
 <script>
 
-    let array = ${favoriteId};
+    let array = ${idsOfProductsWhichAreFavorite};
 
     setInterval(function () {
 

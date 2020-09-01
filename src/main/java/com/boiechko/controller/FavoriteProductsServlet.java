@@ -24,21 +24,23 @@ public class FavoriteProductsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
+        final HttpSession session = request.getSession();
 
-        final List<Integer> favoriteId = (List<Integer>) session.getAttribute("favoriteId");
+        final List<Integer> idsOfProductsThatAreFavorite = (List<Integer>) session.getAttribute("idsOfProductsThatAreFavorite");
 
-        if (favoriteId != null)
-            request.setAttribute("favorite", clothesService.getFavoriteClothes(favoriteId));
+        if (idsOfProductsThatAreFavorite != null) {
+            request.setAttribute("favoriteProducts",
+                    clothesService.getFavoriteProducts(idsOfProductsThatAreFavorite));
+        }
 
         request.getRequestDispatcher("/jsp-pages/favoriteProducts.jsp").forward(request, response);
 
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        HttpSession session = request.getSession();
+        final HttpSession session = request.getSession();
         final String username = (String) session.getAttribute("username");
 
         if (username != null) {
@@ -46,13 +48,13 @@ public class FavoriteProductsServlet extends HttpServlet {
             final int idProduct = Integer.parseInt(request.getParameter("idProduct"));
             final Product product = productService.getProductById(idProduct);
 
-            List<Integer> favorite = (List<Integer>) session.getAttribute("favoriteId");
+            List<Integer> idsOfProductsThatAreFavorite = (List<Integer>) session.getAttribute("idsOfProductsThatAreFavorite");
             List<Product> shoppingBag = (List<Product>) session.getAttribute("shoppingBag");
 
-            if (!clothesService.isInFavorite(favorite, product)) {
+            if (!clothesService.isFavoriteProduct(idsOfProductsThatAreFavorite, product)) {
 
-                favorite.add(product.getIdProduct());
-                session.setAttribute("favoriteId", favorite);
+                idsOfProductsThatAreFavorite.add(product.getIdProduct());
+                session.setAttribute("idsOfProductsThatAreFavorite", idsOfProductsThatAreFavorite);
                 response.getWriter().write("add");
 
                 shoppingBag.remove(product);
@@ -70,18 +72,17 @@ public class FavoriteProductsServlet extends HttpServlet {
 
 
     @Override
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) {
 
-        HttpSession session = request.getSession();
+        final HttpSession session = request.getSession();
 
         final int idProduct = Integer.parseInt(request.getParameter("idProduct"));
         final Product product = productService.getProductById(idProduct);
 
-        final List<Integer> favorite = (List<Integer>) session.getAttribute("favoriteId");
+        final List<Integer> idsOfProductsThatAreFavorite = (List<Integer>) session.getAttribute("idsOfProductsThatAreFavorite");
 
-        favorite.remove(Integer.valueOf(product.getIdProduct()));
-        session.setAttribute("favoriteId", favorite);
-
+        idsOfProductsThatAreFavorite.remove(Integer.valueOf(product.getIdProduct()));
+        session.setAttribute("idsOfProductsThatAreFavorite", idsOfProductsThatAreFavorite);
 
     }
 }

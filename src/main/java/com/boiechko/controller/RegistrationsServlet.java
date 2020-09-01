@@ -27,11 +27,12 @@ public class RegistrationsServlet extends HttpServlet {
 
         if (activationCode != null) {
 
-            final Person person = personService.getPersonByCredentials("activationCode", activationCode);
+            final Person person = personService.getPersonByColumn("activationCode", activationCode);
             person.setActivationCode(null);
 
-            if (personService.updatePerson(person))
+            if (personService.updatePerson(person)) {
                 response.sendRedirect("/login");
+            }
 
         } else {
             request.getRequestDispatcher("/jsp-pages/registration.jsp").forward(request, response);
@@ -39,14 +40,14 @@ public class RegistrationsServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         final String username = request.getParameter("username");
         final String password = request.getParameter("password");
         final String date = request.getParameter("date");
         final String email = request.getParameter("email");
 
-        Person person = personService.getPersonByCredentials("username", username);
+        Person person = personService.getPersonByColumn("username", username);
 
         if (person.getUsername() == null) {
 

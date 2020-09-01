@@ -6,16 +6,16 @@ import java.util.List;
 
 public interface AddressService {
 
-    List<Address> getAddressesOfUser(final int userID);
+    List<Address> getAllAddressesOfPerson(final int userID);
 
     boolean addAddress(final Address address);
 
-    Address getAddressById(final int id);
+    Address getAddressById(final int idAddress);
 
     boolean updateAddress(final Address address);
 
-    boolean deleteAddress(final int id);
+    boolean deleteAddress(final int idAddress);
 
-    List<Boolean> canDeleteAddress(final List<Address> addresses);
+    List<Boolean> isPersonCanDeleteAddress(final List<Address> addresses);
 
 }

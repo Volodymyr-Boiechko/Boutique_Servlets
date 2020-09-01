@@ -10,14 +10,14 @@ public interface OrderDao {
 
     boolean add(final Order order);
 
-    List<Order> getAllById(final int id);
+    List<Order> getAllOrdersByPersonId(final int idPerson);
 
     int getLastId();
 
-    List<Order> getAllByAddressId(final int id);
+    List<Order> getAllOrdersByAddressId(final int idAddress);
 
-    Map<Order, List<Product>> getAllOrdersAndTheirProducts(final int idUser);
+    Map<Order, List<Product>> getAllOrdersAndTheirProductsOfPerson(final int idPerson);
 
-    Map<Order, List<Product>> getOrderAndHisProducts(final int idUser, final int idOrder);
+    Map<Order, List<Product>> getOrderAndItsProductsOfPerson(final int idPerson, final int idOrder);
 
 }

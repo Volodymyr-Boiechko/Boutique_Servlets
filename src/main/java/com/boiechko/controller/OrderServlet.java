@@ -1,7 +1,6 @@
 package com.boiechko.controller;
 
 import com.boiechko.entity.Order;
-import com.boiechko.entity.OrderProduct;
 import com.boiechko.entity.Person;
 import com.boiechko.entity.Product;
 import com.boiechko.service.implementations.OrderProductServiceImpl;
@@ -10,7 +9,6 @@ import com.boiechko.service.interfaces.OrderService;
 import com.boiechko.utils.ConvertDateUtil;
 import com.boiechko.utils.Mail.JavaMailUtil;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,18 +25,18 @@ public class OrderServlet extends HttpServlet {
     private final OrderProductServiceImpl orderProductService = new OrderProductServiceImpl();
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.sendError(404);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        HttpSession session = request.getSession();
+        final HttpSession session = request.getSession();
 
         final Person person = (Person) session.getAttribute("person");
 
-        final String[] selectedItems = request.getParameterValues("json[]");
+        final String[] arrayOfProductsQuantities = request.getParameterValues("json[]");
         final int totalPrice = Integer.parseInt(request.getParameter("totalPrice"));
         final int idAddress = Integer.parseInt(request.getParameter("idAddress"));
         final String dateOrder = request.getParameter("dateOrder");
@@ -48,11 +46,12 @@ public class OrderServlet extends HttpServlet {
 
         if (orderService.addOrder(order)) {
 
-            final int idOrder = orderService.getLastId();
+            final int idOrder = orderService.getIdOfLastAddedOrder();
             order.setIdOrder(idOrder);
 
-            if (!orderProductService.addOrderProduct(idOrder, selectedItems, shoppingBag))
+            if (!orderProductService.addOrderProduct(idOrder, arrayOfProductsQuantities, shoppingBag)) {
                 response.sendError(500);
+            }
 
             JavaMailUtil javaMailUtil = new JavaMailUtil("orderDetail", order, shoppingBag);
             javaMailUtil.sendMail(person.getEmail());

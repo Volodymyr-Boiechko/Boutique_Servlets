@@ -53,7 +53,7 @@
 
                     <button onclick="validateAddress()" id="button" disabled class="info__form__button" type="submit">Зберегти зміни</button>
 
-                    <c:if test="${canDelete}">
+                    <c:if test="${canPersonDeleteAddress}">
                         <button onclick="deleteAddress(${address.idAddress})" class="info__form__button active_button delete">Видалити адресу</button>
                     </c:if>
 

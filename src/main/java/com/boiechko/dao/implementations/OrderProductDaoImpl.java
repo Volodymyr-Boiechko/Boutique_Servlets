@@ -5,10 +5,7 @@ import com.boiechko.dao.interfaces.OrderProductDao;
 import com.boiechko.entity.OrderProduct;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class OrderProductDaoImpl implements OrderProductDao {
 

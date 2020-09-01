@@ -1,38 +1,38 @@
 package com.boiechko.controller;
 
-import com.boiechko.service.implementations.ClothesServiceImpl;
-import com.boiechko.service.interfaces.ClothesService;
+import com.boiechko.service.implementations.ProductServiceImpl;
+import com.boiechko.service.interfaces.ProductService;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.util.stream.Collectors;
 
 @WebServlet("/headerServlet")
 public class HeaderServlet extends HttpServlet {
 
-    private final ClothesService clothesService = new ClothesServiceImpl();
+    private final ProductService productService = new ProductServiceImpl();
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 
-        request.setAttribute("newestProducts", clothesService.getNewest());
+        request.setAttribute("newestProducts",
+                productService.getLatestAddedProducts().stream().limit(30).collect(Collectors.toList()));
 
         request.setAttribute("clothesTypes",
-                clothesService.getUniqueFields("productName", "typeName", "Одяг"));
+                productService.groupByColumnWithCondition("typeName", "Одяг", "productName"));
 
         request.setAttribute("shoes",
-                clothesService.getUniqueFields("productName", "typeName", "Взуття"));
+                productService.groupByColumnWithCondition("typeName", "Взуття", "productName"));
 
         request.setAttribute("accessories",
-                clothesService.getUniqueFields("productName", "typeName", "Аксесуари"));
+                productService.groupByColumnWithCondition("typeName", "Аксесуари", "productName"));
 
         request.setAttribute("sportWear",
-                clothesService.getUniqueFields("productName", "typeName", "Спортивний одяг"));
+                productService.groupByColumnWithCondition("typeName", "Спортивний одяг", "productName"));
 
-        request.setAttribute("brands", clothesService.getPopularBrands());
+        request.setAttribute("brands", productService.getPopularBrands());
 
     }
 }

@@ -15,7 +15,7 @@
 <jsp:include page="components/header.jsp"/>
 <c:choose>
 
-    <c:when test="${amount == 0}">
+    <c:when test="${lastIndexOfShownProduct == 0}">
 
         <div class="headerClothes">
 
@@ -38,7 +38,7 @@
 
                     <div class="row">
 
-                        <c:forEach items="${clothes}" begin="0" end="${amount}" var="product">
+                        <c:forEach items="${clothes}" begin="0" end="${lastIndexOfShownProduct}" var="product">
 
                             <div class="block col-md-4" id="${product.idProduct}">
 
@@ -84,7 +84,7 @@
 
                         <c:if test="${not empty username}">
 
-                            <c:if test="${show}">
+                            <c:if test="${isPersonCanAddClothes}">
 
                                 <div class="col-md-4">
 
@@ -110,9 +110,9 @@
 
                 <div class="clothes__more">
 
-                    <div class="clothes__more_title">Ви переглянули ${number} із ${clothes.size()} товарів</div>
+                    <div class="clothes__more_title">Ви переглянули ${numberOfProductsShownOnPage} із ${clothes.size()} товарів</div>
 
-                    <c:if test="${clothes.size() != number}">
+                    <c:if test="${clothes.size() != numberOfProductsShownOnPage}">
 
                         <button onclick="morePages()" class="clothes__more__downloadMore">Загрузити ще</button>
 
@@ -226,7 +226,7 @@
 <script src="${pageContext.request.contextPath}/js/addToFavorite.js"></script>
 <script>
 
-    let array = ${favoriteId};
+    let array = ${idsOfProductsThatAreFavorite};
 
     setInterval(function () {
 
@@ -326,9 +326,9 @@
 
     function morePages() {
 
-        let page = ${page} + 1;
+        let page = ${pageNumber} + 1;
 
-        let href = window.location.href.replace('page=${page}', 'page=' + page);
+        let href = window.location.href.replace('page=${pageNumber}', 'page=' + page);
 
         location.href = href;
 

@@ -18,23 +18,22 @@ public class OrderServiceImpl implements OrderService {
     public boolean addOrder(final Order order) { return orderDao.add(order); }
 
     @Override
-    public List<Order> getAllOrdersByPersonId(final int id) { return orderDao.getAllById(id); }
+    public List<Order> getAllOrdersByPersonId(final int idPerson) { return orderDao.getAllOrdersByPersonId(idPerson); }
 
     @Override
-    public int getLastId() { return orderDao.getLastId(); }
+    public int getIdOfLastAddedOrder() { return orderDao.getLastId(); }
 
     @Override
-    public boolean checkIfAddressHasOrder(final int id) {
+    public boolean isAddressHasOrder(final int idAddress) {
 
-        List<Order> orders = orderDao.getAllByAddressId(id);
-        return orders.size() == 0;
+        return orderDao.getAllOrdersByAddressId(idAddress).size() == 0;
     }
 
 
     @Override
-    public Map<Order, List<Product>> getAllOrdersAndTheirProducts(final int idUser) {
+    public Map<Order, List<Product>> getAllOrdersAndTheirProducts(final int idPerson) {
 
-        final Map<Order, List<Product>> map = orderDao.getAllOrdersAndTheirProducts(idUser);
+        final Map<Order, List<Product>> map = orderDao.getAllOrdersAndTheirProductsOfPerson(idPerson);
 
         Map<Order, List<Product>> treeMap = new TreeMap<>(
                 (o1, o2) -> Integer.compare(o2.getIdOrder(), o1.getIdOrder())
@@ -49,7 +48,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Map.Entry<Order, List<Product>> getOrderAndHisProducts(final int idPerson, final String idOrder) {
 
-        Map<Order, List<Product>> map = orderDao.getOrderAndHisProducts(idPerson, Integer.parseInt(idOrder));
+        Map<Order, List<Product>> map = orderDao.getOrderAndItsProductsOfPerson(idPerson, Integer.parseInt(idOrder));
 
         return map.entrySet().iterator().next();
 

@@ -32,13 +32,16 @@ public class ShoppingBagServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         final List<Product> products = (List<Product>) request.getSession().getAttribute("shoppingBag");
+
         if (products != null && products.size() != 0) {
 
             final Person person = (Person) request.getSession().getAttribute("person");
 
-            request.setAttribute("prices", products.stream().map(Product::getPrice).sequential().collect(Collectors.toList()));
-            request.setAttribute("addresses", addressService.getAddressesOfUser(person.getIdPerson()));
-            request.setAttribute("count", new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5)));
+            request.setAttribute("pricesOfProducts",
+                    products.stream().map(Product::getPrice).sequential().collect(Collectors.toList()));
+
+            request.setAttribute("addressesOfPerson", addressService.getAllAddressesOfPerson(person.getIdPerson()));
+            request.setAttribute("maxQuantity", new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5)));
         }
 
         request.getRequestDispatcher("/jsp-pages/shoppingBag.jsp").forward(request, response);
@@ -46,26 +49,26 @@ public class ShoppingBagServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        HttpSession session = request.getSession();
+        final HttpSession session = request.getSession();
         final String username = (String) session.getAttribute("username");
 
-        final int id = Integer.parseInt(request.getParameter("idProduct"));
+        final int idProduct = Integer.parseInt(request.getParameter("idProduct"));
 
         if (username != null) {
 
-            final Product product = productService.getProductById(id);
+            final Product product = productService.getProductById(idProduct);
             List<Product> shoppingBag = (List<Product>) session.getAttribute("shoppingBag");
-            List<Integer> favoriteId = (List<Integer>) session.getAttribute("favoriteId");
+            List<Integer> idsOfProductsWhichAreFavorite = (List<Integer>) session.getAttribute("idsOfProductsThatAreFavorite");
 
-            if (!clothesService.isInShoppingBag(shoppingBag, product)) {
+            if (!clothesService.isProductInShoppingBag(shoppingBag, product)) {
 
                 shoppingBag.add(product);
                 session.setAttribute("shoppingBag", shoppingBag);
 
-                favoriteId.remove(Integer.valueOf(product.getIdProduct()));
-                session.setAttribute("favoriteId", favoriteId);
+                idsOfProductsWhichAreFavorite.remove(Integer.valueOf(product.getIdProduct()));
+                session.setAttribute("idsOfProductsThatAreFavorite", idsOfProductsWhichAreFavorite);
 
             } else {
                 response.sendError(403);
@@ -78,12 +81,12 @@ public class ShoppingBagServlet extends HttpServlet {
     }
 
     @Override
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) {
 
-        HttpSession session = request.getSession();
+        final HttpSession session = request.getSession();
 
-        final int id = Integer.parseInt(request.getParameter("idProduct"));
-        final Product product = productService.getProductById(id);
+        final int idProduct = Integer.parseInt(request.getParameter("idProduct"));
+        final Product product = productService.getProductById(idProduct);
 
         List<Product> shoppingBag = (List<Product>) session.getAttribute("shoppingBag");
         shoppingBag.remove(product);

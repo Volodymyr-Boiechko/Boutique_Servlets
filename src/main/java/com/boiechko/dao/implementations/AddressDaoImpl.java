@@ -7,20 +7,19 @@ import com.boiechko.entity.Address;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AddressDaoImpl implements AddressDao {
 
     @Override
-    public List<Address> getAddressesOfUser(final int userID) {
+    public List<Address> getAddressesOfPerson(final int idPerson) {
 
         final String query = "SELECT * FROM address WHERE idPerson = ? ORDER BY idAddress DESC";
 
         try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
-            preparedStatement.setInt(1, userID);
+            preparedStatement.setInt(1, idPerson);
             ResultSet rs = preparedStatement.executeQuery();
 
             List<Address> list = new ArrayList<>();
@@ -71,13 +70,13 @@ public class AddressDaoImpl implements AddressDao {
     }
 
     @Override
-    public Address getById(final int id) {
+    public Address getById(final int idAddress) {
 
         final String query = "SELECT * FROM address WHERE idAddress = ?";
 
         try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, idAddress);
             ResultSet rs = preparedStatement.executeQuery();
 
             Address address = new Address();
@@ -130,13 +129,13 @@ public class AddressDaoImpl implements AddressDao {
     }
 
     @Override
-    public boolean delete(final int id) {
+    public boolean delete(final int idAddress) {
 
         final String query = "DELETE FROM address WHERE idAddress = ?";
 
         try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, idAddress);
 
             return preparedStatement.executeUpdate() > 0;
 

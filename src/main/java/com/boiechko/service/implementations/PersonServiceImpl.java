@@ -13,13 +13,13 @@ public class PersonServiceImpl implements PersonService {
     private final PersonDao personDao = new PersonDaoImpl();
 
     @Override
-    public Person getPersonByCredentials(final String column, final String credentials) { return personDao.getByCredentials(column, credentials); }
+    public Person getPersonByColumn(final String column, final String credentials) { return personDao.getPersonByColumn(column, credentials); }
 
     @Override
     public boolean addPerson(final Person person) { return personDao.add(person); }
 
     @Override
-    public Person getPersonById(final int id) { return personDao.getById(id); }
+    public Person getPersonById(final int idPerson) { return personDao.getById(idPerson); }
 
     @Override
     public List<Person> getAllPersons() { return personDao.getAll(); }
@@ -31,5 +31,5 @@ public class PersonServiceImpl implements PersonService {
     public boolean deletePerson(final int id) { return personDao.delete(id); }
 
     @Override
-    public boolean checkAdmin(final Person person) { return person != null && person.getPersonType().equals(PersonType.ADMIN); }
+    public boolean isPersonAdmin(final Person person) { return person != null && person.getPersonType().equals(PersonType.ADMIN); }
 }

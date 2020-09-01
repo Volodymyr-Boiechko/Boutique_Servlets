@@ -10,13 +10,13 @@ public interface OrderService {
 
     boolean addOrder(final Order order);
 
-    List<Order> getAllOrdersByPersonId(final int id);
+    List<Order> getAllOrdersByPersonId(final int idPerson);
 
-    int getLastId();
+    int getIdOfLastAddedOrder();
 
-    boolean checkIfAddressHasOrder(final int id);
+    boolean isAddressHasOrder(final int idAddress);
 
-    Map<Order, List<Product>> getAllOrdersAndTheirProducts(final int idUser);
+    Map<Order, List<Product>> getAllOrdersAndTheirProducts(final int idPerson);
 
     Map.Entry<Order, List<Product>> getOrderAndHisProducts(final int idPerson, final String idOrder);
 

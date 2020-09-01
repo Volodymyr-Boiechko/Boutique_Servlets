@@ -11,7 +11,7 @@
 
         <li class="profile__nav__list__element headerBlock" style="margin-top: 0;">
 
-            <div class="headerBlock__image">${letter}</div>
+            <div class="headerBlock__image">${firstLetterOfUsername}</div>
 
             <div class="headerBlock__text">Привіт,<br><span>${username}</span></div>
 
@@ -101,7 +101,7 @@
     let navList = document.querySelector("#NavList");
     let elementsLi = navList.querySelectorAll(".profile__nav__list__element");
 
-    let elementLi = elementsLi[${number}];
+    let elementLi = elementsLi[${numberOfSectionInNavigationBar}];
 
     elementLi.classList.add('active_element');
 

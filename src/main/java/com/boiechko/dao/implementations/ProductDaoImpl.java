@@ -14,7 +14,7 @@ import java.util.List;
 public class ProductDaoImpl implements ProductDao {
 
     @Override
-    public List<Product> getAllByCredentials(final String column, final String credentials) {
+    public List<Product> getProductByColumn(final String column, final String credentials) {
 
         final String query = "SELECT * FROM product WHERE " + column + " = ? ORDER BY RAND()";
 
@@ -32,13 +32,13 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public List<Product> getNewest() {
+    public List<Product> getLatestAddedProducts() {
 
         final String query = "SELECT * FROM product ORDER BY idProduct DESC";
 
-        try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
+        try (Statement statement = DBConnection.getConnection().createStatement()) {
 
-            ResultSet rs = preparedStatement.executeQuery();
+            ResultSet rs = statement.executeQuery(query);
 
             return getListProducts(rs);
 
@@ -49,9 +49,9 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public List<Product> getUniqueFields(final String uniqueColumn, final String condition, final String statement) {
+    public List<Product> groupByColumnWithCondition(final String condition, final String statement, final String column) {
 
-        final String query = "SELECT * FROM product WHERE " + condition + " = ? GROUP BY " + uniqueColumn;
+        final String query = "SELECT * FROM product WHERE " + condition + " = ? GROUP BY " + column;
 
         try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
@@ -67,7 +67,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public List<Product> groupBy(final String column) {
+    public List<Product> groupByColumn(final String column) {
 
         final String query = "SELECT * FROM product GROUP BY " + column;
 
@@ -111,13 +111,13 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public Product getById(final int id) {
+    public Product getById(final int idProduct) {
 
         final String query = "SELECT * FROM product WHERE idProduct = ?";
 
         try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, idProduct);
             ResultSet rs = preparedStatement.executeQuery();
 
             Product product = new Product();
@@ -177,13 +177,13 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public boolean delete(final int id) {
+    public boolean delete(final int idProduct) {
 
         final String query = "DELETE FROM product WHERE idProduct = ?";
 
         try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, idProduct);
 
             return preparedStatement.executeUpdate() > 0;
 

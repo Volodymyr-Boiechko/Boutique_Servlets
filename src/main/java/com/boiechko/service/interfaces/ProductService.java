@@ -8,17 +8,25 @@ import java.util.List;
 
 public interface ProductService {
 
+    List<Product> getLatestAddedProducts();
+
+    List<Product> groupByColumnWithCondition(final String condition, final String statement, final String column);
+
+    List<Product> groupByColumn(final String column);
+
+    List<Product> getPopularBrands();
+
     boolean addProduct(final Product product);
 
-    Product getProductById(final int id);
+    Product getProductById(final int idProduct);
 
     List<Product> getAllProducts();
 
     boolean updateProduct(final Product product);
 
-    boolean deleteProduct(final int id);
+    boolean deleteProduct(final int idProduct);
 
-    List<Product> getAllByCredentials(final String column, final String credentials);
+    List<Product> getProductByColumn(final String column, final String credentials);
 
     boolean saveImage(final Part image, final String destination);
 

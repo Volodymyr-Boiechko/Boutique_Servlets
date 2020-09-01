@@ -1,7 +1,5 @@
 package com.boiechko.service.implementations;
 
-import com.boiechko.dao.implementations.ProductDaoImpl;
-import com.boiechko.dao.interfaces.ProductDao;
 import com.boiechko.entity.Product;
 import com.boiechko.service.interfaces.ClothesService;
 import com.boiechko.service.interfaces.ProductService;
@@ -13,39 +11,8 @@ import java.util.List;
 public class ClothesServiceImpl implements ClothesService {
 
     private final ProductService productService = new ProductServiceImpl();
-    private final ProductDao productDao = new ProductDaoImpl();
 
-    private final int amountProductsInPage = 12;
-
-    @Override
-    public List<Product> getNewest() { return productDao.getNewest(); }
-
-    @Override
-    public List<Product> getUniqueFields(final String uniqueColumn, final String condition, final String statement) {
-        return productDao.getUniqueFields(uniqueColumn, condition, statement);
-    }
-
-    @Override
-    public List<Product> groupBy(final String column) { return productDao.groupBy(column); }
-
-    @Override
-    public List<Product> getPopularBrands() {
-
-        final List<Product> allBrands = groupBy("brand");
-        List<Product> brands = new ArrayList<>();
-
-        for (Product product : allBrands) {
-
-            List<Product> count = productService.getAllByCredentials("brand", product.getBrand());
-
-            if (count.size() >= 10)
-                brands.add(product);
-
-        }
-
-        return brands;
-
-    }
+    private final int amountProductsOnPage = 12;
 
     @Override
     public List<Product> getListOfClothes(final HttpServletRequest request) {
@@ -60,24 +27,26 @@ public class ClothesServiceImpl implements ClothesService {
             case "accessories":
             case "sportWear": {
 
+
+                // todo винести в окремий метод
                 final String productName = request.getParameter("productName");
 
                 if (productName == null)
-                    clothes = productService.getAllByCredentials("typeName", getTypeName(blocks[2]));
+                    clothes = productService.getProductByColumn("typeName", getTypeName(blocks[2]));
                 else
-                    clothes = productService.getAllByCredentials("productName", productName);
+                    clothes = productService.getProductByColumn("productName", productName);
 
                 break;
             }
             case "newestClothes": {
 
-                clothes = getNewest();
+                clothes = productService.getLatestAddedProducts();
                 break;
             }
             case "brands": {
 
                 final String brand = request.getParameter("brand");
-                clothes = productService.getAllByCredentials("brand", brand);
+                clothes = productService.getProductByColumn("brand", brand);
                 break;
             }
             default:
@@ -90,34 +59,22 @@ public class ClothesServiceImpl implements ClothesService {
     }
 
     @Override
-    public String getAmountOfProducts(final String page, final int clothesSize) {
+    public int getNumberOfProductsShownOnPage(final String page, final int clothesSize) {
 
-        int count = Integer.parseInt(page) * amountProductsInPage - 1;
-
-        if (clothesSize == 0)
-            return Integer.toString(0);
-        else if (count >= clothesSize)
-            count = clothesSize - 1;
-
-        return Integer.toString(count);
-    }
-
-    @Override
-    public String getNumberOfProductsOnPage(final String page, final int clothesSize) {
-
-        int number = Integer.parseInt(page) * amountProductsInPage;
+        int number = Integer.parseInt(page) * amountProductsOnPage;
 
         if (number > clothesSize)
             number = clothesSize;
 
-        return Integer.toString(number);
+        return number;
     }
 
     @Override
-    public List<Product> getFavoriteClothes(final List<Integer> favoriteId) {
+    public List<Product> getFavoriteProducts(final List<Integer> idsOfProductsWhichAreFavorite) {
 
+        //todo на стріми
         List<Product> favorite = new ArrayList<>();
-        for (Integer id : favoriteId)
+        for (Integer id : idsOfProductsWhichAreFavorite)
             favorite.add(productService.getProductById(id));
 
         return favorite;
@@ -125,11 +82,11 @@ public class ClothesServiceImpl implements ClothesService {
     }
 
     @Override
-    public boolean isInFavorite(final List<Integer> favoriteId, final Product product) {
+    public boolean isFavoriteProduct(final List<Integer> idsOfProductsWhichAreFavorite, final Product product) {
 
         boolean isInFavorite = false;
 
-        for (Integer elementId : favoriteId)
+        for (Integer elementId : idsOfProductsWhichAreFavorite)
             if (elementId == product.getIdProduct()) {
                 isInFavorite = true;
                 break;
@@ -140,7 +97,7 @@ public class ClothesServiceImpl implements ClothesService {
     }
 
     @Override
-    public boolean isInShoppingBag(final List<Product> shoppingBag, final Product product) {
+    public boolean isProductInShoppingBag(final List<Product> shoppingBag, final Product product) {
 
         boolean isInBag = false;
 

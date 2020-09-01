@@ -19,23 +19,63 @@ public class ProductServiceImpl implements ProductService {
     private final ProductDao productDao = new ProductDaoImpl();
 
     @Override
-    public boolean addProduct(final Product product) { return productDao.add(product); }
+    public List<Product> getLatestAddedProducts() { return productDao.getLatestAddedProducts(); }
 
     @Override
-    public Product getProductById(final int id) { return productDao.getById(id); }
+    public List<Product> groupByColumnWithCondition(String condition, String statement, String column) {
+        return productDao.groupByColumnWithCondition(condition, statement, column);
+    }
 
     @Override
-    public List<Product> getAllProducts() { return productDao.getAll(); }
+    public List<Product> groupByColumn(String column) { return productDao.groupByColumn(column); }
 
     @Override
-    public boolean updateProduct(final Product product) { return productDao.update(product); }
+    public List<Product> getPopularBrands() {
+
+        final List<Product> allBrands = groupByColumn("brand");
+        List<Product> brands = new ArrayList<>();
+
+        //todo переробити на стріми
+        for (Product product : allBrands) {
+
+            List<Product> count = getProductByColumn("brand", product.getBrand());
+
+            if (count.size() >= 10)
+                brands.add(product);
+
+        }
+
+        return brands;
+    }
 
     @Override
-    public boolean deleteProduct(final int id) { return productDao.delete(id); }
+    public boolean addProduct(final Product product) {
+        return productDao.add(product);
+    }
 
     @Override
-    public List<Product> getAllByCredentials(final String column, final String credentials) {
-        return productDao.getAllByCredentials(column, credentials);
+    public Product getProductById(final int idProduct) {
+        return productDao.getById(idProduct);
+    }
+
+    @Override
+    public List<Product> getAllProducts() {
+        return productDao.getAll();
+    }
+
+    @Override
+    public boolean updateProduct(final Product product) {
+        return productDao.update(product);
+    }
+
+    @Override
+    public boolean deleteProduct(final int idProduct) {
+        return productDao.delete(idProduct);
+    }
+
+    @Override
+    public List<Product> getProductByColumn(final String column, final String credentials) {
+        return productDao.getProductByColumn(column, credentials);
     }
 
     @Override
@@ -44,8 +84,9 @@ public class ProductServiceImpl implements ProductService {
         final String imagePath = appPath + destination.replace("/", "\\");
 
         final File fileDir = new File(imagePath);
-        if (!fileDir.exists())
+        if (!fileDir.exists()) {
             fileDir.mkdirs();
+        }
 
         final String imageName = image.getSubmittedFileName();
 
@@ -55,8 +96,9 @@ public class ProductServiceImpl implements ProductService {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else {
+            return false;
         }
-        else return false;
 
         return true;
 

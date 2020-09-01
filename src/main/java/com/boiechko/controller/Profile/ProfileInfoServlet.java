@@ -25,18 +25,18 @@ public class ProfileInfoServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        final int id = Integer.parseInt(request.getParameter("id"));
+        final int idPerson = Integer.parseInt(request.getParameter("idPerson"));
 
-        final String firstName =  request.getParameter("firstName");
+        final String firstName = request.getParameter("firstName");
         final String surname = request.getParameter("surname");
         final String lastName = request.getParameter("lastName");
         final String date = request.getParameter("birthDate");
         final String email = request.getParameter("email");
         final String phoneNumber = request.getParameter("phoneNumber");
 
-        final Person person = personService.getPersonById(id);
+        final Person person = personService.getPersonById(idPerson);
 
         person.setFirstName(firstName);
         person.setSurname(surname);
@@ -45,7 +45,9 @@ public class ProfileInfoServlet extends HttpServlet {
         person.setEmail(email);
         person.setPhoneNumber(phoneNumber);
 
-        if (!personService.updatePerson(person)) response.sendError(500);
+        if (!personService.updatePerson(person)) {
+            response.sendError(500);
+        }
 
         request.getSession().setAttribute("person", person);
     }

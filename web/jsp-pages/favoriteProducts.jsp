@@ -17,7 +17,7 @@
 
     <c:when test="${not empty username}">
 
-        <c:if test="${favorite.size() != 0}">
+        <c:if test="${favoriteProducts.size() != 0}">
 
             <div class="clothes">
 
@@ -25,7 +25,7 @@
 
                     <div class="row">
 
-                        <c:forEach items="${favorite}" var="product">
+                        <c:forEach items="${favoriteProducts}" var="product">
 
                             <div class="col-md-4">
 
@@ -67,7 +67,9 @@
 
                                 </button>
 
-                                <button onclick="addToShoppingBag(${product.idProduct})" class="buttonFavorite">Добавити в корзину</button>
+                                <button onclick="addToShoppingBag(${product.idProduct})" class="buttonFavorite">
+                                    Добавити в корзину
+                                </button>
 
                             </div>
 
@@ -81,7 +83,7 @@
 
         </c:if>
 
-        <c:if test="${favorite.size() == 0}">
+        <c:if test="${favoriteProducts.size() == 0}">
 
             <div class="headerFavorite">
 

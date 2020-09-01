@@ -27,27 +27,27 @@ public class ClothesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
+        final HttpSession session = request.getSession();
 
         final Person person = (Person) session.getAttribute("person");
 
-        if (personService.checkAdmin(person))
-            request.setAttribute("show", true);
+        if (personService.isPersonAdmin(person)) {
+            request.setAttribute("isPersonCanAddClothes", true);
+        }
 
-        final String page = request.getParameter("page");
+        final String pageNumber = request.getParameter("page");
 
-        if (page.equals("1")) {
-
-            session.removeAttribute("clothes");
+        if (pageNumber.equals("1")) {
             session.setAttribute("clothes", clothesService.getListOfClothes(request));
-
         }
 
         final List<Product> clothes = (List<Product>) session.getAttribute("clothes");
 
-        request.setAttribute("amount", clothesService.getAmountOfProducts(page, clothes.size()));
-        request.setAttribute("number", clothesService.getNumberOfProductsOnPage(page, clothes.size()));
-        request.setAttribute("page", page);
+        final int numberOfProductsShownOnPage = clothesService.getNumberOfProductsShownOnPage(pageNumber, clothes.size());
+
+        request.setAttribute("numberOfProductsShownOnPage", numberOfProductsShownOnPage);
+        request.setAttribute("lastIndexOfShownProduct", numberOfProductsShownOnPage - 1);
+        request.setAttribute("pageNumber", pageNumber);
 
         request.getRequestDispatcher("/jsp-pages/clothes.jsp").forward(request, response);
 
@@ -78,8 +78,9 @@ public class ClothesServlet extends HttpServlet {
 
         if (productService.saveImage(image, destination)) {
 
-            if (!productService.addProduct(product))
+            if (!productService.addProduct(product)) {
                 response.sendError(500);
+            }
 
         } else {
             response.sendError(501);

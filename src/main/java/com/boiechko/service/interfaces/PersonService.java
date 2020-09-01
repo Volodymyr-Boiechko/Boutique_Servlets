@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface PersonService {
 
-    Person getPersonByCredentials(final String column, final String credentials);
+    Person getPersonByColumn(final String column, final String credentials);
 
     boolean addPerson(final Person person);
 
-    Person getPersonById(final int id);
+    Person getPersonById(final int idPerson);
 
     List<Person> getAllPersons();
 
@@ -18,6 +18,6 @@ public interface PersonService {
 
     boolean deletePerson(final int id);
 
-    boolean checkAdmin(final Person person);
+    boolean isPersonAdmin(final Person person);
 
 }

@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface OrderProductService {
 
-    boolean addOrderProduct(final int idOrder, final String[] selectedItems, final List<Product> shoppingBag);
+    boolean addOrderProduct(final int idOrder, final String[] arrayOfProductsQuantities, final List<Product> shoppingBag);
 
 }

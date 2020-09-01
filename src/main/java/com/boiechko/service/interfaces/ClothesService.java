@@ -7,25 +7,14 @@ import java.util.List;
 
 public interface ClothesService {
 
-    List<Product> getNewest();
-
-    List<Product> getUniqueFields(final String uniqueColumn, final String condition, final String statement);
-
-    List<Product> groupBy(final String column);
-
-    List<Product> getPopularBrands();
-
     List<Product> getListOfClothes(final HttpServletRequest request);
 
-    String getAmountOfProducts(final String page, final int clothesSize);
+    int getNumberOfProductsShownOnPage(final String page, final int clothesSize);
 
-    String getNumberOfProductsOnPage(final String page, final int clothesSize);
+    List<Product> getFavoriteProducts(final List<Integer> idsOfProductsWhichAreFavorite);
 
-    List<Product> getFavoriteClothes(final List<Integer> favoriteId);
+    boolean isFavoriteProduct(final List<Integer> idsOfProductsWhichAreFavorite, final Product product);
 
-    boolean isInFavorite(final List<Integer> favoriteId, final Product product);
-
-    boolean isInShoppingBag(final List<Product> shoppingBag, final Product product);
-
+    boolean isProductInShoppingBag(final List<Product> shoppingBag, final Product product);
 
 }

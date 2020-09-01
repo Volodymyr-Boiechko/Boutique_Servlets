@@ -10,13 +10,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class PersonDaoImpl implements PersonDao {
 
     // We receive the user on special data
     @Override
-    public Person getByCredentials(final String column, final String credentials) {
+    public Person getPersonByColumn(final String column, final String credentials) {
 
         final String query = "SELECT * FROM person WHERE " + column + " = ?";
 
@@ -63,13 +62,13 @@ public class PersonDaoImpl implements PersonDao {
 
     // Get user from data base with special ID
     @Override
-    public Person getById(final int id) {
+    public Person getById(final int idPerson) {
 
         final String query = "SELECT * FROM person WHERE idPerson=?";
 
         try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, idPerson);
             ResultSet rs = preparedStatement.executeQuery();
 
             Person person = new Person();
@@ -140,13 +139,13 @@ public class PersonDaoImpl implements PersonDao {
 
     // Delete user from data base
     @Override
-    public boolean delete(final int id) {
+    public boolean delete(final int idPerson) {
 
         final String query = "DELETE FROM person WHERE idPerson=?";
 
         try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, idPerson);
 
             return preparedStatement.executeUpdate() > 0;
 

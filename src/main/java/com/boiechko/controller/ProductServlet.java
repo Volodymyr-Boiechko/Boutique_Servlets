@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,15 +21,15 @@ public class ProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        final int id = Integer.parseInt(request.getParameter("idProduct"));
-        final Product product = productService.getProductById(id);
+        final int idProduct = Integer.parseInt(request.getParameter("idProduct"));
+        final Product product = productService.getProductById(idProduct);
 
-        final List<Product> products = productService.getAllByCredentials("productName",
+        final List<Product> productsThatUserMayLike = productService.getProductByColumn("productName",
                 product.getProductName()).stream().filter(i -> !i.equals(product)).limit(4).collect(Collectors.toList());
 
         request.setAttribute("product", product);
-        request.setAttribute("mayLike", products);
-        request.setAttribute("path", productService.getPathToProduct(request, product));
+        request.setAttribute("productsThatUserMayLike", productsThatUserMayLike);
+        request.setAttribute("pathToProduct", productService.getPathToProduct(request, product));
 
         request.getRequestDispatcher("/jsp-pages/product.jsp").forward(request, response);
 

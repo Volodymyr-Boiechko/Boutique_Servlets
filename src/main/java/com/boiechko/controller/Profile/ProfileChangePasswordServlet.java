@@ -25,22 +25,24 @@ public class ProfileChangePasswordServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        final int id = Integer.parseInt(request.getParameter("id"));
+        final int idPerson = Integer.parseInt(request.getParameter("idPerson"));
 
         final String currentPassword = request.getParameter("currentPassword");
         final String newPassword = request.getParameter("newPassword");
 
-        final Person person = personService.getPersonById(id);
+        final Person person = personService.getPersonById(idPerson);
 
-        boolean isEqual = HashPasswordUtil.checkPassword(currentPassword, person.getPassword());
+        boolean isCurrentPasswordEqualNewPassword = HashPasswordUtil.checkPassword(currentPassword, person.getPassword());
 
-        if (isEqual) {
+        if (isCurrentPasswordEqualNewPassword) {
 
             person.setPassword(HashPasswordUtil.hashPassword(newPassword));
 
-            if (!personService.updatePerson(person)) response.sendError(500);
+            if (!personService.updatePerson(person)) {
+                response.sendError(500);
+            }
 
         } else {
             response.sendError(401);

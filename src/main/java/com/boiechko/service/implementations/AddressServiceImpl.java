@@ -15,26 +15,27 @@ public class AddressServiceImpl implements AddressService {
     private final OrderService orderService = new OrderServiceImpl();
 
     @Override
-    public List<Address> getAddressesOfUser(final int userID) { return addressDao.getAddressesOfUser(userID); }
+    public List<Address> getAllAddressesOfPerson(final int userID) { return addressDao.getAddressesOfPerson(userID); }
 
     @Override
     public boolean addAddress(final Address address) { return addressDao.add(address); }
 
     @Override
-    public Address getAddressById(final int id) { return addressDao.getById(id); }
+    public Address getAddressById(final int idAddress) { return addressDao.getById(idAddress); }
 
     @Override
     public boolean updateAddress(final Address address) { return addressDao.update(address); }
 
     @Override
-    public boolean deleteAddress(final int id) { return addressDao.delete(id); }
+    public boolean deleteAddress(final int idAddress) { return addressDao.delete(idAddress); }
 
+    //todo поміняти can на is
     @Override
-    public List<Boolean> canDeleteAddress(final List<Address> addresses) {
+    public List<Boolean> isPersonCanDeleteAddress(final List<Address> addresses) {
 
         List<Boolean> list = new ArrayList<>();
         for (Address address : addresses)
-            list.add(orderService.checkIfAddressHasOrder(address.getIdAddress()));
+            list.add(orderService.isAddressHasOrder(address.getIdAddress()));
 
         return list;
 

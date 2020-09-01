@@ -8,25 +8,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 @WebFilter("/*")
 public class MainFilter implements Filter {
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-
+    public void init(FilterConfig filterConfig) {
     }
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+            throws IOException, ServletException {
 
         final HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
 
-        HttpSession session = httpRequest.getSession();
+        final HttpSession session = httpRequest.getSession();
 
-        if (session.getAttribute("favoriteId") == null)
-            session.setAttribute("favoriteId", new ArrayList<Integer>());
+        if (session.getAttribute("idsOfProductsThatAreFavorite") == null)
+            session.setAttribute("idsOfProductsThatAreFavorite", new ArrayList<Integer>());
         if (session.getAttribute("shoppingBag") == null)
             session.setAttribute("shoppingBag", new ArrayList<Product>());
 
@@ -36,6 +35,5 @@ public class MainFilter implements Filter {
 
     @Override
     public void destroy() {
-
     }
 }

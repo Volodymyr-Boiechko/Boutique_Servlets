@@ -1,8 +1,5 @@
 package com.boiechko.controller;
 
-import com.boiechko.service.implementations.PersonServiceImpl;
-import com.boiechko.service.interfaces.PersonService;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,11 +15,11 @@ public class LogOutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
+        final HttpSession session = request.getSession();
 
-        Enumeration<String> names = session.getAttributeNames();
+        final Enumeration<String> sessionAttributeNames = session.getAttributeNames();
 
-        if (names.hasMoreElements()) {
+        if (sessionAttributeNames.hasMoreElements()) {
             session.invalidate();
             request.getRequestDispatcher("/jsp-pages/components/logOut.jsp").forward(request, response);
         } else {

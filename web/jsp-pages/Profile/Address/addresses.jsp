@@ -35,7 +35,7 @@
 
                 </div>
 
-                <c:forEach items="${addresses}" var="address" varStatus="status">
+                <c:forEach items="${addressesOfPerson}" var="address" varStatus="status">
 
                     <div class="address__block">
 
@@ -59,7 +59,7 @@
 
                             </a>
 
-                            <c:if test="${canDelete.get(status.index)}">
+                            <c:if test="${canPersonDeleteAddress.get(status.index)}">
 
                                 <button onclick="deleteAddress(${address.idAddress})" style="margin-top: 12px;" class="address__block__icons__href"
                                         href="${pageContext.request.contextPath}/userProfile/userAddresses/deleteAddress/${address.idAddress}">

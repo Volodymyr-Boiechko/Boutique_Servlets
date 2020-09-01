@@ -77,7 +77,7 @@
     function validate() {
 
         let success = false;
-        let user = ${person.idPerson};
+        let idPerson = ${person.idPerson};
 
         $.ajax({
 
@@ -88,7 +88,7 @@
 
                 currentPassword: document.getElementById('currentPassword').value,
                 newPassword: document.getElementById('newPassword').value,
-                id: user
+                idPerson: idPerson
 
             }
 

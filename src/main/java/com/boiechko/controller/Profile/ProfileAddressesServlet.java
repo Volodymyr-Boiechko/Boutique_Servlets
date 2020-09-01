@@ -25,17 +25,17 @@ public class ProfileAddressesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
+        final HttpSession session = request.getSession();
         final Person person = (Person) session.getAttribute("person");
 
-        String[] path = request.getRequestURI().split("/");
+        final String[] path = request.getRequestURI().split("/");
 
         if (path.length == 3 && path[2].contains("userAddresses")) {
 
-            final List<Address> addresses = addressService.getAddressesOfUser(person.getIdPerson());
+            final List<Address> addressesOfPerson = addressService.getAllAddressesOfPerson(person.getIdPerson());
 
-            request.setAttribute("canDelete", addressService.canDeleteAddress(addresses));
-            request.setAttribute("addresses", addresses);
+            request.setAttribute("canPersonDeleteAddress", addressService.isPersonCanDeleteAddress(addressesOfPerson));
+            request.setAttribute("addressesOfPerson", addressesOfPerson);
 
             request.getRequestDispatcher("/jsp-pages/Profile/Address/addresses.jsp").forward(request, response);
 
@@ -44,9 +44,7 @@ public class ProfileAddressesServlet extends HttpServlet {
             final int idAddress = Integer.parseInt(request.getParameter("idAddress"));
             final Address address = addressService.getAddressById(idAddress);
 
-            final boolean canDelete = orderService.checkIfAddressHasOrder(idAddress);
-
-            request.setAttribute("canDelete", canDelete);
+            request.setAttribute("canPersonDeleteAddress", orderService.isAddressHasOrder(idAddress));
             request.setAttribute("address", address);
 
             request.getRequestDispatcher("/jsp-pages/Profile/Address/editAddress.jsp").forward(request, response);
@@ -59,7 +57,7 @@ public class ProfileAddressesServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         final Person person = (Person) request.getSession().getAttribute("person");
 
@@ -70,12 +68,14 @@ public class ProfileAddressesServlet extends HttpServlet {
 
         final Address address = new Address(person.getIdPerson(), country, city, street, postCode);
 
-        if (!addressService.addAddress(address)) response.sendError(500);
+        if (!addressService.addAddress(address)) {
+            response.sendError(500);
+        }
 
     }
 
     @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         final int idAddress = Integer.parseInt(request.getParameter("id"));
         final String country = request.getParameter("country");
@@ -90,16 +90,20 @@ public class ProfileAddressesServlet extends HttpServlet {
         address.setStreet(street);
         address.setPostCode(postCode);
 
-        if (!addressService.updateAddress(address)) response.sendError(500);
+        if (!addressService.updateAddress(address)) {
+            response.sendError(500);
+        }
 
     }
 
     @Override
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         final int idAddress = Integer.parseInt(request.getParameter("idAddress"));
 
-        if (!addressService.deleteAddress(idAddress)) response.sendError(500);
+        if (!addressService.deleteAddress(idAddress)) {
+            response.sendError(500);
+        }
 
     }
 }

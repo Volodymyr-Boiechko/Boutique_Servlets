@@ -1,31 +1,29 @@
 package com.boiechko.controller.Profile;
 
-import com.boiechko.service.implementations.PersonProfileServiceImpl;
-import com.boiechko.service.interfaces.PersonProfileService;
+import com.boiechko.service.implementations.ProfileOfPersonServiceImpl;
+import com.boiechko.service.interfaces.ProfileOfPersonService;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 
 @WebServlet("/navProfile")
 public class NavProfileServlet extends HttpServlet {
 
-    private final PersonProfileService personProfileService = new PersonProfileServiceImpl();
+    private final ProfileOfPersonService profileOfPersonService = new ProfileOfPersonServiceImpl();
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 
-        HttpSession session = request.getSession();
+        final HttpSession session = request.getSession();
 
         final String username = (String) session.getAttribute("username");
-        final Character letter = username.charAt(0);
+        final Character firstLetterOfUsername = username.charAt(0);
 
-        request.setAttribute("number", personProfileService.getNumberOfProfileNavigation(request));
-        request.setAttribute("letter", letter);
+        request.setAttribute("numberOfSectionInNavigationBar", profileOfPersonService.getNumberOfSectionInNavigationBar(request));
+        request.setAttribute("firstLetterOfUsername", firstLetterOfUsername);
 
     }
 }

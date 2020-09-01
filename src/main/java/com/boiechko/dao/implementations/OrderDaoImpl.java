@@ -9,7 +9,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class OrderDaoImpl implements OrderDao {
 
@@ -34,13 +37,13 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> getAllById(final int id) {
+    public List<Order> getAllOrdersByPersonId(final int idPerson) {
 
         final String query = "SELECT * FROM `order` WHERE idPerson = ?";
 
         try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, idPerson);
             ResultSet rs = preparedStatement.executeQuery();
 
             return getOrderList(rs);
@@ -69,13 +72,13 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> getAllByAddressId(int id) {
+    public List<Order> getAllOrdersByAddressId(int idAddress) {
 
         final String query = "SELECT * FROM `order` WHERE idAddress = ?";
 
         try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, idAddress);
             ResultSet rs = preparedStatement.executeQuery();
 
             return getOrderList(rs);
@@ -88,7 +91,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Map<Order, List<Product>> getAllOrdersAndTheirProducts(final int idUser) {
+    public Map<Order, List<Product>> getAllOrdersAndTheirProductsOfPerson(final int idPerson) {
 
         final String query = "SELECT " +
                 "`order`.idOrder, `order`.idPerson, `order`.idAddress, `order`.totalPrice, `order`.timeOrder, " +
@@ -102,7 +105,7 @@ public class OrderDaoImpl implements OrderDao {
 
         try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
-            preparedStatement.setInt(1, idUser);
+            preparedStatement.setInt(1, idPerson);
 
             return getOrderListMap(preparedStatement);
 
@@ -113,7 +116,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Map<Order, List<Product>> getOrderAndHisProducts(final int idUser, final int idOrder) {
+    public Map<Order, List<Product>> getOrderAndItsProductsOfPerson(final int idPerson, final int idOrder) {
 
         final String query = "SELECT " +
                 "`order`.idOrder, `order`.idPerson, `order`.idAddress, `order`.totalPrice, `order`.timeOrder, " +
@@ -127,7 +130,7 @@ public class OrderDaoImpl implements OrderDao {
 
         try (PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query)) {
 
-            preparedStatement.setInt(1, idUser);
+            preparedStatement.setInt(1, idPerson);
             preparedStatement.setInt(2, idOrder);
 
             return getOrderListMap(preparedStatement);
