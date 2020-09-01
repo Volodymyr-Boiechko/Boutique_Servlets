@@ -21,6 +21,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
+import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+
 @WebServlet("/shoppingBag")
 public class ShoppingBagServlet extends HttpServlet {
 
@@ -71,11 +74,11 @@ public class ShoppingBagServlet extends HttpServlet {
                 session.setAttribute("idsOfProductsThatAreFavorite", idsOfProductsWhichAreFavorite);
 
             } else {
-                response.sendError(403);
+                response.sendError(SC_FORBIDDEN);
             }
 
         } else {
-            response.sendError(401);
+            response.sendError(SC_UNAUTHORIZED);
         }
 
     }

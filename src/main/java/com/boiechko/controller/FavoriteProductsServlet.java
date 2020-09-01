@@ -15,6 +15,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
+import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+
 @WebServlet("/favorite")
 public class FavoriteProductsServlet extends HttpServlet {
 
@@ -66,7 +68,7 @@ public class FavoriteProductsServlet extends HttpServlet {
                 response.getWriter().write("remove");
             }
         } else {
-            response.sendError(401);
+            response.sendError(SC_UNAUTHORIZED);
         }
     }
 

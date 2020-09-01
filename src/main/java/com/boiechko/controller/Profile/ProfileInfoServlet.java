@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+
 @WebServlet("/userProfile/userInfo")
 public class ProfileInfoServlet extends HttpServlet {
 
@@ -46,7 +48,7 @@ public class ProfileInfoServlet extends HttpServlet {
         person.setPhoneNumber(phoneNumber);
 
         if (!personService.updatePerson(person)) {
-            response.sendError(500);
+            response.sendError(SC_INTERNAL_SERVER_ERROR);
         }
 
         request.getSession().setAttribute("person", person);

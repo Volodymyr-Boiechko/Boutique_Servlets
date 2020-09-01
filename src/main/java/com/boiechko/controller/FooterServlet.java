@@ -9,12 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+
 @WebServlet("/footer/sendQuestion")
 public class FooterServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.sendError(404);
+        response.sendError(SC_NOT_FOUND);
     }
 
     @Override

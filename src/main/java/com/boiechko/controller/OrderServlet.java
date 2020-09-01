@@ -19,6 +19,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+
 @WebServlet("/makeOrder")
 public class OrderServlet extends HttpServlet {
 
@@ -27,7 +30,7 @@ public class OrderServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.sendError(404);
+        response.sendError(SC_NOT_FOUND);
     }
 
     @Override
@@ -51,7 +54,7 @@ public class OrderServlet extends HttpServlet {
             order.setIdOrder(idOrder);
 
             if (!orderProductService.addOrderProduct(idOrder, arrayOfProductsQuantities, shoppingBag)) {
-                response.sendError(500);
+                response.sendError(SC_INTERNAL_SERVER_ERROR);
             }
 
             JavaMailService.sendOrderDetailsEmail(person.getEmail(), "orderDetail", order, shoppingBag);
@@ -59,7 +62,7 @@ public class OrderServlet extends HttpServlet {
             session.setAttribute("shoppingBag", new ArrayList<Product>());
 
         } else {
-            response.sendError(500);
+            response.sendError(SC_INTERNAL_SERVER_ERROR);
         }
 
     }

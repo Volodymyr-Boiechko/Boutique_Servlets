@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+
 @WebServlet("/userProfile/changePassword")
 public class ProfileChangePasswordServlet extends HttpServlet {
 
@@ -41,11 +43,11 @@ public class ProfileChangePasswordServlet extends HttpServlet {
             person.setPassword(HashPasswordUtil.hashPassword(newPassword));
 
             if (!personService.updatePerson(person)) {
-                response.sendError(500);
+                response.sendError(SC_INTERNAL_SERVER_ERROR);
             }
 
         } else {
-            response.sendError(401);
+            response.sendError(SC_INTERNAL_SERVER_ERROR);
         }
     }
 }

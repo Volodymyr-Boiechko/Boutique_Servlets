@@ -16,6 +16,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
+import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+
 @WebServlet("/userProfile/userAddresses/*")
 public class ProfileAddressesServlet extends HttpServlet {
 
@@ -69,7 +71,7 @@ public class ProfileAddressesServlet extends HttpServlet {
         final Address address = new Address(person.getIdPerson(), country, city, street, postCode);
 
         if (!addressService.addAddress(address)) {
-            response.sendError(500);
+            response.sendError(SC_INTERNAL_SERVER_ERROR);
         }
 
     }
@@ -91,7 +93,7 @@ public class ProfileAddressesServlet extends HttpServlet {
         address.setPostCode(postCode);
 
         if (!addressService.updateAddress(address)) {
-            response.sendError(500);
+            response.sendError(SC_INTERNAL_SERVER_ERROR);
         }
 
     }
@@ -102,7 +104,7 @@ public class ProfileAddressesServlet extends HttpServlet {
         final int idAddress = Integer.parseInt(request.getParameter("idAddress"));
 
         if (!addressService.deleteAddress(idAddress)) {
-            response.sendError(500);
+            response.sendError(SC_INTERNAL_SERVER_ERROR);
         }
 
     }

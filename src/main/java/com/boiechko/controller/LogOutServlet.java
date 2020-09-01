@@ -9,6 +9,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Enumeration;
 
+import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+
 @WebServlet("/logout")
 public class LogOutServlet extends HttpServlet {
 
@@ -23,7 +25,7 @@ public class LogOutServlet extends HttpServlet {
             session.invalidate();
             request.getRequestDispatcher("/jsp-pages/components/logOut.jsp").forward(request, response);
         } else {
-            response.sendError(404);
+            response.sendError(SC_NOT_FOUND);
         }
 
     }

@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static javax.servlet.http.HttpServletResponse.*;
+
 @WebServlet("/forget/*")
 public class ForgetPasswordServlet extends HttpServlet {
 
@@ -31,7 +33,7 @@ public class ForgetPasswordServlet extends HttpServlet {
             if (email != null) {
                 request.getRequestDispatcher("/jsp-pages/ForgetPassword/updatePassword.jsp").forward(request, response);
             } else {
-                response.sendError(404);
+                response.sendError(SC_NOT_FOUND);
             }
 
         } else if (path.length == 2 && path[1].contains("forget")) {
@@ -57,7 +59,7 @@ public class ForgetPasswordServlet extends HttpServlet {
             request.getSession().setAttribute("email", email);
 
         } else {
-            response.sendError(403);
+            response.sendError(SC_FORBIDDEN);
         }
 
     }
@@ -80,10 +82,10 @@ public class ForgetPasswordServlet extends HttpServlet {
                 request.getSession().removeAttribute("email");
 
             } else {
-                response.sendError(500);
+                response.sendError(SC_INTERNAL_SERVER_ERROR);
             }
         } else {
-            response.sendError(403);
+            response.sendError(SC_FORBIDDEN);
         }
     }
 

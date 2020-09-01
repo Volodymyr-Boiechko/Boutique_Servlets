@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static javax.servlet.http.HttpServletResponse.*;
+
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
@@ -47,13 +49,13 @@ public class LoginServlet extends HttpServlet {
                     session.setAttribute("person", personService.getPersonByColumn("username", username));
 
                 } else {
-                    response.sendError(401);
+                    response.sendError(SC_UNAUTHORIZED);
                 }
             } else {
-                response.sendError(402);
+                response.sendError(SC_BAD_REQUEST);
             }
         } else {
-            response.sendError(403);
+            response.sendError(SC_FORBIDDEN);
         }
     }
 }

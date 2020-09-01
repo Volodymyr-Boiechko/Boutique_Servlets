@@ -16,6 +16,9 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.List;
 
+import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+import static javax.servlet.http.HttpServletResponse.SC_NOT_IMPLEMENTED;
+
 @WebServlet("/manClothes/*")
 @MultipartConfig
 public class ClothesServlet extends HttpServlet {
@@ -79,11 +82,11 @@ public class ClothesServlet extends HttpServlet {
         if (productService.saveImage(image, destination)) {
 
             if (!productService.addProduct(product)) {
-                response.sendError(500);
+                response.sendError(SC_INTERNAL_SERVER_ERROR);
             }
 
         } else {
-            response.sendError(501);
+            response.sendError(SC_NOT_IMPLEMENTED);
         }
     }
 

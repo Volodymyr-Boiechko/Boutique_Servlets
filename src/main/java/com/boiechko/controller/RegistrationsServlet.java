@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.UUID;
 
+import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
+import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+
 @WebServlet("/registration")
 public class RegistrationsServlet extends HttpServlet {
 
@@ -57,14 +60,13 @@ public class RegistrationsServlet extends HttpServlet {
 
             if (personService.addPerson(person)) {
 
-
                 JavaMailService.sendConfirmRegistrationEmail(person.getEmail(), "confirmRegistration", person);
 
             } else {
-                response.sendError(500);
+                response.sendError(SC_INTERNAL_SERVER_ERROR);
             }
         } else {
-            response.sendError(403);
+            response.sendError(SC_FORBIDDEN);
         }
     }
 }
