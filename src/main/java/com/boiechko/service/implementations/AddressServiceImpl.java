@@ -6,8 +6,8 @@ import com.boiechko.entity.Address;
 import com.boiechko.service.interfaces.AddressService;
 import com.boiechko.service.interfaces.OrderService;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AddressServiceImpl implements AddressService {
 
@@ -29,15 +29,13 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public boolean deleteAddress(final int idAddress) { return addressDao.delete(idAddress); }
 
-    //todo поміняти can на is
     @Override
     public List<Boolean> isPersonCanDeleteAddress(final List<Address> addresses) {
 
-        List<Boolean> list = new ArrayList<>();
-        for (Address address : addresses)
-            list.add(orderService.isAddressHasOrder(address.getIdAddress()));
-
-        return list;
+        return addresses.stream()
+                .map(Address::getIdAddress)
+                .map(orderService::isAddressHasOrder)
+                .collect(Collectors.toList());
 
     }
 }

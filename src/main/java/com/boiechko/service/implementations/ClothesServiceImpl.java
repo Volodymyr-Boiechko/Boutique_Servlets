@@ -7,12 +7,13 @@ import com.boiechko.service.interfaces.ProductService;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ClothesServiceImpl implements ClothesService {
 
     private final ProductService productService = new ProductServiceImpl();
 
-    private final int amountProductsOnPage = 12;
+    private final int NUMBER_OF_PRODUCTS_PER_PAGE = 12;
 
     @Override
     public List<Product> getListOfClothes(final HttpServletRequest request) {
@@ -27,15 +28,8 @@ public class ClothesServiceImpl implements ClothesService {
             case "accessories":
             case "sportWear": {
 
-
-                // todo винести в окремий метод
                 final String productName = request.getParameter("productName");
-
-                if (productName == null)
-                    clothes = productService.getProductByColumn("typeName", getTypeName(blocks[2]));
-                else
-                    clothes = productService.getProductByColumn("productName", productName);
-
+                clothes = getClothes(productName, blocks[2]);
                 break;
             }
             case "newestClothes": {
@@ -61,10 +55,11 @@ public class ClothesServiceImpl implements ClothesService {
     @Override
     public int getNumberOfProductsShownOnPage(final String page, final int clothesSize) {
 
-        int number = Integer.parseInt(page) * amountProductsOnPage;
+        int number = Integer.parseInt(page) * NUMBER_OF_PRODUCTS_PER_PAGE;
 
-        if (number > clothesSize)
+        if (number > clothesSize) {
             number = clothesSize;
+        }
 
         return number;
     }
@@ -72,42 +67,34 @@ public class ClothesServiceImpl implements ClothesService {
     @Override
     public List<Product> getFavoriteProducts(final List<Integer> idsOfProductsWhichAreFavorite) {
 
-        //todo на стріми
-        List<Product> favorite = new ArrayList<>();
-        for (Integer id : idsOfProductsWhichAreFavorite)
-            favorite.add(productService.getProductById(id));
-
-        return favorite;
-
+        return idsOfProductsWhichAreFavorite.stream()
+                .map(productService::getProductById)
+                .collect(Collectors.toList());
     }
 
     @Override
     public boolean isFavoriteProduct(final List<Integer> idsOfProductsWhichAreFavorite, final Product product) {
 
-        boolean isInFavorite = false;
-
-        for (Integer elementId : idsOfProductsWhichAreFavorite)
-            if (elementId == product.getIdProduct()) {
-                isInFavorite = true;
-                break;
-            }
-
-        return isInFavorite;
+        return idsOfProductsWhichAreFavorite.stream()
+                .anyMatch(idProduct -> idProduct == product.getIdProduct());
 
     }
 
     @Override
     public boolean isProductInShoppingBag(final List<Product> shoppingBag, final Product product) {
+        
+        return shoppingBag.stream()
+                .anyMatch(productFromShoppingBag -> productFromShoppingBag.equals(product));
 
-        boolean isInBag = false;
+    }
 
-        for (Product el : shoppingBag)
-            if (el.equals(product)) {
-                isInBag = true;
-                break;
-            }
+    private List<Product> getClothes(final String productName, final String typeName) {
 
-        return isInBag;
+        if (productName == null) {
+            return productService.getProductByColumn("typeName", getTypeName(typeName));
+        } else {
+            return productService.getProductByColumn("productName", productName);
+        }
     }
 
     private String getTypeName(final String name) {

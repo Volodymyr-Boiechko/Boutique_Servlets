@@ -9,13 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ProductServiceImpl implements ProductService {
 
-    private final String appPath = "C:\\Users\\volod\\IdeaProjects\\Boutique_Servlets\\web\\dataBaseImages\\";
+    private final String PATH_TO_DATABASE_IMAGES = "C:\\Users\\volod\\IdeaProjects\\Boutique_Servlets\\web\\dataBaseImages\\";
     private final ProductDao productDao = new ProductDaoImpl();
 
     @Override
@@ -32,20 +31,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> getPopularBrands() {
 
-        final List<Product> allBrands = groupByColumn("brand");
-        List<Product> brands = new ArrayList<>();
+        return groupByColumn("brand").stream()
+                .map(Product::getBrand)
+                .map(brand -> getProductByColumn("brand", brand))
+                .filter(products -> products.size() >= 10)
+                .map(products -> products.get(0))
+                .sorted(Comparator.comparing(Product::getBrand))
+                .collect(Collectors.toList());
 
-        //todo переробити на стріми
-        for (Product product : allBrands) {
-
-            List<Product> count = getProductByColumn("brand", product.getBrand());
-
-            if (count.size() >= 10)
-                brands.add(product);
-
-        }
-
-        return brands;
     }
 
     @Override
@@ -81,7 +74,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public boolean saveImage(final Part image, final String destination) {
 
-        final String imagePath = appPath + destination.replace("/", "\\");
+        final String imagePath = PATH_TO_DATABASE_IMAGES + destination.replace("/", "\\");
 
         final File fileDir = new File(imagePath);
         if (!fileDir.exists()) {

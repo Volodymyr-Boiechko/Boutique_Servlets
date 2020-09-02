@@ -15,19 +15,11 @@ public class OrderProductServiceImpl implements OrderProductService {
     @Override
     public boolean addOrderProduct(final int idOrder, final String[] arrayOfProductsQuantities, final List<Product> shoppingBag) {
 
-        for (int i = 0; i < shoppingBag.size(); i++) {
+        final int[] i = {0};
 
-            OrderProduct orderProduct = new OrderProduct(idOrder, shoppingBag.get(i).getIdProduct(),
-                    Integer.parseInt(arrayOfProductsQuantities[i]));
-
-            shoppingBag.get(i).setQuantity(Integer.parseInt(arrayOfProductsQuantities[i]));
-
-            if (!orderProductDao.add(orderProduct)) {
-                return false;
-            }
-
-        }
-        return true;
-
+        return shoppingBag.stream()
+                .peek(product -> product.setQuantity(Integer.parseInt(arrayOfProductsQuantities[i[0]++])))
+                .map(product -> new OrderProduct(idOrder, product.getIdProduct(),product.getQuantity()))
+                .allMatch(orderProductDao::add);
     }
 }
