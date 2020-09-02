@@ -8,6 +8,7 @@ import com.boiechko.service.implementations.ProductServiceImpl;
 import com.boiechko.service.interfaces.ClothesService;
 import com.boiechko.service.interfaces.PersonService;
 import com.boiechko.service.interfaces.ProductService;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -22,6 +23,8 @@ import static javax.servlet.http.HttpServletResponse.SC_NOT_IMPLEMENTED;
 @WebServlet("/manClothes/*")
 @MultipartConfig
 public class ClothesServlet extends HttpServlet {
+
+    private final Logger logger = Logger.getLogger(ClothesServlet.class);
 
     private final ProductService productService = new ProductServiceImpl();
     private final ClothesService clothesService = new ClothesServiceImpl();
@@ -83,10 +86,12 @@ public class ClothesServlet extends HttpServlet {
 
             if (!productService.addProduct(product)) {
                 response.sendError(SC_INTERNAL_SERVER_ERROR);
+                logger.error("Не вдалось зберегти продукт");
             }
 
         } else {
             response.sendError(SC_NOT_IMPLEMENTED);
+            logger.error("Не вдалось зберегти зображення");
         }
     }
 

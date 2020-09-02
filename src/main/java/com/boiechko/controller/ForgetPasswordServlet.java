@@ -6,6 +6,7 @@ import com.boiechko.service.implementations.PersonServiceImpl;
 import com.boiechko.service.interfaces.PersonService;
 import com.boiechko.utils.HashingPassword.HashPasswordUtil;
 import com.boiechko.utils.Mail.JavaMailUtil;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,6 +19,8 @@ import static javax.servlet.http.HttpServletResponse.*;
 
 @WebServlet("/forget/*")
 public class ForgetPasswordServlet extends HttpServlet {
+
+    private final Logger logger = Logger.getLogger(ForgetPasswordServlet.class);
 
     private final PersonService personService = new PersonServiceImpl();
 
@@ -58,8 +61,11 @@ public class ForgetPasswordServlet extends HttpServlet {
 
             request.getSession().setAttribute("email", email);
 
+            logger.warn(person.getUsername() + " відправлено лист з відновленням паролю");
+
         } else {
             response.sendError(SC_FORBIDDEN);
+            logger.warn("Користувача не знайдено");
         }
 
     }
@@ -81,11 +87,15 @@ public class ForgetPasswordServlet extends HttpServlet {
 
                 request.getSession().removeAttribute("email");
 
+                logger.info(person.getUsername() + " оновив пароль");
+
             } else {
                 response.sendError(SC_INTERNAL_SERVER_ERROR);
+                logger.error("Не вдалось оновити пароль користувача");
             }
         } else {
             response.sendError(SC_FORBIDDEN);
+            logger.warn(person.getUsername() + " старий і новий пароль повторюються");
         }
     }
 

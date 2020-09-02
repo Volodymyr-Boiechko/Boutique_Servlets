@@ -1,8 +1,10 @@
 package com.boiechko.dao.implementations;
 
 import com.boiechko.config.DBConnection;
+import com.boiechko.controller.ShoppingBagServlet;
 import com.boiechko.dao.interfaces.AddressDao;
 import com.boiechko.entity.Address;
+import org.apache.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddressDaoImpl implements AddressDao {
+
+    private final Logger logger = Logger.getLogger(AddressDaoImpl.class);
 
     @Override
     public List<Address> getAddressesOfPerson(final int idPerson) {
@@ -42,7 +46,7 @@ public class AddressDaoImpl implements AddressDao {
             return list;
 
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            logger.error(sqlException.getMessage());
             return null;
         }
     }
@@ -64,7 +68,7 @@ public class AddressDaoImpl implements AddressDao {
             return preparedStatement.executeUpdate() > 0;
 
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            logger.error(sqlException.getMessage());
             return false;
         }
     }
@@ -95,7 +99,7 @@ public class AddressDaoImpl implements AddressDao {
             return address;
 
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            logger.error(sqlException.getMessage());
             return null;
         }
     }
@@ -123,7 +127,7 @@ public class AddressDaoImpl implements AddressDao {
             return preparedStatement.executeUpdate() > 0;
 
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            logger.error(sqlException.getMessage());
             return false;
         }
     }
@@ -140,7 +144,7 @@ public class AddressDaoImpl implements AddressDao {
             return preparedStatement.executeUpdate() > 0;
 
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            logger.error(sqlException.getMessage());
             return false;
         }
     }

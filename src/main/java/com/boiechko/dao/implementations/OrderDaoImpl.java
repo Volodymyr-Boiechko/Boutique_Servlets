@@ -4,6 +4,7 @@ import com.boiechko.config.DBConnection;
 import com.boiechko.dao.interfaces.OrderDao;
 import com.boiechko.entity.Order;
 import com.boiechko.entity.Product;
+import org.apache.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 public class OrderDaoImpl implements OrderDao {
+
+    private final Logger logger = Logger.getLogger(OrderDaoImpl.class);
 
     @Override
     public boolean add(final Order order) {
@@ -31,7 +34,7 @@ public class OrderDaoImpl implements OrderDao {
             return preparedStatement.executeUpdate() > 0;
 
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            logger.error(sqlException.getMessage());
             return false;
         }
     }
@@ -49,7 +52,7 @@ public class OrderDaoImpl implements OrderDao {
             return getOrderList(rs);
 
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            logger.error(sqlException.getMessage());
             return null;
         }
     }
@@ -66,7 +69,7 @@ public class OrderDaoImpl implements OrderDao {
             return rs.next() ? rs.getInt("MAX(idOrder)") : -1;
 
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            logger.error(sqlException.getMessage());
             return -1;
         }
     }
@@ -84,7 +87,7 @@ public class OrderDaoImpl implements OrderDao {
             return getOrderList(rs);
 
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            logger.error(sqlException.getMessage());
             return null;
         }
 
@@ -110,7 +113,7 @@ public class OrderDaoImpl implements OrderDao {
             return getOrderListMap(preparedStatement);
 
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            logger.error(sqlException.getMessage());
             return null;
         }
     }
@@ -136,7 +139,7 @@ public class OrderDaoImpl implements OrderDao {
             return getOrderListMap(preparedStatement);
 
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            logger.error(sqlException.getMessage());
             return null;
         }
     }

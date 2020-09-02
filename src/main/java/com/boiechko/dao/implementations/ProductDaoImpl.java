@@ -3,6 +3,7 @@ package com.boiechko.dao.implementations;
 import com.boiechko.config.DBConnection;
 import com.boiechko.dao.interfaces.ProductDao;
 import com.boiechko.entity.Product;
+import org.apache.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDaoImpl implements ProductDao {
+
+    private final Logger logger = Logger.getLogger(OrderDaoImpl.class);
 
     @Override
     public List<Product> getProductByColumn(final String column, final String credentials) {
@@ -26,7 +29,7 @@ public class ProductDaoImpl implements ProductDao {
             return getListProducts(rs);
 
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            logger.error(sqlException.getMessage());
             return null;
         }
     }
@@ -43,7 +46,7 @@ public class ProductDaoImpl implements ProductDao {
             return getListProducts(rs);
 
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            logger.error(sqlException.getMessage());
             return null;
         }
     }
@@ -61,7 +64,7 @@ public class ProductDaoImpl implements ProductDao {
             return getListProducts(rs);
 
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            logger.error(sqlException.getMessage());
             return null;
         }
     }
@@ -78,7 +81,7 @@ public class ProductDaoImpl implements ProductDao {
             return getListProducts(rs);
 
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            logger.error(sqlException.getMessage());
             return null;
         }
     }
@@ -105,7 +108,7 @@ public class ProductDaoImpl implements ProductDao {
             return preparedStatement.executeUpdate() > 0;
 
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            logger.error(sqlException.getMessage());
             return false;
         }
     }
@@ -127,7 +130,7 @@ public class ProductDaoImpl implements ProductDao {
             return product;
 
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            logger.error(sqlException.getMessage());
             return null;
         }
     }
@@ -144,7 +147,7 @@ public class ProductDaoImpl implements ProductDao {
             return getListProducts(rs);
 
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            logger.error(sqlException.getMessage());
             return null;
         }
     }
@@ -171,7 +174,7 @@ public class ProductDaoImpl implements ProductDao {
             return preparedStatement.executeUpdate() > 0;
 
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            logger.error(sqlException.getMessage());
             return false;
         }
     }
@@ -188,7 +191,7 @@ public class ProductDaoImpl implements ProductDao {
             return preparedStatement.executeUpdate() > 0;
 
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            logger.error(sqlException.getMessage());
             return false;
         }
     }

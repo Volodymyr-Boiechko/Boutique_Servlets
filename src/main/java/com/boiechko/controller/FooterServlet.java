@@ -2,6 +2,7 @@ package com.boiechko.controller;
 
 import com.boiechko.entity.Person;
 import com.boiechko.service.implementations.JavaMailService;
+import org.apache.log4j.Logger;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +14,8 @@ import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
 @WebServlet("/footer/sendQuestion")
 public class FooterServlet extends HttpServlet {
+
+    private final Logger logger = Logger.getLogger(FooterServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -32,6 +35,8 @@ public class FooterServlet extends HttpServlet {
         final Person person = new Person(firstName, surname, lastName, email, phoneNumber);
 
         JavaMailService.sendQuestionFromUserEmail("boiechko.work@gmail.com", "questionFromUser", person, comment);
+
+        logger.info("Відправлено лист з запитанням від користувача");
 
     }
 }

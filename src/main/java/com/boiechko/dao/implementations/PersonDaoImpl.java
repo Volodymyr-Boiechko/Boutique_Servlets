@@ -4,6 +4,7 @@ import com.boiechko.config.DBConnection;
 import com.boiechko.dao.interfaces.PersonDao;
 import com.boiechko.entity.Person;
 import com.boiechko.enums.PersonType;
+import org.apache.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PersonDaoImpl implements PersonDao {
+
+    private final Logger logger = Logger.getLogger(OrderDaoImpl.class);
 
     // We receive the user on special data
     @Override
@@ -31,7 +34,7 @@ public class PersonDaoImpl implements PersonDao {
             return person;
 
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            logger.error(sqlException.getMessage());
             return null;
         }
     }
@@ -55,7 +58,7 @@ public class PersonDaoImpl implements PersonDao {
             return preparedStatement.executeUpdate() > 0;
 
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            logger.error(sqlException.getMessage());
             return false;
         }
     }
@@ -78,7 +81,7 @@ public class PersonDaoImpl implements PersonDao {
             return person;
 
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            logger.error(sqlException.getMessage());
             return null;
         }
     }
@@ -104,7 +107,7 @@ public class PersonDaoImpl implements PersonDao {
             }
             return personList;
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            logger.error(sqlException.getMessage());
             return null;
         }
     }
@@ -132,7 +135,7 @@ public class PersonDaoImpl implements PersonDao {
             return preparedStatement.executeUpdate() > 0;
 
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            logger.error(sqlException.getMessage());
             return false;
         }
     }
@@ -150,7 +153,7 @@ public class PersonDaoImpl implements PersonDao {
             return preparedStatement.executeUpdate() > 0;
 
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            logger.error(sqlException.getMessage());
             return false;
         }
     }

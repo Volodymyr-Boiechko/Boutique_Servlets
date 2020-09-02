@@ -5,6 +5,7 @@ import com.boiechko.service.implementations.ClothesServiceImpl;
 import com.boiechko.service.implementations.ProductServiceImpl;
 import com.boiechko.service.interfaces.ClothesService;
 import com.boiechko.service.interfaces.ProductService;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,6 +20,8 @@ import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 @WebServlet("/favorite")
 public class FavoriteProductsServlet extends HttpServlet {
+
+    private final Logger logger = Logger.getLogger(FavoriteProductsServlet.class);
 
     private final ProductService productService = new ProductServiceImpl();
     private final ClothesService clothesService = new ClothesServiceImpl();
@@ -62,13 +65,18 @@ public class FavoriteProductsServlet extends HttpServlet {
                 shoppingBag.remove(product);
                 session.setAttribute("shoppingBag", shoppingBag);
 
+                logger.info(idProduct + " збережено в улюблених");
+
             } else {
 
                 doDelete(request, response);
                 response.getWriter().write("remove");
+
+                logger.info(idProduct + " видалено з улюблених");
             }
         } else {
             response.sendError(SC_UNAUTHORIZED);
+            logger.warn("користувач хотів добавити до улюблених продукт не увійшовши в систему");
         }
     }
 
@@ -85,6 +93,8 @@ public class FavoriteProductsServlet extends HttpServlet {
 
         idsOfProductsThatAreFavorite.remove(Integer.valueOf(product.getIdProduct()));
         session.setAttribute("idsOfProductsThatAreFavorite", idsOfProductsThatAreFavorite);
+
+        logger.info(idProduct + " видалено з улюблених");
 
     }
 }

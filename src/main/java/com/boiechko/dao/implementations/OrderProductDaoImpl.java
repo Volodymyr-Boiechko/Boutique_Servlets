@@ -3,11 +3,14 @@ package com.boiechko.dao.implementations;
 import com.boiechko.config.DBConnection;
 import com.boiechko.dao.interfaces.OrderProductDao;
 import com.boiechko.entity.OrderProduct;
+import org.apache.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class OrderProductDaoImpl implements OrderProductDao {
+
+    private final Logger logger = Logger.getLogger(OrderDaoImpl.class);
 
     @Override
     public boolean add(final OrderProduct orderProduct) {
@@ -23,7 +26,7 @@ public class OrderProductDaoImpl implements OrderProductDao {
             return preparedStatement.executeUpdate() > 0;
 
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            logger.error(sqlException.getMessage());
             return false;
         }
     }

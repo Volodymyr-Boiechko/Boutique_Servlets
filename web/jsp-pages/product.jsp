@@ -194,7 +194,7 @@
 <script src="${pageContext.request.contextPath}/js/addToShoppingBag.js"></script>
 <script>
 
-    let array = ${idsOfProductsWhichAreFavorite};
+    let array = ${idsOfProductsThatAreFavorite};
 
     setInterval(function () {
 

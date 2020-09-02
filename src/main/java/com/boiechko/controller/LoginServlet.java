@@ -4,6 +4,7 @@ import com.boiechko.entity.Person;
 import com.boiechko.service.implementations.PersonServiceImpl;
 import com.boiechko.service.interfaces.PersonService;
 import com.boiechko.utils.HashingPassword.HashPasswordUtil;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,6 +18,8 @@ import static javax.servlet.http.HttpServletResponse.*;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
+
+    private final Logger logger = Logger.getLogger(LoginServlet.class);
 
     private final PersonService personService = new PersonServiceImpl();
 
@@ -48,13 +51,18 @@ public class LoginServlet extends HttpServlet {
                     session.setAttribute("username", username);
                     session.setAttribute("person", personService.getPersonByColumn("username", username));
 
+                    logger.info(username + " увійшов в акаунт");
+
                 } else {
+                    logger.warn(username + " ввів різні паролі");
                     response.sendError(SC_UNAUTHORIZED);
                 }
             } else {
+                logger.warn(username + " не активував акаунт");
                 response.sendError(SC_BAD_REQUEST);
             }
         } else {
+            logger.warn("не знайдено акаунт");
             response.sendError(SC_FORBIDDEN);
         }
     }

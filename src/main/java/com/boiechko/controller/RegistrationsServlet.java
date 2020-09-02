@@ -6,6 +6,7 @@ import com.boiechko.service.implementations.PersonServiceImpl;
 import com.boiechko.service.interfaces.PersonService;
 import com.boiechko.utils.ConvertDateUtil;
 import com.boiechko.utils.HashingPassword.HashPasswordUtil;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,6 +22,8 @@ import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 @WebServlet("/registration")
 public class RegistrationsServlet extends HttpServlet {
 
+    private final Logger logger = Logger.getLogger(RegistrationsServlet.class);
+
     private final PersonService personService = new PersonServiceImpl();
 
     @Override
@@ -35,6 +38,8 @@ public class RegistrationsServlet extends HttpServlet {
 
             if (personService.updatePerson(person)) {
                 response.sendRedirect("/login");
+            } else {
+                logger.error(person + " Не вдалось активувати акаунт");
             }
 
         } else {
@@ -62,11 +67,15 @@ public class RegistrationsServlet extends HttpServlet {
 
                 JavaMailService.sendConfirmRegistrationEmail(person.getEmail(), "confirmRegistration", person);
 
+                logger.info("Відправлено лист з підтвердженням реєстрації");
+
             } else {
                 response.sendError(SC_INTERNAL_SERVER_ERROR);
+                logger.error("Не вдалось добавити користувача");
             }
         } else {
             response.sendError(SC_FORBIDDEN);
+            logger.warn(person.getUsername() + " вже існує");
         }
     }
 }

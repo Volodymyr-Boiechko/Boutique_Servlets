@@ -9,6 +9,7 @@ import com.boiechko.service.implementations.OrderServiceImpl;
 import com.boiechko.service.interfaces.OrderService;
 import com.boiechko.utils.ConvertDateUtil;
 import com.boiechko.utils.Mail.JavaMailUtil;
+import org.apache.log4j.Logger;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,6 +25,8 @@ import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
 @WebServlet("/makeOrder")
 public class OrderServlet extends HttpServlet {
+
+    private final Logger logger = Logger.getLogger(OrderServlet.class);
 
     private final OrderService orderService = new OrderServiceImpl();
     private final OrderProductServiceImpl orderProductService = new OrderProductServiceImpl();
@@ -55,14 +58,18 @@ public class OrderServlet extends HttpServlet {
 
             if (!orderProductService.addOrderProduct(idOrder, arrayOfProductsQuantities, shoppingBag)) {
                 response.sendError(SC_INTERNAL_SERVER_ERROR);
+                logger.error("Не вдалось зробити замовлення");
             }
 
             JavaMailService.sendOrderDetailsEmail(person.getEmail(), "orderDetail", order, shoppingBag);
 
             session.setAttribute("shoppingBag", new ArrayList<Product>());
 
+            logger.info(person.getUsername() + " було відправлено лист на емейл з деталями замовлення");
+
         } else {
             response.sendError(SC_INTERNAL_SERVER_ERROR);
+            logger.error("Не вдалось зробити замовлення");
         }
 
     }

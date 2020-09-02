@@ -8,6 +8,7 @@ import com.boiechko.service.implementations.ProductServiceImpl;
 import com.boiechko.service.interfaces.AddressService;
 import com.boiechko.service.interfaces.ClothesService;
 import com.boiechko.service.interfaces.ProductService;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,6 +28,8 @@ import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 @WebServlet("/shoppingBag")
 public class ShoppingBagServlet extends HttpServlet {
 
+    private final Logger logger = Logger.getLogger(ShoppingBagServlet.class);
+
     private final ProductService productService = new ProductServiceImpl();
     private final AddressService addressService = new AddressServiceImpl();
     private final ClothesService clothesService = new ClothesServiceImpl();
@@ -41,7 +44,10 @@ public class ShoppingBagServlet extends HttpServlet {
             final Person person = (Person) request.getSession().getAttribute("person");
 
             request.setAttribute("pricesOfProducts",
-                    products.stream().map(Product::getPrice).sequential().collect(Collectors.toList()));
+                    products.stream()
+                            .map(Product::getPrice)
+                            .sequential()
+                            .collect(Collectors.toList()));
 
             request.setAttribute("addressesOfPerson", addressService.getAllAddressesOfPerson(person.getIdPerson()));
             request.setAttribute("maxQuantity", new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5)));
@@ -73,12 +79,16 @@ public class ShoppingBagServlet extends HttpServlet {
                 idsOfProductsWhichAreFavorite.remove(Integer.valueOf(product.getIdProduct()));
                 session.setAttribute("idsOfProductsThatAreFavorite", idsOfProductsWhichAreFavorite);
 
+                logger.info(idProduct + " додано в корзину");
+
             } else {
                 response.sendError(SC_FORBIDDEN);
+                logger.warn(idProduct + " вже міститься в корзині");
             }
 
         } else {
             response.sendError(SC_UNAUTHORIZED);
+            logger.error("Користувача не знайдено");
         }
 
     }
@@ -94,6 +104,8 @@ public class ShoppingBagServlet extends HttpServlet {
         List<Product> shoppingBag = (List<Product>) session.getAttribute("shoppingBag");
         shoppingBag.remove(product);
         session.setAttribute("shoppingBag", shoppingBag);
+
+        logger.info(idProduct + " видалено з корзини");
 
     }
 }
