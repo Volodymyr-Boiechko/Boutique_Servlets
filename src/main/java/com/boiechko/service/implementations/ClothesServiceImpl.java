@@ -18,18 +18,18 @@ public class ClothesServiceImpl implements ClothesService {
     @Override
     public List<Product> getListOfClothes(final HttpServletRequest request) {
 
-        final String[] blocks = request.getRequestURI().split("/");
+        final String[] urlPages = request.getRequestURI().split("/");
 
         List<Product> clothes;
 
-        switch (blocks[2]) {
+        switch (urlPages[2]) {
             case "clothes":
             case "shoes":
             case "accessories":
             case "sportWear": {
 
                 final String productName = request.getParameter("productName");
-                clothes = getClothes(productName, blocks[2]);
+                clothes = getClothes(productName, urlPages[2]);
                 break;
             }
             case "newestClothes": {
@@ -55,13 +55,13 @@ public class ClothesServiceImpl implements ClothesService {
     @Override
     public int getNumberOfProductsShownOnPage(final String page, final int clothesSize) {
 
-        int number = Integer.parseInt(page) * NUMBER_OF_PRODUCTS_PER_PAGE;
+        int NumberOfProductsShownOnPage = Integer.parseInt(page) * NUMBER_OF_PRODUCTS_PER_PAGE;
 
-        if (number > clothesSize) {
-            number = clothesSize;
+        if (NumberOfProductsShownOnPage > clothesSize) {
+            NumberOfProductsShownOnPage = clothesSize;
         }
 
-        return number;
+        return NumberOfProductsShownOnPage;
     }
 
     @Override

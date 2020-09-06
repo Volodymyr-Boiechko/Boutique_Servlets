@@ -1,7 +1,6 @@
 package com.boiechko.dao.implementations;
 
 import com.boiechko.config.DBConnection;
-import com.boiechko.controller.ShoppingBagServlet;
 import com.boiechko.dao.interfaces.AddressDao;
 import com.boiechko.entity.Address;
 import org.apache.log4j.Logger;

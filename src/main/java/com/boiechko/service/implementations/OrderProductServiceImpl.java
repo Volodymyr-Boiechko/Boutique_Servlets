@@ -7,6 +7,7 @@ import com.boiechko.entity.Product;
 import com.boiechko.service.interfaces.OrderProductService;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class OrderProductServiceImpl implements OrderProductService {
 
@@ -15,10 +16,11 @@ public class OrderProductServiceImpl implements OrderProductService {
     @Override
     public boolean addOrderProduct(final int idOrder, final String[] arrayOfProductsQuantities, final List<Product> shoppingBag) {
 
-        final int[] i = {0};
+        AtomicInteger indexOfProductQuantity = new AtomicInteger(0);
 
         return shoppingBag.stream()
-                .peek(product -> product.setQuantity(Integer.parseInt(arrayOfProductsQuantities[i[0]++])))
+                .peek(product -> product.setQuantity(Integer.parseInt(
+                        arrayOfProductsQuantities[indexOfProductQuantity.getAndIncrement()])))
                 .map(product -> new OrderProduct(idOrder, product.getIdProduct(),product.getQuantity()))
                 .allMatch(orderProductDao::add);
     }

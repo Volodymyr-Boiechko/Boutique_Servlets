@@ -29,17 +29,17 @@ public class OrderServiceImpl implements OrderService {
         return orderDao.getAllOrdersByAddressId(idAddress).size() == 0;
     }
 
-
     @Override
     public Map<Order, List<Product>> getAllOrdersAndTheirProducts(final int idPerson) {
 
-        final Map<Order, List<Product>> map = orderDao.getAllOrdersAndTheirProductsOfPerson(idPerson);
+        final Map<Order, List<Product>> allOrdersAndTheirProductsOfPerson =
+                orderDao.getAllOrdersAndTheirProductsOfPerson(idPerson);
 
         Map<Order, List<Product>> treeMap = new TreeMap<>(
                 (o1, o2) -> Integer.compare(o2.getIdOrder(), o1.getIdOrder())
         );
 
-        treeMap.putAll(map);
+        treeMap.putAll(allOrdersAndTheirProductsOfPerson);
 
         return treeMap;
 
@@ -48,12 +48,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Map.Entry<Order, List<Product>> getOrderAndHisProducts(final int idPerson, final String idOrder) {
 
-        Map<Order, List<Product>> map = orderDao.getOrderAndItsProductsOfPerson(idPerson, Integer.parseInt(idOrder));
+        Map<Order, List<Product>> orderAndItsProductsOfPerson =
+                orderDao.getOrderAndItsProductsOfPerson(idPerson, Integer.parseInt(idOrder));
 
-        return map.entrySet().iterator().next();
+        return orderAndItsProductsOfPerson.entrySet().iterator().next();
 
     }
-
-
 
 }

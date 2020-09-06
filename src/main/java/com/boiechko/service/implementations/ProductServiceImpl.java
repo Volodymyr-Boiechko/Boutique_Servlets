@@ -111,8 +111,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<String> getPathToProduct(final HttpServletRequest request, final Product product) {
 
-        final String[] urlParts = request.getRequestURI().split("/");
-        final String sex = urlParts[1].equals("manClothes") ? "Чоловіче" : "Жіноче";
+        final String[] urlPages = request.getRequestURI().split("/");
+        final String sex = urlPages[1].equals("manClothes") ? "Чоловіче" : "Жіноче";
 
         return new ArrayList<>(Arrays.asList(sex, getTypeName(product.getTypeName())));
 
